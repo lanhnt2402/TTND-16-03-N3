@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 ![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)
@@ -70,3 +71,7 @@ Người sử dụng truy cập theo đường dẫn _http://localhost:8069/_ đ
 
 Hoàn tất
     
+=======
+# BTL_Nhom3_QLKH-QLCV_HP_TTDN
+
+>>>>>>> 878fdabf2962f417cf80005d6eb6840086aee5ee
