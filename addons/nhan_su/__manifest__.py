@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "Quản Lý Nhân Sự (QLNS)",
+    'summary': "Quản lý nhân viên, phòng ban, chức vụ, đơn vị, chứng chỉ và lịch sử công tác",
+    'description': "Module quản lý nhân sự cơ bản dành cho Odoo 15",
+    'author': "Your Name",
+    'website': "https://yourcompany.com",
+    'category': 'Human Resources',
+    'version': '15.0.1.0.0',
+    'depends': ['base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'views/don_vi.xml',
+        'views/chuc_vu.xml',
+        'views/phong_ban.xml',
+        'views/chung_chi.xml',
+        'views/danh_sach_chung_chi_bang_cap.xml',
+        'views/lich_su_cong_tac.xml',
+        'views/cham_cong.xml',
+        'views/nhan_vien.xml',
+        'views/menu.xml',
+    ],
+    'application': True,
+    'installable': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}

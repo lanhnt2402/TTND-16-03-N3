@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_chuc_vu_form" model="ir.ui.view">
+            <field name="name">chuc_vu.form</field>
+            <field name="model">chuc_vu</field>
+            <field name="arch" type="xml">
+                <form string="Chức vụ">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="ten_chuc_vu" placeholder="Tên chức vụ"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="ma_chuc_vu" required="1"/>
+                            <field name="ten_chuc_vu" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_chuc_vu_tree" model="ir.ui.view">
+            <field name="name">chuc_vu.tree</field>
+            <field name="model">chuc_vu</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách chức vụ">
+                    <field name="ma_chuc_vu"/>
+                    <field name="ten_chuc_vu"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="chuc_vu_search" model="ir.ui.view">
+            <field name="name">chuc_vu.search</field>
+            <field name="model">chuc_vu</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="ma_chuc_vu"/>
+                    <field name="ten_chuc_vu"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Window -->
+        <record id="action_chuc_vu" model="ir.actions.act_window">
+            <field name="name">Chức vụ</field>
+            <field name="res_model">chuc_vu</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="chuc_vu_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Chưa có chức vụ nào.<br/>Nhấn "Tạo" để thêm chức vụ mới.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_danh_sach_chung_chi_bang_cap_form" model="ir.ui.view">
+            <field name="name">danh_sach_chung_chi_bang_cap.form</field>
+            <field name="model">danh_sach_chung_chi_bang_cap</field>
+            <field name="arch" type="xml">
+                <form string="Chứng chỉ / Bằng cấp của nhân viên">
+                    <sheet>
+                        <group>
+                            <group string="Nhân viên">
+                                <field name="nhan_vien_id" options="{'no_create': True}"/>
+                                <field name="ma_dinh_danh" readonly="1"/>
+                                <field name="ho_va_ten" readonly="1"/>
+                                <field name="tuoi" readonly="1"/>
+                            </group>
+                            <group string="Chứng chỉ">
+                                <field name="chung_chi_bang_cap_id" options="{'no_create': True}"/>
+                                <field name="ghi_chu"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_danh_sach_chung_chi_bang_cap_tree" model="ir.ui.view">
+            <field name="name">danh_sach_chung_chi_bang_cap.tree</field>
+            <field name="model">danh_sach_chung_chi_bang_cap</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách chứng chỉ bằng cấp">
+                    <field name="nhan_vien_id"/>
+                    <field name="ma_dinh_danh"/>
+                    <field name="ho_va_ten"/>
+                    <field name="chung_chi_bang_cap_id"/>
+                    <field name="ghi_chu"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="danh_sach_chung_chi_bang_cap_search" model="ir.ui.view">
+            <field name="name">danh_sach_chung_chi_bang_cap.search</field>
+            <field name="model">danh_sach_chung_chi_bang_cap</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nhan_vien_id"/>
+                    <field name="ma_dinh_danh"/>
+                    <field name="ho_va_ten"/>
+                    <field name="chung_chi_bang_cap_id"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Window Action -->
+        <record id="action_danh_sach_chung_chi_bang_cap" model="ir.actions.act_window">
+            <field name="name">Danh sách chứng chỉ bằng cấp</field>
+            <field name="res_model">danh_sach_chung_chi_bang_cap</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="danh_sach_chung_chi_bang_cap_search"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Chưa có chứng chỉ nào được thêm cho nhân viên
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu gốc -->
+        <menuitem
+            id="menu_root"
+            name="Quản Lý Nhân Sự"
+            sequence="10"/>
+
+        <!-- Menu Nhân viên -->
+        <menuitem
+            id="menu_nhan_vien"
+            name="Nhân viên"
+            parent="menu_root"
+            action="action_nhan_vien"
+            sequence="10"/>
+
+        <!-- Nhóm Danh mục chung -->
+        <menuitem
+            id="menu_danh_muc_chung"
+            name="Danh mục chung"
+            parent="menu_root"
+            sequence="20"/>
+
+        <!-- Đơn vị -->
+        <menuitem
+            id="menu_don_vi"
+            name="Đơn vị"
+            parent="menu_danh_muc_chung"
+            action="action_don_vi"
+            sequence="10"/>
+
+        <!-- Chức vụ -->
+        <menuitem
+            id="menu_chuc_vu"
+            name="Chức vụ"
+            parent="menu_danh_muc_chung"
+            action="action_chuc_vu"
+            sequence="20"/>
+
+        <!-- Phòng ban -->
+        <menuitem
+            id="menu_phong_ban"
+            name="Phòng ban"
+            parent="menu_danh_muc_chung"
+            action="action_phong_ban"
+            sequence="30"/>
+
+        <!-- Chứng chỉ / Bằng cấp -->
+        <menuitem
+            id="menu_chung_chi_bang_cap"
+            name="Chứng chỉ / Bằng cấp"
+            parent="menu_danh_muc_chung"
+            action="action_chung_chi"
+            sequence="40"/>
+
+        <!-- Lịch sử công tác -->
+        <menuitem
+            id="menu_lich_su_cong_tac"
+            name="Lịch sử công tác"
+            parent="menu_root"
+            action="action_lich_su_cong_tac"
+            sequence="30"/>
+
+        <!-- Danh sách chứng chỉ của nhân viên -->
+        <menuitem
+            id="menu_danh_sach_chung_chi_bang_cap"
+            name="Chứng chỉ nhân viên"
+            parent="menu_root"
+            action="action_danh_sach_chung_chi_bang_cap"
+            sequence="40"/>
+
+        <!-- Chấm công -->
+        <menuitem
+            id="menu_cham_cong"
+            name="Chấm công"
+            parent="menu_root"
+            action="action_cham_cong"
+            sequence="50"/>
+    </data>
+</odoo>
