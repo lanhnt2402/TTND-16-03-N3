@@ -31,6 +31,10 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
 - **Tương tác với khách hàng**: Ghi nhận các tương tác (gọi điện, email, hẹn gặp, thăm khách hàng) với đầy đủ thông tin
 - **Tracking đầy đủ**: Lịch sử workflow, ai làm gì, khi nào, có bằng chứng gì
 - **Liên kết tự động**: Tự động tạo công việc từ tương tác với khách hàng
+  <p align="center">
+        <img src="docs/logo/1.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/2.png" alt="AIoTLab Logo" width="450"/>
+    </p>
 
 #### 📝 Module Quản Lý Công Việc (`quan_ly_cong_viec`)
 - **Workflow quản lý công việc**: Nháp → Cần làm → Đang thực hiện → Chờ duyệt → Hoàn thành
@@ -41,6 +45,10 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
   - Đánh giá chất lượng khi duyệt (điểm chất lượng 0-100, xếp loại A+/A/B/C/D/F)
 - **Tự động đánh giá hiệu suất nhân viên**: Khi công việc hoàn thành, tự động cập nhật thống kê và điểm AI cho nhân viên
 - **Email thông báo tự động**: Gửi email cho nhân viên và giám sát ở các bước quan trọng
+<p align="center">
+        <img src="docs/logo/3kh.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/4kh.png" alt="AIoTLab Logo" width="450"/>
+    </p>
 
 #### 👥 Module Quản Lý Nhân Sự (`quan_ly_nhan_su`)
 - **Quản lý thông tin nhân viên**: Thông tin cá nhân, công việc, lương & phúc lợi
@@ -50,12 +58,19 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
   - Phân tích điểm mạnh, điểm cần cải thiện, khuyến nghị phát triển
 - **Lịch sử đánh giá AI**: Lưu trữ lịch sử đánh giá chi tiết với biểu đồ xu hướng
 - **Biểu đồ thống kê**: Visualize hiệu suất nhân viên qua thời gian
+<p align="center">
+        <img src="docs/logo/5cv.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/6cv.png" alt="AIoTLab Logo" width="450"/>
+    </p
 
 ### 🤖 Tích hợp AI (Google Gemini API)
 - **AI Service**: Tích hợp Google Gemini API với API key rotation và retry mechanism
 - **Đánh giá tiến độ công việc**: Phân tích nguy cơ trễ hạn, mức độ hoàn thành
 - **Đánh giá chất lượng công việc**: So sánh yêu cầu vs kết quả, tính điểm chất lượng
 - **Đánh giá hiệu suất nhân viên**: Phân tích tổng thể dựa trên thống kê công việc
+<p align="center">
+        <img src="docs/logo/7ai.png" alt="AIoTLab Logo" width="500"/>
+    </p
 
 ### 🔒 Tính năng bảo mật & Validation
 - **Không thể bypass workflow**: Statusbar không thể click trực tiếp, phải qua wizard forms
