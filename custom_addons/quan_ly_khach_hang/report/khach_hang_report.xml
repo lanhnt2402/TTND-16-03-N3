@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========== CUSTOMER PIPELINE REPORT ========== -->
+        <record id="action_customer_pipeline_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Pipeline</field>
+            <field name="res_model">khach.hang</field>
+            <field name="view_mode">graph,pivot,tree,kanban</field>
+            <field name="context">{
+                'search_default_active_pipeline': 1,
+                'graph_measure': 'expected_revenue',
+                'graph_groupbys': ['status'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Pipeline khách hàng
+                </p>
+                <p>
+                    Theo dõi khách hàng qua các giai đoạn: Lead → Active
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== AI SCORE REPORT ========== -->
+        <record id="action_ai_score_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo AI Score</field>
+            <field name="res_model">khach.hang</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="context">{
+                'search_default_active_customers': 1,
+                'graph_measure': 'ai_score',
+                'graph_groupbys': ['ai_score_level'],
+                'pivot_measures': ['ai_score', 'churn_risk', 'expected_revenue'],
+                'pivot_row_groupby': ['ai_score_level'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo AI Customer Score
+                </p>
+                <p>
+                    Phân tích điểm tiềm năng và nguy cơ mất khách hàng.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== CHURN RISK REPORT ========== -->
+        <record id="action_churn_risk_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Nguy cơ mất khách</field>
+            <field name="res_model">khach.hang</field>
+            <field name="view_mode">tree,graph,pivot</field>
+            <field name="domain">[('churn_risk', '>', 50)]</field>
+            <field name="context">{
+                'search_default_high_risk': 1,
+                'graph_measure': 'churn_risk',
+                'graph_groupbys': ['status'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Nguy cơ mất khách
+                </p>
+                <p>
+                    Danh sách khách hàng có nguy cơ mất cao cần chăm sóc ngay.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== REVENUE REPORT ========== -->
+        <record id="action_revenue_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Doanh thu</field>
+            <field name="res_model">khach.hang</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="context">{
+                'search_default_active': 1,
+                'pivot_measures': ['expected_revenue', 'annual_revenue'],
+                'pivot_row_groupby': ['industry'],
+                'pivot_column_groupby': ['company_size'],
+                'graph_measure': 'expected_revenue',
+                'graph_groupbys': ['industry'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Doanh thu
+                </p>
+                <p>
+                    Phân tích doanh thu theo ngành nghề, quy mô khách hàng.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== EMPLOYEE PERFORMANCE REPORT ========== -->
+        <record id="action_employee_customer_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Nhân viên Sales</field>
+            <field name="res_model">khach.hang</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="context">{
+                'pivot_measures': ['expected_revenue'],
+                'pivot_row_groupby': ['primary_employee_id'],
+                'pivot_column_groupby': ['status'],
+                'graph_measure': 'expected_revenue',
+                'graph_groupbys': ['primary_employee_id'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo hiệu suất Sales
+                </p>
+                <p>
+                    Theo dõi hiệu suất chăm sóc khách hàng của từng nhân viên.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== MENU ITEMS ========== -->
+        <!-- Use existing "Báo cáo" menu from menu_views.xml -->
+        <menuitem id="menu_khach_hang_report_pipeline" 
+                  name="Pipeline" 
+                  parent="menu_bao_cao_khach_hang" 
+                  action="action_customer_pipeline_report" 
+                  sequence="1"/>
+        
+        <menuitem id="menu_khach_hang_report_ai_score" 
+                  name="AI Score" 
+                  parent="menu_bao_cao_khach_hang" 
+                  action="action_ai_score_report" 
+                  sequence="2"/>
+        
+        <menuitem id="menu_khach_hang_report_churn" 
+                  name="Nguy cơ mất khách" 
+                  parent="menu_bao_cao_khach_hang" 
+                  action="action_churn_risk_report" 
+                  sequence="3"/>
+        
+        <menuitem id="menu_khach_hang_report_revenue" 
+                  name="Doanh thu" 
+                  parent="menu_bao_cao_khach_hang" 
+                  action="action_revenue_report" 
+                  sequence="4"/>
+        
+        <menuitem id="menu_khach_hang_report_employee" 
+                  name="Hiệu suất Sales" 
+                  parent="menu_bao_cao_khach_hang" 
+                  action="action_employee_customer_report" 
+                  sequence="5"/>
+        
+    </data>
+</odoo>

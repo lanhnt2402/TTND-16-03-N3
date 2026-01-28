@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========== TASK ASSIGNMENT WIZARD ========== -->
+        <record id="view_task_assignment_wizard_form" model="ir.ui.view">
+            <field name="name">task.assignment.wizard.form</field>
+            <field name="model">task.assignment.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Phân công công việc hàng loạt">
+                    <sheet>
+                        <group attrs="{'invisible': [('use_ai_suggestion', '=', False)]}">
+                            <field name="ai_suggested_employee_id" readonly="1" string="🤖 AI Gợi Ý"/> 
+                            <field name="ai_suggestion_confidence" readonly="1" string="Độ tin cậy (%)"/>
+                            <field name="ai_suggestion_reasoning" readonly="1" string="Lý do gợi ý"/>
+                        </group>
+                        
+                        <group>
+                            <group string="Phân công cho">
+                                <field name="employee_ids" widget="many2many_tags"/>
+                                <field name="customer_id"/>
+                                <field name="supervisor_id"/>
+                            </group>
+                            <group string="Thông tin công việc">
+                                <field name="task_name"/>
+                                <field name="priority" widget="priority"/>
+                                <field name="deadline"/>
+                                <field name="estimated_hours"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <field name="requirement" widget="html"/>
+                        </group>
+                        
+                        <group>
+                            <group string="Chi tiết">
+                                <field name="acceptance_criteria"/>
+                                <field name="deliverable"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Tùy chọn">
+                                <field name="send_email"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="🤖 AI Hỗ Trợ">
+                                <field name="use_ai_suggestion"/>
+                                <field name="ai_predicted_hours" readonly="1" attrs="{'invisible': [('use_ai_suggestion', '=', False)]}"/>
+                                <button name="action_get_ai_suggestions" 
+                                        string="🤖 Lấy Gợi Ý AI" 
+                                        type="object" 
+                                        class="oe_highlight"
+                                        icon="fa-magic"/>
+                                <button name="action_apply_ai_suggestion" 
+                                        string="✅ Áp Dụng Gợi Ý" 
+                                        type="object" 
+                                        class="oe_highlight"
+                                        attrs="{'invisible': [('ai_suggested_employee_id', '=', False)]}"
+                                        icon="fa-check"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    
+                    <footer>
+                        <button name="action_assign_tasks" string="Phân công" type="object" class="oe_highlight"/>
+                        <button string="Hủy" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_task_assignment_wizard" model="ir.actions.act_window">
+            <field name="name">Phân công công việc hàng loạt</field>
+            <field name="res_model">task.assignment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_cong_viec"/>
+            <field name="binding_view_types">list</field>
+        </record>
+        
+        <!-- ========== BULK UPDATE WIZARD ========== -->
+        <record id="view_bulk_task_update_wizard_form" model="ir.ui.view">
+            <field name="name">bulk.task.update.wizard.form</field>
+            <field name="model">bulk.task.update.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cập nhật hàng loạt">
+                    <sheet>
+                        <group>
+                            <field name="task_ids" widget="many2many_tags" readonly="1"/>
+                        </group>
+                        
+                        <group>
+                            <group string="Trạng thái">
+                                <field name="update_state"/>
+                                <field name="new_state" attrs="{'invisible': [('update_state', '=', False)]}"/>
+                            </group>
+                            <group string="Ưu tiên">
+                                <field name="update_priority"/>
+                                <field name="new_priority" widget="priority" attrs="{'invisible': [('update_priority', '=', False)]}"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Deadline">
+                                <field name="update_deadline"/>
+                                <field name="new_deadline" attrs="{'invisible': [('update_deadline', '=', False)]}"/>
+                            </group>
+                            <group string="Người giám sát">
+                                <field name="update_supervisor"/>
+                                <field name="new_supervisor_id" attrs="{'invisible': [('update_supervisor', '=', False)]}"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Tags">
+                                <field name="update_tags"/>
+                                <field name="new_tag_ids" widget="many2many_tags" attrs="{'invisible': [('update_tags', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    
+                    <footer>
+                        <button name="action_update_tasks" string="Cập nhật" type="object" class="oe_highlight"/>
+                        <button string="Hủy" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_bulk_task_update_wizard" model="ir.actions.act_window">
+            <field name="name">Cập nhật hàng loạt</field>
+            <field name="res_model">bulk.task.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_cong_viec"/>
+            <field name="binding_view_types">list</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Cron: Kiểm tra khách hàng lâu không chăm sóc -->
+        <record id="ir_cron_check_stale_customers" model="ir.cron">
+            <field name="name">Khách hàng: Kiểm tra lâu không chăm sóc</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_check_stale_customers()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">5</field>
+        </record>
+        
+        <!-- Cron: Cập nhật AI Score cho khách hàng -->
+        <record id="ir_cron_update_customer_ai_score" model="ir.cron">
+            <field name="name">Khách hàng: Cập nhật AI Score</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="state">code</field>
+            <field name="code">
+# Cập nhật AI score cho khách hàng active
+customers = model.search([
+    ('status', 'in', ['qualified', 'proposal', 'negotiation', 'active'])
+])
+for customer in customers:
+    try:
+        customer._compute_ai_customer_score()
+    except Exception as e:
+        pass
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">10</field>
+        </record>
+        
+        <!-- Cron: Cảnh báo khách hàng có nguy cơ mất cao -->
+        <record id="ir_cron_high_churn_risk_alert" model="ir.cron">
+            <field name="name">Khách hàng: Cảnh báo nguy cơ mất cao</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="state">code</field>
+            <field name="code">
+# Tìm khách hàng có churn risk > 70%
+high_risk_customers = model.search([
+    ('status', 'in', ['active', 'negotiation']),
+    ('churn_risk', '>', 70)
+])
+
+for customer in high_risk_customers:
+    customer.message_post(
+        body=f"🚨 CẢNH BÁO: Khách hàng có nguy cơ mất cao ({customer.churn_risk:.0f}%). Cần hành động ngay!",
+        subject="Cảnh báo nguy cơ mất khách hàng",
+        message_type='notification'
+    )
+    
+    # Tạo activity cho nhân viên phụ trách
+    for employee in customer.assigned_employee_ids:
+        if employee.user_id:
+            customer.activity_schedule(
+                'mail.mail_activity_data_todo',
+                user_id=employee.user_id.id,
+                summary=f'Chăm sóc khách hàng nguy cơ cao: {customer.display_name}',
+                note=f'Nguy cơ mất: {customer.churn_risk:.0f}%'
+            )
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">7</field>
+        </record>
+        
+        <!-- Cron: Tự động chuyển khách hàng không hoạt động sang inactive -->
+        <record id="ir_cron_auto_inactive_customers" model="ir.cron">
+            <field name="name">Khách hàng: Tự động chuyển sang Inactive</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="state">code</field>
+            <field name="code">
+# Tìm khách hàng active nhưng không có hoạt động > 90 ngày
+inactive_customers = model.search([
+    ('status', '=', 'active'),
+    ('days_since_last_contact', '>', 90)
+])
+
+for customer in inactive_customers:
+    customer.write({
+        'status': 'inactive',
+        'status_reason': 'Tự động chuyển do không có hoạt động trong 90 ngày'
+    })
+    customer.message_post(
+        body="Khách hàng đã được chuyển sang trạng thái Inactive do không có hoạt động trong 90 ngày.",
+        subject="Chuyển trạng thái Inactive"
+    )
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">8</field>
+        </record>
+        
+    </data>
+</odoo>

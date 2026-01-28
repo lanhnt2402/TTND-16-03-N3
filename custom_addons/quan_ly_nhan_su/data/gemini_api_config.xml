@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- 
+            Cấu hình API Keys cho Google Gemini AI
+            Format: key1,key2,key3,key4,key5
+            Có thể cập nhật qua Settings > Technical > Parameters > System Parameters
+        -->
+        <record id="gemini_api_keys" model="ir.config_parameter">
+            <field name="key">quan_ly_nhan_su.gemini_api_keys</field>
+            <field name="value">AIzaSyApIoPs91hDIor3pA3PjlNPoVV0nzPeMl0,AIzaSyAEKaLFrnUbHQ8jbGu23jk5hGop2UJMQbw,AIzaSyAb5Fxtzg0AlFrWv4I6SKE34hr10v8OY-Y,AIzaSyAZ887ml8jI01uAwnuN7DCduczUg9zsyDM,AIzaSyBEALAyUVpOGbsFKkM2SX5LdR2n4QWOhcg</field>
+        </record>
+    </data>
+</odoo>

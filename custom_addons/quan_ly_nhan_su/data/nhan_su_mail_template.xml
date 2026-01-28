@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Email Template: Chào mừng nhân viên mới -->
+        <record id="email_template_welcome_employee" model="mail.template">
+            <field name="name">Nhân sự: Chào mừng nhân viên mới</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="subject">Chào mừng ${object.name} đến với công ty!</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <tr>
+                        <td style="padding: 40px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0;">🎉 Chào mừng bạn!</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Xin chào <strong>${object.name}</strong>,
+                            </p>
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Chúng tôi rất vui mừng chào đón bạn gia nhập đội ngũ <strong>${object.company_id.name}</strong>!
+                            </p>
+                            
+                            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <h3 style="color: #667eea; margin-top: 0;">📋 Thông tin của bạn:</h3>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã nhân viên:</strong> ${object.employee_code}</li>
+                                    <li style="padding: 8px 0;"><strong>Vị trí:</strong> ${object.job_position}</li>
+                                    <li style="padding: 8px 0;"><strong>Phòng ban:</strong> ${object.department_id.name if object.department_id else 'Chưa xác định'}</li>
+                                    <li style="padding: 8px 0;"><strong>Ngày vào làm:</strong> ${format_date(object.join_date) if object.join_date else ''}</li>
+                                    % if object.manager_id:
+                                    <li style="padding: 8px 0;"><strong>Quản lý trực tiếp:</strong> ${object.manager_id.name}</li>
+                                    % endif
+                                </ul>
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Chúng tôi tin tưởng rằng bạn sẽ có những đóng góp quan trọng cho sự phát triển của công ty. 
+                                Nếu có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với phòng Nhân sự.
+                            </p>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                                Chúc bạn thành công!<br/>
+                                <strong>Phòng Nhân sự</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 10px 10px;">
+                            <p style="color: #6c757d; font-size: 12px; margin: 0;">
+                                © ${object.company_id.name} - Hệ thống quản lý nhân sự
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Cảnh báo hợp đồng sắp hết hạn -->
+        <record id="email_template_contract_expiry" model="mail.template">
+            <field name="name">Nhân sự: Cảnh báo hợp đồng sắp hết hạn</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="subject">⚠️ Hợp đồng của ${object.name} sắp hết hạn</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${(object.manager_id.work_email if object.manager_id else object.department_id.manager_id.work_email if object.department_id and object.department_id.manager_id else user.email)|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 30px; border-left: 5px solid #ffc107;">
+                            <h2 style="color: #ffc107; margin-top: 0;">⚠️ Cảnh báo hợp đồng sắp hết hạn</h2>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Hợp đồng lao động của nhân viên <strong>${object.name}</strong> sắp hết hạn.
+                            </p>
+                            
+                            <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã nhân viên:</strong> ${object.employee_code}</li>
+                                    <li style="padding: 8px 0;"><strong>Vị trí:</strong> ${object.job_position}</li>
+                                    <li style="padding: 8px 0;"><strong>Phòng ban:</strong> ${object.department_id.name if object.department_id else 'N/A'}</li>
+                                    <li style="padding: 8px 0;"><strong>Loại hợp đồng:</strong> ${dict(object._fields['contract_type'].selection).get(object.contract_type, 'N/A')}</li>
+                                    <li style="padding: 8px 0; color: #d32f2f;"><strong>Ngày hết hạn:</strong> ${format_date(object.contract_end_date) if object.contract_end_date else 'N/A'}</li>
+                                </ul>
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Vui lòng liên hệ với nhân viên và chuẩn bị thủ tục gia hạn hợp đồng nếu cần thiết.
+                            </p>
+                            
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=nhan.su" 
+                                   style="background-color: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Xem chi tiết nhân viên
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Đánh giá hiệu suất -->
+        <record id="email_template_performance_evaluation" model="mail.template">
+            <field name="name">Nhân sự: Thông báo đánh giá hiệu suất</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="subject">📊 Kết quả đánh giá hiệu suất - ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 40px;">
+                            <h2 style="color: #667eea; margin-top: 0;">📊 Kết quả đánh giá hiệu suất</h2>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Xin chào <strong>${object.name}</strong>,
+                            </p>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Hệ thống đã hoàn tất đánh giá hiệu suất làm việc của bạn. Dưới đây là kết quả:
+                            </p>
+                            
+                            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 25px 0;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="font-size: 48px; font-weight: bold; color: ${'#28a745' if object.ai_performance_score >= 75 else '#ffc107' if object.ai_performance_score >= 60 else '#dc3545'};">
+                                        ${f'{object.ai_performance_score:.1f}' if object.ai_performance_score else '0.0'}
+                                    </div>
+                                    <div style="font-size: 18px; color: #6c757d;">Điểm tổng hợp / 100</div>
+                                    <div style="font-size: 16px; font-weight: bold; color: #667eea; margin-top: 10px;">
+                                        ${dict(object._fields['ai_performance_level'].selection).get(object.ai_performance_level, 'Chưa đánh giá') if object.ai_performance_level else 'Chưa đánh giá'}
+                                    </div>
+                                </div>
+                                
+                                <h3 style="color: #667eea;">📈 Thống kê công việc:</h3>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;">✅ <strong>Tổng công việc:</strong> ${object.total_tasks}</li>
+                                    <li style="padding: 8px 0;">✅ <strong>Hoàn thành:</strong> ${object.completed_tasks}</li>
+                                    <li style="padding: 8px 0;">⏰ <strong>Quá hạn:</strong> ${object.overdue_tasks}</li>
+                                    <li style="padding: 8px 0;">📊 <strong>Tỷ lệ hoàn thành:</strong> ${f'{object.task_completion_rate:.1f}' if object.task_completion_rate else '0.0'}%</li>
+                                    <li style="padding: 8px 0;">⭐ <strong>Điểm chất lượng TB:</strong> ${f'{object.average_task_score:.1f}' if object.average_task_score else '0.0'}/100</li>
+                                </ul>
+                                
+                                % if object.ai_strengths:
+                                <h3 style="color: #28a745;">✓ Điểm mạnh:</h3>
+                                <div style="white-space: pre-line; padding-left: 20px;">${object.ai_strengths}</div>
+                                % endif
+                                
+                                % if object.ai_improvement_areas:
+                                <h3 style="color: #ffc107;">⚠ Cần cải thiện:</h3>
+                                <div style="white-space: pre-line; padding-left: 20px;">${object.ai_improvement_areas}</div>
+                                % endif
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Nếu bạn có bất kỳ câu hỏi nào về kết quả đánh giá, vui lòng liên hệ với quản lý trực tiếp.
+                            </p>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                                Chúc bạn tiếp tục phát huy!<br/>
+                                <strong>Phòng Nhân sự</strong>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

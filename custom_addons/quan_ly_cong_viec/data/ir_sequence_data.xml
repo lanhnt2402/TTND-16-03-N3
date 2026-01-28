@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- Sequence for Task Code: CV-YYYY-XXXXX -->
+        <record id="seq_cong_viec" model="ir.sequence">
+            <field name="name">Mã công việc</field>
+            <field name="code">cong.viec</field>
+            <field name="prefix">CV-%(year)s-</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="implementation">standard</field>
+        </record>
+        
+    </data>
+</odoo>

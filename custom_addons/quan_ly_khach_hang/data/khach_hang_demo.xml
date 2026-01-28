@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ==================== KHÁCH HÀNG DOANH NGHIỆP ==================== -->
+        
+        <record id="khach_hang_001" model="khach.hang">
+            <field name="customer_code">KH-2026-0001</field>
+            <field name="name">Nguyễn Văn Hùng</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Công nghệ ABC</field>
+            <field name="tax_code">0123456789</field>
+            <field name="registration_number">0123456789</field>
+            <field name="phone">02812345678</field>
+            <field name="email">contact@abctech.vn</field>
+            <field name="website">www.abctech.vn</field>
+            <field name="job_title">Giám đốc Công nghệ</field>
+            <field name="address">Tầng 5, Tòa nhà ABC, Số 123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 1</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">it_software</field>
+            <field name="company_size">51-200</field>
+            <field name="source">website</field>
+            <field name="level">hot</field>
+            <field name="status">active</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">5000000000</field>
+            <field name="expected_revenue">2000000000</field>
+            <field name="probability">75.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <record id="khach_hang_002" model="khach.hang">
+            <field name="customer_code">KH-2026-0002</field>
+            <field name="name">Trần Thị Mai</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Giải pháp Số XYZ</field>
+            <field name="tax_code">0987654321</field>
+            <field name="registration_number">0987654321</field>
+            <field name="phone">02498765432</field>
+            <field name="email">info@xyzsolutions.com.vn</field>
+            <field name="website">www.xyzsolutions.com.vn</field>
+            <field name="job_title">Trưởng phòng IT</field>
+            <field name="address">Tầng 8, Tòa nhà XYZ, Số 456 Lê Lợi, Quận Hoàn Kiếm, Hà Nội</field>
+            <field name="city">Quận Hoàn Kiếm</field>
+            <field name="state_id" eval="ref('base.state_vn_hn')"/>
+            <field name="zip_code">100000</field>
+            <field name="industry">it_software</field>
+            <field name="company_size">201-500</field>
+            <field name="source">referral</field>
+            <field name="source_detail">Giới thiệu bởi khách hàng ABC</field>
+            <field name="level">vip</field>
+            <field name="status">active</field>
+            <field name="priority">3</field>
+            <field name="annual_revenue">15000000000</field>
+            <field name="expected_revenue">5000000000</field>
+            <field name="probability">85.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <record id="khach_hang_003" model="khach.hang">
+            <field name="customer_code">KH-2026-0003</field>
+            <field name="name">Lê Văn Đức</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Thương mại Điện tử DEF</field>
+            <field name="tax_code">0111222333</field>
+            <field name="phone">02887654321</field>
+            <field name="email">sales@defecommerce.vn</field>
+            <field name="website">www.defecommerce.vn</field>
+            <field name="job_title">Giám đốc Kinh doanh</field>
+            <field name="address">Số 789 Điện Biên Phủ, Phường 25, Quận Bình Thạnh, TP. Hồ Chí Minh</field>
+            <field name="city">Quận Bình Thạnh</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">retail</field>
+            <field name="company_size">11-50</field>
+            <field name="source">facebook</field>
+            <field name="level">warm</field>
+            <field name="status">negotiation</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">2000000000</field>
+            <field name="expected_revenue">800000000</field>
+            <field name="probability">60.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvn')])]"/>
+        </record>
+        
+        <record id="khach_hang_004" model="khach.hang">
+            <field name="customer_code">KH-2026-0004</field>
+            <field name="name">Phạm Thị Hương</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Sản xuất GHI</field>
+            <field name="tax_code">0222333444</field>
+            <field name="phone">02876543210</field>
+            <field name="email">contact@ghimanufacturing.com.vn</field>
+            <field name="website">www.ghimanufacturing.com.vn</field>
+            <field name="job_title">Trưởng phòng Công nghệ</field>
+            <field name="address">Khu công nghiệp A, Xã An Phú, Huyện Thuận An, Tỉnh Bình Dương</field>
+            <field name="city">Huyện Thuận An</field>
+            <field name="state_id" ref="base.state_vn_74"/>
+            <field name="zip_code">820000</field>
+            <field name="industry">manufacturing</field>
+            <field name="company_size">501-1000</field>
+            <field name="source">google_ads</field>
+            <field name="level">hot</field>
+            <field name="status">proposal</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">8000000000</field>
+            <field name="expected_revenue">3000000000</field>
+            <field name="probability">70.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvn')])]"/>
+        </record>
+        
+        <record id="khach_hang_005" model="khach.hang">
+            <field name="customer_code">KH-2026-0005</field>
+            <field name="name">Hoàng Văn Nam</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Dịch vụ Tài chính JKL</field>
+            <field name="tax_code">0333444555</field>
+            <field name="phone">02865432109</field>
+            <field name="email">info@jklfinance.vn</field>
+            <field name="website">www.jklfinance.vn</field>
+            <field name="job_title">Phó Giám đốc</field>
+            <field name="address">Tầng 12, Tòa nhà JKL, Số 321 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 1</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">finance</field>
+            <field name="company_size">201-500</field>
+            <field name="source">linkedin</field>
+            <field name="level">vip</field>
+            <field name="status">qualified</field>
+            <field name="priority">3</field>
+            <field name="annual_revenue">12000000000</field>
+            <field name="expected_revenue">4000000000</field>
+            <field name="probability">80.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <record id="khach_hang_006" model="khach.hang">
+            <field name="customer_code">KH-2026-0006</field>
+            <field name="name">Nguyễn Thị Lan</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Y tế MNO</field>
+            <field name="tax_code">0444555666</field>
+            <field name="phone">02854321098</field>
+            <field name="email">contact@mnohealthcare.vn</field>
+            <field name="website">www.mnohealthcare.vn</field>
+            <field name="job_title">Giám đốc Điều hành</field>
+            <field name="address">Số 654 Võ Văn Tần, Phường 5, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 3</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">healthcare</field>
+            <field name="company_size">51-200</field>
+            <field name="source">email_campaign</field>
+            <field name="level">warm</field>
+            <field name="status">contacted</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">3000000000</field>
+            <field name="expected_revenue">1000000000</field>
+            <field name="probability">50.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_bvs')])]"/>
+        </record>
+        
+        <record id="khach_hang_007" model="khach.hang">
+            <field name="customer_code">KH-2026-0007</field>
+            <field name="name">Võ Văn Tuấn</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Giáo dục PQR</field>
+            <field name="tax_code">0555666777</field>
+            <field name="phone">02843210987</field>
+            <field name="email">info@pqreducation.vn</field>
+            <field name="website">www.pqreducation.vn</field>
+            <field name="job_title">Hiệu trưởng</field>
+            <field name="address">Số 987 Lê Văn Việt, Phường Hiệp Phú, Quận 9, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 9</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">education</field>
+            <field name="company_size">11-50</field>
+            <field name="source">zalo</field>
+            <field name="level">warm</field>
+            <field name="status">lead</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">1500000000</field>
+            <field name="expected_revenue">500000000</field>
+            <field name="probability">40.0</field>
+            <field name="first_contact_date" eval="DateTime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvh')])]"/>
+        </record>
+        
+        <!-- ==================== KHÁCH HÀNG CÁ NHÂN ==================== -->
+        
+        <record id="khach_hang_008" model="khach.hang">
+            <field name="customer_code">KH-2026-0008</field>
+            <field name="name">Trần Văn An</field>
+            <field name="customer_type">individual</field>
+            <field name="phone">0912345678</field>
+            <field name="email">tranvanan.startup@gmail.com</field>
+            <field name="address">Số 45 Nguyễn Du, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 1</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="industry">it_software</field>
+            <field name="source">website</field>
+            <field name="level">hot</field>
+            <field name="status">qualified</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">500000000</field>
+            <field name="expected_revenue">200000000</field>
+            <field name="probability">65.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvn')])]"/>
+        </record>
+        
+        <record id="khach_hang_009" model="khach.hang">
+            <field name="customer_code">KH-2026-0009</field>
+            <field name="name">Nguyễn Thị Hoa</field>
+            <field name="customer_type">individual</field>
+            <field name="phone">0923456789</field>
+            <field name="email">nguyenthihoa.freelancer@gmail.com</field>
+            <field name="address">Số 78 Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 1</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="industry">it_software</field>
+            <field name="source">referral</field>
+            <field name="source_detail">Giới thiệu bởi bạn bè</field>
+            <field name="level">warm</field>
+            <field name="status">contacted</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">300000000</field>
+            <field name="expected_revenue">100000000</field>
+            <field name="probability">45.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_bvs')])]"/>
+        </record>
+        
+        <!-- ==================== KHÁCH HÀNG CƠ QUAN NHÀ NƯỚC ==================== -->
+        
+        <record id="khach_hang_010" model="khach.hang">
+            <field name="customer_code">KH-2026-0010</field>
+            <field name="name">Lê Văn Minh</field>
+            <field name="customer_type">government</field>
+            <field name="company_name">Sở Thông tin và Truyền thông TP. Hồ Chí Minh</field>
+            <field name="tax_code">0666777888</field>
+            <field name="phone">02832109876</field>
+            <field name="email">contact@sitt.hcm.gov.vn</field>
+            <field name="job_title">Phó Giám đốc</field>
+            <field name="address">Số 59 Lý Tự Trọng, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="city">Quận 1</field>
+            <field name="state_id" eval="ref('base.state_vn_sg')"/>
+            <field name="zip_code">700000</field>
+            <field name="industry">it_software</field>
+            <field name="source">event</field>
+            <field name="source_detail">Hội thảo CNTT 2025</field>
+            <field name="level">vip</field>
+            <field name="status">negotiation</field>
+            <field name="priority">3</field>
+            <field name="annual_revenue">10000000000</field>
+            <field name="expected_revenue">5000000000</field>
+            <field name="probability">90.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <!-- Thêm 10 khách hàng nữa để đủ 20 -->
+        <record id="khach_hang_011" model="khach.hang">
+            <field name="customer_code">KH-2026-0011</field>
+            <field name="name">Phạm Văn Hùng</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Thương mại STU</field>
+            <field name="tax_code">0777888999</field>
+            <field name="phone">02821098765</field>
+            <field name="email">contact@stutrading.vn</field>
+            <field name="industry">retail</field>
+            <field name="company_size">1-10</field>
+            <field name="source">cold_call</field>
+            <field name="level">cold</field>
+            <field name="status">lead</field>
+            <field name="priority">0</field>
+            <field name="annual_revenue">800000000</field>
+            <field name="expected_revenue">200000000</field>
+            <field name="probability">30.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+        
+        <record id="khach_hang_012" model="khach.hang">
+            <field name="customer_code">KH-2026-0012</field>
+            <field name="name">Hoàng Thị Mai</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Bất động sản VWX</field>
+            <field name="tax_code">0888999000</field>
+            <field name="phone">02810987654</field>
+            <field name="email">info@vwxrealestate.vn</field>
+            <field name="industry">real_estate</field>
+            <field name="company_size">51-200</field>
+            <field name="source">partner</field>
+            <field name="level">hot</field>
+            <field name="status">proposal</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">6000000000</field>
+            <field name="expected_revenue">2500000000</field>
+            <field name="probability">70.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=2, days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvn')])]"/>
+        </record>
+        
+        <record id="khach_hang_013" model="khach.hang">
+            <field name="customer_code">KH-2026-0013</field>
+            <field name="name">Đặng Văn Long</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Xây dựng YZA</field>
+            <field name="tax_code">0999000111</field>
+            <field name="phone">02809876543</field>
+            <field name="email">contact@yzaconstruction.vn</field>
+            <field name="industry">construction</field>
+            <field name="company_size">201-500</field>
+            <field name="source">website</field>
+            <field name="level">warm</field>
+            <field name="status">qualified</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">4000000000</field>
+            <field name="expected_revenue">1500000000</field>
+            <field name="probability">55.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=1, days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_bvs')])]"/>
+        </record>
+        
+        <record id="khach_hang_014" model="khach.hang">
+            <field name="customer_code">KH-2026-0014</field>
+            <field name="name">Bùi Thị Nga</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Vận tải BCD</field>
+            <field name="tax_code">0111222333-001</field>
+            <field name="phone">02898765432</field>
+            <field name="email">info@bcdlogistics.vn</field>
+            <field name="industry">logistics</field>
+            <field name="company_size">51-200</field>
+            <field name="source">facebook</field>
+            <field name="level">warm</field>
+            <field name="status">contacted</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">2500000000</field>
+            <field name="expected_revenue">800000000</field>
+            <field name="probability">50.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvh')])]"/>
+        </record>
+        
+        <record id="khach_hang_015" model="khach.hang">
+            <field name="customer_code">KH-2026-0015</field>
+            <field name="name">Trần Văn Tài</field>
+            <field name="customer_type">individual</field>
+            <field name="phone">0934567890</field>
+            <field name="email">tranvantai.consultant@gmail.com</field>
+            <field name="industry">it_software</field>
+            <field name="source">linkedin</field>
+            <field name="level">warm</field>
+            <field name="status">lead</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">200000000</field>
+            <field name="expected_revenue">50000000</field>
+            <field name="probability">35.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+        
+        <record id="khach_hang_016" model="khach.hang">
+            <field name="customer_code">KH-2026-0016</field>
+            <field name="name">Lê Thị Hương</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Khách sạn EFG</field>
+            <field name="tax_code">0222333444</field>
+            <field name="phone">02887654321</field>
+            <field name="email">reservations@efghotel.vn</field>
+            <field name="industry">hospitality</field>
+            <field name="company_size">11-50</field>
+            <field name="source">email_campaign</field>
+            <field name="level">warm</field>
+            <field name="status">qualified</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">1800000000</field>
+            <field name="expected_revenue">600000000</field>
+            <field name="probability">60.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=1, days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_dvn')])]"/>
+        </record>
+        
+        <record id="khach_hang_017" model="khach.hang">
+            <field name="customer_code">KH-2026-0017</field>
+            <field name="name">Phan Văn Dũng</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Năng lượng HIJ</field>
+            <field name="tax_code">0333444555</field>
+            <field name="phone">02876543210</field>
+            <field name="email">contact@hijenergy.vn</field>
+            <field name="industry">energy</field>
+            <field name="company_size">201-500</field>
+            <field name="source">google_ads</field>
+            <field name="level">hot</field>
+            <field name="status">negotiation</field>
+            <field name="priority">2</field>
+            <field name="annual_revenue">7000000000</field>
+            <field name="expected_revenue">3000000000</field>
+            <field name="probability">75.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=3, days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <record id="khach_hang_018" model="khach.hang">
+            <field name="customer_code">KH-2026-0018</field>
+            <field name="name">Ngô Thị Lan</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty TNHH Truyền thông KLM</field>
+            <field name="tax_code">0444555666</field>
+            <field name="phone">02865432109</field>
+            <field name="email">info@klmmedia.vn</field>
+            <field name="industry">media</field>
+            <field name="company_size">11-50</field>
+            <field name="source">zalo</field>
+            <field name="level">warm</field>
+            <field name="status">contacted</field>
+            <field name="priority">1</field>
+            <field name="annual_revenue">1200000000</field>
+            <field name="expected_revenue">400000000</field>
+            <field name="probability">45.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(days=18)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_bvs')])]"/>
+        </record>
+        
+        <record id="khach_hang_019" model="khach.hang">
+            <field name="customer_code">KH-2026-0019</field>
+            <field name="name">Vũ Văn Thành</field>
+            <field name="customer_type">company</field>
+            <field name="company_name">Công ty CP Viễn thông NOP</field>
+            <field name="tax_code">0555666777</field>
+            <field name="phone">02854321098</field>
+            <field name="email">contact@noptelecom.vn</field>
+            <field name="industry">telecom</field>
+            <field name="company_size">501-1000</field>
+            <field name="source">event</field>
+            <field name="source_detail">Triển lãm CNTT 2025</field>
+            <field name="level">vip</field>
+            <field name="status">active</field>
+            <field name="priority">3</field>
+            <field name="annual_revenue">20000000000</field>
+            <field name="expected_revenue">8000000000</field>
+            <field name="probability">90.0</field>
+            <field name="first_contact_date" eval="(DateTime.now() - relativedelta(months=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="assigned_employee_ids" eval="[(6, 0, [ref('nhan_su_vth')])]"/>
+        </record>
+        
+        <record id="khach_hang_020" model="khach.hang">
+            <field name="customer_code">KH-2026-0020</field>
+            <field name="name">Trịnh Thị Thảo</field>
+            <field name="customer_type">individual</field>
+            <field name="phone">0945678901</field>
+            <field name="email">trinhthithao.designer@gmail.com</field>
+            <field name="industry">it_software</field>
+            <field name="source">website</field>
+            <field name="level">cold</field>
+            <field name="status">lead</field>
+            <field name="priority">0</field>
+            <field name="annual_revenue">150000000</field>
+            <field name="expected_revenue">30000000</field>
+            <field name="probability">25.0</field>
+            <field name="first_contact_date" eval="DateTime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+        
+    </data>
+</odoo>

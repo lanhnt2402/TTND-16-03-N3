@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ========== RECORD RULES - KHACH.HANG ========== -->
+        
+        <!-- Rule 1: Nhân viên - Chỉ xem khách hàng được phân công -->
+        <record id="khach_hang_rule_employee" model="ir.rule">
+            <field name="name">Nhân viên: Khách hàng được phân công</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="domain_force">
+                [('assigned_employee_ids.user_id', '=', user.id)]
+            </field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_employee'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 2: Quản lý - Xem tất cả khách hàng -->
+        <record id="khach_hang_rule_manager" model="ir.rule">
+            <field name="name">Quản lý: Tất cả khách hàng</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 3: HR/Admin - Full access -->
+        <record id="khach_hang_rule_officer" model="ir.rule">
+            <field name="name">HR/Admin: Tất cả khách hàng</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_officer'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 4: Admin - Full access -->
+        <record id="khach_hang_rule_admin" model="ir.rule">
+            <field name="name">Admin: Tất cả khách hàng</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <!-- ========== RECORD RULES - KHACH.HANG.INTERACTION ========== -->
+        
+        <!-- Rule 1: Nhân viên - Xem tương tác của khách hàng được phân công -->
+        <record id="khach_hang_interaction_rule_employee" model="ir.rule">
+            <field name="name">Nhân viên: Tương tác khách hàng được phân công</field>
+            <field name="model_id" ref="model_khach_hang_interaction"/>
+            <field name="domain_force">
+                ['|', ('customer_id.assigned_employee_ids.user_id', '=', user.id), ('employee_id.user_id', '=', user.id)]
+            </field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_employee'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 2: Manager - Xem tất cả tương tác -->
+        <record id="khach_hang_interaction_rule_manager" model="ir.rule">
+            <field name="name">Manager: Tất cả tương tác</field>
+            <field name="model_id" ref="model_khach_hang_interaction"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <!-- Rule 3: Officer - Xem tất cả tương tác -->
+        <record id="khach_hang_interaction_rule_officer" model="ir.rule">
+            <field name="name">Officer: Tất cả tương tác</field>
+            <field name="model_id" ref="model_khach_hang_interaction"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_officer'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+        <!-- Rule 4: Admin - Full access to all interactions -->
+        <record id="khach_hang_interaction_rule_admin" model="ir.rule">
+            <field name="name">Admin: Tất cả tương tác</field>
+            <field name="model_id" ref="model_khach_hang_interaction"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+        
+    </data>
+</odoo>

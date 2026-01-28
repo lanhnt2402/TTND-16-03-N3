@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========== DASHBOARD VIEW ========== -->
+        <!-- Note: Dashboard view type is not supported in Odoo 15 Community -->
+        <!-- Use Graph and Pivot views instead via the Report Actions below -->
+        
+        <!-- ========== REPORT ACTION ========== -->
+        <record id="action_nhan_su_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Nhân sự</field>
+            <field name="res_model">nhan.su</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="context">{
+                'search_default_working': 1,
+                'search_default_group_by_department': 1,
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo thống kê nhân sự
+                </p>
+                <p>
+                    Xem thống kê về nhân viên, lương, hiệu suất theo phòng ban, cấp bậc, v.v.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== PERFORMANCE REPORT ========== -->
+        <record id="action_performance_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Hiệu suất</field>
+            <field name="res_model">lich.su.danh.gia</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="context">{
+                'search_default_this_year': 1,
+                'search_default_group_by_employee': 1,
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo hiệu suất nhân viên
+                </p>
+                <p>
+                    Xem lịch sử đánh giá, xu hướng hiệu suất theo thời gian.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== SALARY REPORT ========== -->
+        <record id="action_salary_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Lương</field>
+            <field name="res_model">nhan.su</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="context">{
+                'search_default_working': 1,
+                'pivot_measures': ['base_salary', 'total_allowance', 'gross_salary'],
+                'pivot_row_groupby': ['department_id'],
+                'pivot_column_groupby': ['job_level'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo lương
+                </p>
+                <p>
+                    Phân tích lương theo phòng ban, cấp bậc, vị trí.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== MENU ITEMS ========== -->
+        <!-- Use existing "Báo cáo" menu from menu_views.xml -->
+        <menuitem id="menu_nhan_su_report_overview" 
+                  name="Tổng quan Nhân sự" 
+                  parent="menu_bao_cao" 
+                  action="action_nhan_su_report" 
+                  sequence="1"/>
+        
+        <menuitem id="menu_nhan_su_report_performance" 
+                  name="Hiệu suất" 
+                  parent="menu_bao_cao" 
+                  action="action_performance_report" 
+                  sequence="2"/>
+        
+        <menuitem id="menu_nhan_su_report_salary" 
+                  name="Lương" 
+                  parent="menu_bao_cao" 
+                  action="action_salary_report" 
+                  sequence="3"/>
+        
+    </data>
+</odoo>

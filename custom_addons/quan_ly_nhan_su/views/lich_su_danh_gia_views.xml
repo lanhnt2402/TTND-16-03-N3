@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Tree View -->
+        <record id="view_lich_su_danh_gia_tree" model="ir.ui.view">
+            <field name="name">lich.su.danh.gia.tree</field>
+            <field name="model">lich.su.danh.gia</field>
+            <field name="arch" type="xml">
+                <tree string="Lịch sử đánh giá" sample="1"
+                      decoration-success="overall_score &gt;= 85"
+                      decoration-info="overall_score &gt;= 75 and overall_score &lt; 85"
+                      decoration-warning="overall_score &gt;= 60 and overall_score &lt; 75"
+                      decoration-danger="overall_score &lt; 60">
+                    <field name="evaluation_date"/>
+                    <field name="employee_id"/>
+                    <field name="employee_code"/>
+                    <field name="department_id"/>
+                    <field name="evaluation_type"/>
+                    <field name="overall_score" widget="progressbar"/>
+                    <field name="performance_level" widget="badge"
+                           decoration-success="performance_level in ['excellent', 'outstanding']"
+                           decoration-info="performance_level == 'good'"
+                           decoration-warning="performance_level == 'average'"
+                           decoration-danger="performance_level in ['poor', 'below_average']"/>
+                    <field name="task_completion_rate"/>
+                    <field name="quality_score"/>
+                    <field name="evaluator_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record id="view_lich_su_danh_gia_form" model="ir.ui.view">
+            <field name="name">lich.su.danh.gia.form</field>
+            <field name="model">lich.su.danh.gia</field>
+            <field name="arch" type="xml">
+                <form string="Đánh giá hiệu suất">
+                    <header>
+                        <button name="action_view_employee" string="Xem nhân viên"
+                                type="object" class="oe_highlight"/>
+                        <button name="action_compare_with_previous" string="So sánh với lần trước"
+                                type="object"/>
+                        <field name="performance_level" widget="statusbar"
+                               statusbar_visible="poor,below_average,average,good,excellent,outstanding"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="display_name"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Thông tin nhân viên">
+                                <field name="employee_id" options="{'no_create': True}"/>
+                                <field name="employee_code"/>
+                                <field name="department_id"/>
+                            </group>
+                            <group string="Thông tin đánh giá">
+                                <field name="evaluation_date"/>
+                                <field name="evaluation_type"/>
+                                <field name="evaluator_id"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Điểm số tổng hợp">
+                                <field name="overall_score" widget="gauge"
+                                       options="{'max_value': 100, 'style': 'width:200px; height: 150px;'}"/>
+                                <field name="performance_level" readonly="1"/>
+                            </group>
+                            <group string="Chi tiết điểm">
+                                <field name="task_completion_rate" widget="percentage"/>
+                                <field name="quality_score"/>
+                                <field name="deadline_compliance" widget="percentage"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Thống kê công việc">
+                            <group>
+                                <field name="total_tasks"/>
+                                <field name="completed_tasks"/>
+                            </group>
+                            <group>
+                                <field name="overdue_tasks"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Phân tích AI" name="ai_analysis">
+                                <group>
+                                    <field name="ai_analysis" nolabel="1" 
+                                           placeholder="Phân tích tổng quan từ AI..."/>
+                                </group>
+                                
+                                <group string="Điểm mạnh">
+                                    <field name="strengths" nolabel="1"
+                                           placeholder="AI sẽ phân tích điểm mạnh của nhân viên..."/>
+                                </group>
+                                
+                                <group string="Điểm cần cải thiện">
+                                    <field name="improvements" nolabel="1"
+                                           placeholder="AI sẽ chỉ ra những điểm cần cải thiện..."/>
+                                </group>
+                                
+                                <group string="Khuyến nghị phát triển">
+                                    <field name="recommendations" nolabel="1"
+                                           placeholder="AI sẽ đưa ra khuyến nghị phát triển..."/>
+                                </group>
+                            </page>
+                            
+                            <page string="Ghi chú" name="note">
+                                <field name="note" placeholder="Ghi chú bổ sung từ người đánh giá..."/>
+                            </page>
+                        </notebook>
+                        
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Graph View -->
+        <record id="view_lich_su_danh_gia_graph" model="ir.ui.view">
+            <field name="name">lich.su.danh.gia.graph</field>
+            <field name="model">lich.su.danh.gia</field>
+            <field name="arch" type="xml">
+                <graph string="Biểu đồ đánh giá" type="line" sample="1">
+                    <field name="evaluation_date" interval="month"/>
+                    <field name="overall_score" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Pivot View -->
+        <record id="view_lich_su_danh_gia_pivot" model="ir.ui.view">
+            <field name="name">lich.su.danh.gia.pivot</field>
+            <field name="model">lich.su.danh.gia</field>
+            <field name="arch" type="xml">
+                <pivot string="Phân tích đánh giá" sample="1">
+                    <field name="department_id" type="row"/>
+                    <field name="evaluation_type" type="col"/>
+                    <field name="overall_score" type="measure"/>
+                    <field name="task_completion_rate" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <!-- Search View -->
+        <record id="view_lich_su_danh_gia_search" model="ir.ui.view">
+            <field name="name">lich.su.danh.gia.search</field>
+            <field name="model">lich.su.danh.gia</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm đánh giá">
+                    <field name="employee_id" string="Nhân viên"/>
+                    <field name="department_id"/>
+                    <field name="evaluation_type"/>
+                    
+                    <filter string="Xuất sắc" name="outstanding"
+                            domain="[('performance_level', '=', 'outstanding')]"/>
+                    <filter string="Tốt" name="good"
+                            domain="[('performance_level', 'in', ['excellent', 'good'])]"/>
+                    <filter string="Trung bình" name="average"
+                            domain="[('performance_level', '=', 'average')]"/>
+                    <filter string="Cần cải thiện" name="need_improvement"
+                            domain="[('performance_level', 'in', ['below_average', 'poor'])]"/>
+                    
+                    <separator/>
+                    <filter string="Tháng này" name="this_month"
+                            domain="[('evaluation_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')),
+                                     ('evaluation_date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                    <filter string="Quý này" name="this_quarter"
+                            domain="[('evaluation_date', '&gt;=', (context_today() - relativedelta(months=3)).strftime('%Y-%m-01'))]"/>
+                    <filter string="Năm nay" name="this_year"
+                            domain="[('evaluation_date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+                    
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Nhân viên" name="group_employee"
+                                context="{'group_by': 'employee_id'}"/>
+                        <filter string="Phòng ban" name="group_department"
+                                context="{'group_by': 'department_id'}"/>
+                        <filter string="Loại đánh giá" name="group_type"
+                                context="{'group_by': 'evaluation_type'}"/>
+                        <filter string="Mức hiệu suất" name="group_level"
+                                context="{'group_by': 'performance_level'}"/>
+                        <filter string="Tháng" name="group_month"
+                                context="{'group_by': 'evaluation_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_lich_su_danh_gia" model="ir.actions.act_window">
+            <field name="name">Lịch sử đánh giá</field>
+            <field name="res_model">lich.su.danh.gia</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+            <field name="search_view_id" ref="view_lich_su_danh_gia_search"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Chưa có đánh giá nào
+                </p>
+                <p>
+                    Lịch sử đánh giá hiệu suất nhân viên được tạo tự động bởi AI
+                    hoặc thủ công bởi quản lý/HR.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

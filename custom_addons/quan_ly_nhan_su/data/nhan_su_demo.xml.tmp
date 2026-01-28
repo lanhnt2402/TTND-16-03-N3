@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ==================== PHÒNG BAN ==================== -->
+        <record id="phong_ban_it" model="phong.ban">
+            <field name="code">IT</field>
+            <field name="name">Phòng Công nghệ Thông tin</field>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="phong_ban_sales" model="phong.ban">
+            <field name="code">SALES</field>
+            <field name="name">Phòng Kinh doanh</field>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="phong_ban_hr" model="phong.ban">
+            <field name="code">HR</field>
+            <field name="name">Phòng Nhân sự</field>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="phong_ban_marketing" model="phong.ban">
+            <field name="code">MKT</field>
+            <field name="name">Phòng Marketing</field>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="phong_ban_finance" model="phong.ban">
+            <field name="code">FIN</field>
+            <field name="name">Phòng Tài chính</field>
+            <field name="sequence">50</field>
+        </record>
+        
+        <!-- ==================== NHÂN VIÊN IT (10 người) ==================== -->
+        
+        <record id="nhan_su_tmd" model="nhan.su">
+            <field name="name">Trần Minh Đức</field>
+            <field name="employee_code">TMD-15031995</field>
+            <field name="date_of_birth">1995-03-15</field>
+            <field name="gender">male</field>
+            <field name="phone">0987123456</field>
+            <field name="work_email">ductm1995@dnu.edu.vn</field>
+            <field name="personal_email">tranminhduc.dev@gmail.com</field>
+            <field name="identification_number">001199500123</field>
+            <field name="identification_type">cccd</field>
+            <field name="identification_issue_date">2020-05-10</field>
+            <field name="identification_issue_place">Công an TP. Hồ Chí Minh</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">tech_lead</field>
+            <field name="job_level">team_lead</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=3, months=2)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">25000000</field>
+            <field name="position_allowance">5000000</field>
+            <field name="housing_allowance">2000000</field>
+            <field name="permanent_address">Số 45 Nguyễn Du, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+            <field name="marital_status">married</field>
+            <field name="bank_name">Vietcombank</field>
+            <field name="bank_account_number">0123456789012</field>
+            <field name="bank_branch">Chi nhánh Quận 1</field>
+        </record>
+        
+        <record id="nhan_su_ntla" model="nhan.su">
+            <field name="name">Nguyễn Thị Lan Anh</field>
+            <field name="employee_code">NTLA-22081997</field>
+            <field name="date_of_birth">1997-08-22</field>
+            <field name="gender">female</field>
+            <field name="phone">0912345678</field>
+            <field name="work_email">anhntl1997@dnu.edu.vn</field>
+            <field name="personal_email">lananh.nguyen.backend@gmail.com</field>
+            <field name="identification_number">001199700456</field>
+            <field name="identification_type">cccd</field>
+            <field name="identification_issue_date">2021-03-15</field>
+            <field name="identification_issue_place">Công an TP. Hồ Chí Minh</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">backend_dev</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=8)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">20000000</field>
+            <field name="housing_allowance">2000000</field>
+            <field name="permanent_address">Số 128 Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+            <field name="marital_status">single</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="bank_name">Techcombank</field>
+            <field name="bank_account_number">0987654321098</field>
+        </record>
+        
+        <record id="nhan_su_lvh" model="nhan.su">
+            <field name="name">Lê Văn Hùng</field>
+            <field name="employee_code">LVH-08011999</field>
+            <field name="date_of_birth">1999-01-08</field>
+            <field name="gender">male</field>
+            <field name="phone">0923456789</field>
+            <field name="work_email">hunglv1999@dnu.edu.vn</field>
+            <field name="personal_email">levanhung.frontend@gmail.com</field>
+            <field name="identification_number">001199900789</field>
+            <field name="identification_type">cccd</field>
+            <field name="identification_issue_date">2022-01-20</field>
+            <field name="identification_issue_place">Công an TP. Hồ Chí Minh</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">frontend_dev</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=6)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">15000000</field>
+            <field name="transportation_allowance">1000000</field>
+            <field name="permanent_address">Số 89 Nguyễn Trãi, Phường Nguyễn Cư Trinh, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+            <field name="marital_status">single</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="bank_name">BIDV</field>
+            <field name="bank_account_number">1122334455667</field>
+        </record>
+        
+        <record id="nhan_su_ptm" model="nhan.su">
+            <field name="name">Phạm Thị Mai</field>
+            <field name="employee_code">PTM-12051998</field>
+            <field name="date_of_birth">1998-05-12</field>
+            <field name="gender">female</field>
+            <field name="phone">0934567890</field>
+            <field name="work_email">maipht1998@dnu.edu.vn</field>
+            <field name="personal_email">phamthimai.uxdesigner@gmail.com</field>
+            <field name="identification_number">001199800234</field>
+            <field name="identification_type">cccd</field>
+            <field name="identification_issue_date">2021-08-05</field>
+            <field name="identification_issue_place">Công an TP. Hồ Chí Minh</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">ux_designer</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=4)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14000000</field>
+            <field name="permanent_address">Số 156 Điện Biên Phủ, Phường 15, Quận Bình Thạnh, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+            <field name="marital_status">single</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="bank_name">VPBank</field>
+            <field name="bank_account_number">2233445566778</field>
+        </record>
+        
+        <record id="nhan_su_hda" model="nhan.su">
+            <field name="name">Hoàng Đức Anh</field>
+            <field name="employee_code">HDA-25072000</field>
+            <field name="date_of_birth">2000-07-25</field>
+            <field name="gender">male</field>
+            <field name="phone">0945678901</field>
+            <field name="work_email">anhhd2000@dnu.edu.vn</field>
+            <field name="personal_email">hoangducanh.fullstack@gmail.com</field>
+            <field name="identification_number">001200000567</field>
+            <field name="identification_type">cccd</field>
+            <field name="identification_issue_date">2022-11-10</field>
+            <field name="identification_issue_place">Công an TP. Hồ Chí Minh</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">fullstack_dev</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">12000000</field>
+            <field name="permanent_address">Số 234 Võ Văn Tần, Phường 5, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+            <field name="marital_status">single</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="bank_name">ACB</field>
+            <field name="bank_account_number">3344556677889</field>
+        </record>
+        
+        <record id="nhan_su_ntt" model="nhan.su">
+            <field name="name">Nguyễn Thị Thảo</field>
+            <field name="employee_code">NTT-18031996</field>
+            <field name="date_of_birth">1996-03-18</field>
+            <field name="gender">female</field>
+            <field name="phone">0956789012</field>
+            <field name="work_email">thaont1996@dnu.edu.vn</field>
+            <field name="personal_email">nguyenthithao.qa@gmail.com</field>
+            <field name="identification_number">001199600890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">qa_engineer</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=1)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">13000000</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="permanent_address">Số 67 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_pvl" model="nhan.su">
+            <field name="name">Phan Văn Long</field>
+            <field name="employee_code">PVL-10051996</field>
+            <field name="date_of_birth">1996-10-05</field>
+            <field name="gender">male</field>
+            <field name="phone">0901234567</field>
+            <field name="work_email">longpv1996@dnu.edu.vn</field>
+            <field name="personal_email">phanvanlong.devops@gmail.com</field>
+            <field name="identification_number">001199600234</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">devops</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=5)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">19000000</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="permanent_address">Số 89 Lý Tự Trọng, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_lth" model="nhan.su">
+            <field name="name">Lý Thị Hạnh</field>
+            <field name="employee_code">LTH-28041999</field>
+            <field name="date_of_birth">1999-04-28</field>
+            <field name="gender">female</field>
+            <field name="phone">0912345679</field>
+            <field name="work_email">hanhlt1999@dnu.edu.vn</field>
+            <field name="personal_email">lythihanh.mobile@gmail.com</field>
+            <field name="identification_number">001199900890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">mobile_dev</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=2)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14500000</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="permanent_address">Số 123 Pasteur, Phường 6, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_vdt" model="nhan.su">
+            <field name="name">Vũ Đức Thành</field>
+            <field name="employee_code">VDT-03121995</field>
+            <field name="date_of_birth">1995-12-03</field>
+            <field name="gender">male</field>
+            <field name="phone">0923456780</field>
+            <field name="work_email">thanhvd1995@dnu.edu.vn</field>
+            <field name="personal_email">vuducthanh.ba@gmail.com</field>
+            <field name="identification_number">001199500123</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">ba</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=11)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">18000000</field>
+            <field name="manager_id" ref="nhan_su_tmd"/>
+            <field name="permanent_address">Số 45 Đinh Tiên Hoàng, Phường 1, Quận Bình Thạnh, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_ntn" model="nhan.su">
+            <field name="name">Nguyễn Thị Nhung</field>
+            <field name="employee_code">NTN-08021999</field>
+            <field name="date_of_birth">1999-02-08</field>
+            <field name="gender">female</field>
+            <field name="phone">0912345670</field>
+            <field name="work_email">nhungnt1999@dnu.edu.vn</field>
+            <field name="personal_email">nguyenthinhung.ui@gmail.com</field>
+            <field name="identification_number">001199900234</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">ui_designer</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11000000</field>
+            <field name="manager_id" ref="nhan_su_ptm"/>
+            <field name="permanent_address">Số 78 Nguyễn Đình Chiểu, Phường 6, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- ==================== NHÂN VIÊN SALES (8 người) ==================== -->
+        
+        <record id="nhan_su_vth" model="nhan.su">
+            <field name="name">Võ Thị Hương</field>
+            <field name="employee_code">VTH-18031996</field>
+            <field name="date_of_birth">1996-03-18</field>
+            <field name="gender">female</field>
+            <field name="phone">0956789012</field>
+            <field name="work_email">huongvt1996@dnu.edu.vn</field>
+            <field name="personal_email">vothihuong.sales@gmail.com</field>
+            <field name="identification_number">001199600890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">account_manager</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=3)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">18000000</field>
+            <field name="position_allowance">3000000</field>
+            <field name="permanent_address">Số 67 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_dvn" model="nhan.su">
+            <field name="name">Đặng Văn Nam</field>
+            <field name="employee_code">DVN-30091997</field>
+            <field name="date_of_birth">1997-09-30</field>
+            <field name="gender">male</field>
+            <field name="phone">0967890123</field>
+            <field name="work_email">namdv1997@dnu.edu.vn</field>
+            <field name="personal_email">dangvannam.sales@gmail.com</field>
+            <field name="identification_number">001199700123</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=9)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">15000000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 89 Lý Tự Trọng, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_bvs" model="nhan.su">
+            <field name="name">Bùi Văn Sơn</field>
+            <field name="employee_code">BVS-11091998</field>
+            <field name="date_of_birth">1998-09-11</field>
+            <field name="gender">male</field>
+            <field name="phone">0956789013</field>
+            <field name="work_email">sonbv1998@dnu.edu.vn</field>
+            <field name="personal_email">buivanson.sales@gmail.com</field>
+            <field name="identification_number">001199800789</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=3)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14500000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 234 Trần Hưng Đạo, Phường Cô Giang, Quận 1, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_dvh" model="nhan.su">
+            <field name="name">Đặng Văn Hải</field>
+            <field name="employee_code">DVH-21101997</field>
+            <field name="date_of_birth">1997-10-21</field>
+            <field name="gender">male</field>
+            <field name="phone">0923456781</field>
+            <field name="work_email">haidv1997@dnu.edu.vn</field>
+            <field name="personal_email">dangvanhai.sales@gmail.com</field>
+            <field name="identification_number">001199700789</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=10)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">12000000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 156 Võ Thị Sáu, Phường 8, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- ==================== NHÂN VIÊN HR (5 người) ==================== -->
+        
+        <record id="nhan_su_bth" model="nhan.su">
+            <field name="name">Bùi Thị Hoa</field>
+            <field name="employee_code">BTH-15061995</field>
+            <field name="date_of_birth">1995-06-15</field>
+            <field name="gender">female</field>
+            <field name="phone">0978901234</field>
+            <field name="work_email">hoabth1995@dnu.edu.vn</field>
+            <field name="personal_email">buithihoa.hr@gmail.com</field>
+            <field name="identification_number">001199500456</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_hr"/>
+            <field name="job_position">hr_manager</field>
+            <field name="job_level">manager</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=4, months=1)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">22000000</field>
+            <field name="position_allowance">4000000</field>
+            <field name="permanent_address">Số 123 Pasteur, Phường 6, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_hth" model="nhan.su">
+            <field name="name">Hoàng Thị Thu</field>
+            <field name="employee_code">HTT-25011996</field>
+            <field name="date_of_birth">1996-01-25</field>
+            <field name="gender">female</field>
+            <field name="phone">0956789014</field>
+            <field name="work_email">thuht1996@dnu.edu.vn</field>
+            <field name="personal_email">hoangthithu.hr@gmail.com</field>
+            <field name="identification_number">001199600234</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_hr"/>
+            <field name="job_position">hr_staff</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=7)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14000000</field>
+            <field name="manager_id" ref="nhan_su_bth"/>
+            <field name="permanent_address">Số 89 Điện Biên Phủ, Phường 25, Quận Bình Thạnh, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_lth2" model="nhan.su">
+            <field name="name">Lê Thị Hương</field>
+            <field name="employee_code">LTH2-02081996</field>
+            <field name="date_of_birth">1996-08-02</field>
+            <field name="gender">female</field>
+            <field name="phone">0956789014</field>
+            <field name="work_email">huonglt1996@dnu.edu.vn</field>
+            <field name="personal_email">lethihuong.hr@gmail.com</field>
+            <field name="identification_number">001199600123</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_hr"/>
+            <field name="job_position">hr_staff</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=5)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11000000</field>
+            <field name="manager_id" ref="nhan_su_bth"/>
+            <field name="permanent_address">Số 45 Nguyễn Văn Cừ, Phường 2, Quận 5, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- ==================== NHÂN VIÊN MARKETING (4 người) ==================== -->
+        
+        <record id="nhan_su_dtn" model="nhan.su">
+            <field name="name">Đỗ Thị Nga</field>
+            <field name="employee_code">DTN-19071997</field>
+            <field name="date_of_birth">1997-07-19</field>
+            <field name="gender">female</field>
+            <field name="phone">0934567891</field>
+            <field name="work_email">ngadt1997@dnu.edu.vn</field>
+            <field name="personal_email">dothinga.marketing@gmail.com</field>
+            <field name="identification_number">001199700456</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_marketing"/>
+            <field name="job_position">marketing</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=6)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">16000000</field>
+            <field name="permanent_address">Số 78 Lê Văn Việt, Phường Hiệp Phú, Quận 9, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_btl" model="nhan.su">
+            <field name="name">Bùi Thị Lan</field>
+            <field name="employee_code">BTL-04041995</field>
+            <field name="date_of_birth">1995-04-04</field>
+            <field name="gender">female</field>
+            <field name="phone">0934567892</field>
+            <field name="work_email">lanbt1995@dnu.edu.vn</field>
+            <field name="personal_email">buithilan.marketing@gmail.com</field>
+            <field name="identification_number">001199500890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_marketing"/>
+            <field name="job_position">content_writer</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=5)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">13000000</field>
+            <field name="manager_id" ref="nhan_su_dtn"/>
+            <field name="permanent_address">Số 234 Hoàng Văn Thụ, Phường 4, Quận Tân Bình, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- ==================== NHÂN VIÊN FINANCE (3 người) ==================== -->
+        
+        <record id="nhan_su_ptl" model="nhan.su">
+            <field name="name">Phạm Thị Loan</field>
+            <field name="employee_code">PTL-30111998</field>
+            <field name="date_of_birth">1998-11-30</field>
+            <field name="gender">female</field>
+            <field name="phone">0990123457</field>
+            <field name="work_email">loanpt1998@dnu.edu.vn</field>
+            <field name="personal_email">phamthiloan.accountant@gmail.com</field>
+            <field name="identification_number">001199800123</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_finance"/>
+            <field name="job_position">accountant</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=2, months=4)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">17000000</field>
+            <field name="permanent_address">Số 156 Nguyễn Thị Minh Khai, Phường 6, Quận 3, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- ==================== BỔ SUNG THÊM NHÂN VIÊN ĐỂ ĐỦ 30 NGƯỜI ==================== -->
+        
+        <!-- IT: Thêm 2 người -->
+        <record id="nhan_su_ntq" model="nhan.su">
+            <field name="name">Nguyễn Văn Quang</field>
+            <field name="employee_code">NVQ-07081999</field>
+            <field name="date_of_birth">1999-08-07</field>
+            <field name="gender">male</field>
+            <field name="phone">0967890124</field>
+            <field name="work_email">quangnv1999@dnu.edu.vn</field>
+            <field name="personal_email">nguyenvanquang.dev@gmail.com</field>
+            <field name="identification_number">001199900567</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">backend_dev</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=4)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11500000</field>
+            <field name="manager_id" ref="nhan_su_ntla"/>
+            <field name="permanent_address">Số 321 Nguyễn Văn Cừ, Phường 2, Quận 5, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_tth" model="nhan.su">
+            <field name="name">Trần Thị Hoa</field>
+            <field name="employee_code">TTH-22031997</field>
+            <field name="date_of_birth">1997-03-22</field>
+            <field name="gender">female</field>
+            <field name="phone">0978901235</field>
+            <field name="work_email">hoatt1997@dnu.edu.vn</field>
+            <field name="personal_email">tranthihoa.design@gmail.com</field>
+            <field name="identification_number">001199700890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_it"/>
+            <field name="job_position">ui_designer</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=1)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">13500000</field>
+            <field name="manager_id" ref="nhan_su_ptm"/>
+            <field name="permanent_address">Số 567 Lê Đức Thọ, Phường 15, Quận Gò Vấp, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- Sales: Thêm 4 người -->
+        <record id="nhan_su_ldm" model="nhan.su">
+            <field name="name">Lê Đức Minh</field>
+            <field name="employee_code">LDM-16051995</field>
+            <field name="date_of_birth">1995-05-16</field>
+            <field name="gender">male</field>
+            <field name="phone">0989012346</field>
+            <field name="work_email">minhld1995@dnu.edu.vn</field>
+            <field name="personal_email">leducminh.sales@gmail.com</field>
+            <field name="identification_number">001199500456</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">senior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=3, months=1)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">16500000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 123 Nguyễn Văn Linh, Phường Tân Thuận Đông, Quận 7, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_vvd" model="nhan.su">
+            <field name="name">Võ Văn Đạt</field>
+            <field name="employee_code">VVD-14061996</field>
+            <field name="date_of_birth">1996-06-14</field>
+            <field name="gender">male</field>
+            <field name="phone">0901234568</field>
+            <field name="work_email">datvv1996@dnu.edu.vn</field>
+            <field name="personal_email">vovandat.sales@gmail.com</field>
+            <field name="identification_number">001199600567</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=11)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14200000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 789 Hoàng Diệu, Phường 12, Quận 4, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_ptv" model="nhan.su">
+            <field name="name">Phan Văn Tài</field>
+            <field name="employee_code">PVT-18121998</field>
+            <field name="date_of_birth">1998-12-18</field>
+            <field name="gender">male</field>
+            <field name="phone">0945678903</field>
+            <field name="work_email">taipv1998@dnu.edu.vn</field>
+            <field name="personal_email">phanvantai.sales@gmail.com</field>
+            <field name="identification_number">001199800456</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11800000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 456 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_htt" model="nhan.su">
+            <field name="name">Hoàng Thị Tuyết</field>
+            <field name="employee_code">HTT2-09091997</field>
+            <field name="date_of_birth">1997-09-09</field>
+            <field name="gender">female</field>
+            <field name="phone">0956789015</field>
+            <field name="work_email">tuyetht1997@dnu.edu.vn</field>
+            <field name="personal_email">hoangthituyet.sales@gmail.com</field>
+            <field name="identification_number">001199700234</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_sales"/>
+            <field name="job_position">sales</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11500000</field>
+            <field name="manager_id" ref="nhan_su_vth"/>
+            <field name="permanent_address">Số 234 Lê Văn Sỹ, Phường 13, Quận Phú Nhuận, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- HR: Thêm 2 người -->
+        <record id="nhan_su_ntl" model="nhan.su">
+            <field name="name">Nguyễn Thị Linh</field>
+            <field name="employee_code">NTL-14111998</field>
+            <field name="date_of_birth">1998-11-14</field>
+            <field name="gender">female</field>
+            <field name="phone">0912345671</field>
+            <field name="work_email">linhnt1998@dnu.edu.vn</field>
+            <field name="personal_email">nguyenthilinh.hr@gmail.com</field>
+            <field name="identification_number">001199800567</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_hr"/>
+            <field name="job_position">hr_staff</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=9)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">13200000</field>
+            <field name="manager_id" ref="nhan_su_bth"/>
+            <field name="permanent_address">Số 678 Nguyễn Oanh, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_pvd" model="nhan.su">
+            <field name="name">Phan Văn Dũng</field>
+            <field name="employee_code">PVD-26011999</field>
+            <field name="date_of_birth">1999-01-26</field>
+            <field name="gender">male</field>
+            <field name="phone">0967890125</field>
+            <field name="work_email">dungpv1999@dnu.edu.vn</field>
+            <field name="personal_email">phanvandung.hr@gmail.com</field>
+            <field name="identification_number">001199900567</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_hr"/>
+            <field name="job_position">hr_staff</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=7)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">10800000</field>
+            <field name="manager_id" ref="nhan_su_bth"/>
+            <field name="permanent_address">Số 890 Phạm Văn Đồng, Phường 3, Quận Gò Vấp, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- Marketing: Thêm 2 người -->
+        <record id="nhan_su_htm" model="nhan.su">
+            <field name="name">Hoàng Thị Mai</field>
+            <field name="employee_code">HTM-10071997</field>
+            <field name="date_of_birth">1997-07-10</field>
+            <field name="gender">female</field>
+            <field name="phone">0978901236</field>
+            <field name="work_email">maiht1997@dnu.edu.vn</field>
+            <field name="personal_email">hoangthimai.marketing@gmail.com</field>
+            <field name="identification_number">001199700234</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_marketing"/>
+            <field name="job_position">marketing</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=10)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">12500000</field>
+            <field name="manager_id" ref="nhan_su_dtn"/>
+            <field name="permanent_address">Số 345 Trường Chinh, Phường 13, Quận Tân Bình, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_nvh" model="nhan.su">
+            <field name="name">Ngô Văn Huy</field>
+            <field name="employee_code">NVH-23091995</field>
+            <field name="date_of_birth">1995-09-23</field>
+            <field name="gender">male</field>
+            <field name="phone">0989012347</field>
+            <field name="work_email">huynv1995@dnu.edu.vn</field>
+            <field name="personal_email">ngovanhuy.marketing@gmail.com</field>
+            <field name="identification_number">001199500789</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_marketing"/>
+            <field name="job_position">marketing</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">11200000</field>
+            <field name="manager_id" ref="nhan_su_dtn"/>
+            <field name="permanent_address">Số 567 Cộng Hòa, Phường 13, Quận Tân Bình, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- Finance: Thêm 2 người -->
+        <record id="nhan_su_ttt" model="nhan.su">
+            <field name="name">Trịnh Thị Thảo</field>
+            <field name="employee_code">TTT-17031998</field>
+            <field name="date_of_birth">1998-03-17</field>
+            <field name="gender">female</field>
+            <field name="phone">0990123458</field>
+            <field name="work_email">thaott1998@dnu.edu.vn</field>
+            <field name="personal_email">trinhthithao.accountant@gmail.com</field>
+            <field name="identification_number">001199800890</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_finance"/>
+            <field name="job_position">accountant</field>
+            <field name="job_level">middle</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(years=1, months=2)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">14500000</field>
+            <field name="manager_id" ref="nhan_su_ptl"/>
+            <field name="permanent_address">Số 123 Nguyễn Văn Trỗi, Phường 11, Quận Phú Nhuận, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <record id="nhan_su_lvt" model="nhan.su">
+            <field name="name">Lê Văn Tuấn</field>
+            <field name="employee_code">LVT-05081996</field>
+            <field name="date_of_birth">1996-08-05</field>
+            <field name="gender">male</field>
+            <field name="phone">0901234569</field>
+            <field name="work_email">tuanlv1996@dnu.edu.vn</field>
+            <field name="personal_email">levantuan.accountant@gmail.com</field>
+            <field name="identification_number">001199600345</field>
+            <field name="identification_type">cccd</field>
+            <field name="department_id" ref="phong_ban_finance"/>
+            <field name="job_position">accountant</field>
+            <field name="job_level">junior</field>
+            <field name="employment_type">fulltime</field>
+            <field name="working_status">working</field>
+            <field name="join_date" eval="(DateTime.now() - relativedelta(months=8)).strftime('%Y-%m-%d')"/>
+            <field name="base_salary">12000000</field>
+            <field name="manager_id" ref="nhan_su_ptl"/>
+            <field name="permanent_address">Số 789 Hoàng Hoa Thám, Phường 12, Quận Tân Bình, TP. Hồ Chí Minh</field>
+            <field name="permanent_city" ref="base.state_vn_50"/>
+        </record>
+        
+        <!-- Gán manager cho các phòng ban -->
+        <record id="phong_ban_it" model="phong.ban">
+            <field name="manager_id" ref="nhan_su_tmd"/>
+        </record>
+        
+        <record id="phong_ban_sales" model="phong.ban">
+            <field name="manager_id" ref="nhan_su_vth"/>
+        </record>
+        
+        <record id="phong_ban_hr" model="phong.ban">
+            <field name="manager_id" ref="nhan_su_bth"/>
+        </record>
+        
+    </data>
+</odoo>

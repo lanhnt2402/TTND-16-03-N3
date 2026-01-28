@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Graph View: Biểu đồ hiệu suất nhân viên -->
+        <record id="view_employee_performance_ai_graph" model="ir.ui.view">
+            <field name="name">employee.performance.ai.graph</field>
+            <field name="model">employee.performance.ai</field>
+            <field name="arch" type="xml">
+                <graph string="Biểu đồ hiệu suất nhân viên" type="line" stacked="0">
+                    <field name="evaluation_date" type="row"/>
+                    <field name="overall_score" type="measure"/>
+                    <field name="completion_score" type="measure"/>
+                    <field name="quality_score" type="measure"/>
+                    <field name="deadline_score" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Tree View: Lịch sử đánh giá -->
+        <record id="view_employee_performance_ai_tree" model="ir.ui.view">
+            <field name="name">employee.performance.ai.tree</field>
+            <field name="model">employee.performance.ai</field>
+            <field name="arch" type="xml">
+                <tree string="Lịch sử đánh giá AI">
+                    <field name="evaluation_date"/>
+                    <field name="overall_score" widget="progressbar"/>
+                    <field name="performance_level" widget="badge"/>
+                    <field name="completion_score"/>
+                    <field name="quality_score"/>
+                    <field name="deadline_score"/>
+                    <field name="total_tasks"/>
+                    <field name="completed_tasks"/>
+                    <field name="completion_rate" widget="percentage"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View: Chi tiết đánh giá -->
+        <record id="view_employee_performance_ai_form" model="ir.ui.view">
+            <field name="name">employee.performance.ai.form</field>
+            <field name="model">employee.performance.ai</field>
+            <field name="arch" type="xml">
+                <form string="Chi tiết đánh giá AI">
+                    <header>
+                        <field name="performance_level" widget="statusbar" statusbar_visible="poor,below_average,average,good,excellent,outstanding"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="evaluation_date" readonly="1"/>
+                                <field name="overall_score" widget="progressbar" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="completion_score" readonly="1"/>
+                                <field name="quality_score" readonly="1"/>
+                                <field name="deadline_score" readonly="1"/>
+                                <field name="efficiency_score" readonly="1"/>
+                                <field name="growth_score" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="total_tasks" readonly="1"/>
+                                <field name="completed_tasks" readonly="1"/>
+                                <field name="overdue_tasks" readonly="1"/>
+                                <field name="completion_rate" widget="percentage" readonly="1"/>
+                                <field name="average_quality" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Phân tích">
+                                <field name="detailed_analysis" readonly="1" nolabel="1"/>
+                            </page>
+                            <page string="Điểm mạnh">
+                                <field name="strengths" readonly="1" nolabel="1"/>
+                            </page>
+                            <page string="Cần cải thiện">
+                                <field name="improvements" readonly="1" nolabel="1"/>
+                            </page>
+                            <page string="Khuyến nghị">
+                                <field name="recommendations" readonly="1" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action: Xem lịch sử đánh giá -->
+        <record id="action_employee_performance_ai" model="ir.actions.act_window">
+            <field name="name">Lịch sử đánh giá AI</field>
+            <field name="res_model">employee.performance.ai</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="context">{'search_default_employee_id': active_id}</field>
+            <field name="domain">[('employee_id', '=', active_id)]</field>
+        </record>
+
+    </data>
+</odoo>
+

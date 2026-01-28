@@ -84,8 +84,15 @@ def transfer_node_to_modifiers(node, modifiers, context=None):
     # Need the context to evaluate the invisible attribute on tree views.
     # For non-tree views, the context shouldn't be given.
     if node.get('attrs'):
+
         attrs = node.get('attrs').strip()
-        modifiers.update(ast.literal_eval(attrs))
+
+        try:
+            modifiers.update(ast.literal_eval(attrs))
+        except ValueError:
+            _logger.error("MALFORMED ATTRS FOUND: %r in node %r", attrs, etree.tostring(node))
+            # Suppress error to allow view loading
+            pass
 
     if node.get('states'):
         if 'invisible' in modifiers and isinstance(modifiers['invisible'], list):

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- ============================================================ -->
+    <!-- Wizard Đánh Giá Báo Cáo AI (Cho Supervisor) -->
+    <!-- ============================================================ -->
+    
+    <record id="view_task_report_evaluation_wizard_form" model="ir.ui.view">
+        <field name="name">task.report.evaluation.wizard.form</field>
+        <field name="model">task.report.evaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="🤖 Đánh Giá Báo Cáo Bằng AI">
+                <header>
+                    <button name="action_evaluate_with_ai" 
+                            string="🤖 Đánh Giá Bằng AI" 
+                            type="object" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('evaluation_done', '=', True)]}"/>
+                    <button name="action_save_and_apply" 
+                            string="✅ Lưu &amp; Áp Dụng" 
+                            type="object" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('evaluation_done', '=', False)]}"/>
+                    <button string="Hủy" special="cancel"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="task_name" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="📋 Yêu Cầu Ban Đầu">
+                            <field name="task_requirement" readonly="1" nolabel="1"/>
+                        </group>
+                    </group>
+                    
+                    <field name="evaluation_done" invisible="1"/>
+                    
+                    <notebook>
+                        <page string="📝 Báo Cáo Kết Quả" name="report">
+                            <group>
+                                <group>
+                                    <field name="result_note" nolabel="1" 
+                                           placeholder="Mô tả chi tiết công việc đã làm..."/>
+                                </group>
+                            </group>
+                            
+                            <group>
+                                <group string="📎 File Báo Cáo">
+                                    <field name="result_file_ids" nolabel="1" widget="many2many_binary"/>
+                                </group>
+                                <group string="⏱️ Thời Gian">
+                                    <field name="actual_hours"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="🤖 Kết Quả Đánh Giá AI" name="evaluation" 
+                              attrs="{'invisible': [('evaluation_done', '=', False)]}">
+                            <group>
+                                <group string="📊 Điểm Số">
+                                    <field name="ai_overall_completion" widget="percentage"/>
+                                    <field name="ai_grade" widget="badge"/>
+                                </group>
+                            </group>
+                            
+                            <group>
+                                <group string="✅ Đã Hoàn Thành">
+                                    <field name="ai_completed_items" nolabel="1"/>
+                                </group>
+                                <group string="❌ Chưa Hoàn Thành">
+                                    <field name="ai_incomplete_items" nolabel="1"/>
+                                </group>
+                            </group>
+                            
+                            <group>
+                                <group string="⭐ Làm Vượt Mức">
+                                    <field name="ai_exceeded_items" nolabel="1"/>
+                                </group>
+                            </group>
+                            
+                            <group>
+                                <group string="📝 Phân Tích Chi Tiết">
+                                    <field name="ai_detailed_analysis" nolabel="1"/>
+                                </group>
+                                <group string="💡 Khuyến Nghị">
+                                    <field name="ai_recommendations" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_task_report_evaluation_wizard" model="ir.actions.act_window">
+        <field name="name">🤖 Đánh Giá Báo Cáo AI</field>
+        <field name="res_model">task.report.evaluation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_cong_viec"/>
+        <field name="binding_view_types">form</field>
+    </record>
+    
+    
+    <!-- ============================================================ -->
+    <!-- Wizard Nộp Báo Cáo (Cho Nhân Viên) -->
+    <!-- ============================================================ -->
+    
+    <record id="view_task_submit_report_wizard_form" model="ir.ui.view">
+        <field name="name">task.submit.report.wizard.form</field>
+        <field name="model">task.submit.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="📤 Nộp Báo Cáo Công Việc">
+                <header>
+                    <button name="action_submit_report" 
+                            string="📤 Nộp Báo Cáo" 
+                            type="object" 
+                            class="oe_highlight"/>
+                    <button string="Hủy" special="cancel"/>
+                </header>
+                
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <strong>💡 Hướng dẫn:</strong> Hãy mô tả chi tiết những gì bạn đã làm, 
+                        kết quả đạt được, và các vấn đề gặp phải (nếu có). 
+                        Đính kèm file báo cáo để người giám sát có thể đánh giá chính xác hơn.
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="task_id" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="📝 Báo Cáo Kết Quả">
+                            <field name="result_note" nolabel="1" 
+                                   placeholder="Mô tả chi tiết công việc đã làm: &#10;&#10;1. Những gì đã hoàn thành:&#10;   - ...&#10;&#10;2. Kết quả đạt được:&#10;   - ...&#10;&#10;3. Vấn đề gặp phải (nếu có):&#10;   - ..."/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="📎 File Kết Quả">
+                            <field name="result_file_ids" nolabel="1" widget="many2many_binary"/>
+                            <p class="text-muted">
+                                <i class="fa fa-info-circle"/> Hỗ trợ: Word, PDF, Excel, ZIP, hình ảnh, v.v.
+                            </p>
+                        </group>
+                        <group string="⏱️ Thời Gian">
+                            <field name="actual_hours" widget="float_time"/>
+                            <p class="text-muted">
+                                <i class="fa fa-clock-o"/> Tổng số giờ thực tế đã làm
+                            </p>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group>
+                            <field name="submit_for_review"/>
+                            <p class="text-muted" attrs="{'invisible': [('submit_for_review', '=', False)]}">
+                                <i class="fa fa-check"/> Công việc sẽ chuyển sang trạng thái "Chờ duyệt"
+                            </p>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_task_submit_report_wizard" model="ir.actions.act_window">
+        <field name="name">📤 Nộp Báo Cáo</field>
+        <field name="res_model">task.submit.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_cong_viec"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+</odoo>

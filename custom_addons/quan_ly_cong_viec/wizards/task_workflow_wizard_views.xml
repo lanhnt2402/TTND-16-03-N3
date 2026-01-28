@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Wizard: Bắt đầu công việc -->
+        <record id="view_task_start_wizard_form" model="ir.ui.view">
+            <field name="name">task.start.wizard.form</field>
+            <field name="model">task.start.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Bắt đầu công việc">
+                    <sheet>
+                        <group>
+                            <field name="task_id" readonly="1"/>
+                            <field name="estimated_completion_date"/>
+                        </group>
+                        <group>
+                            <field name="start_note" placeholder="Mô tả kế hoạch thực hiện, phương pháp tiếp cận (tùy chọn)"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận bắt đầu" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard: Gửi duyệt -->
+        <record id="view_task_submit_review_wizard_form" model="ir.ui.view">
+            <field name="name">task.submit.review.wizard.form</field>
+            <field name="model">task.submit.review.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Gửi duyệt công việc">
+                    <sheet>
+                        <group>
+                            <field name="task_id" readonly="1"/>
+                            <field name="actual_hours"/>
+                        </group>
+                        <group>
+                            <field name="result_note" required="1" placeholder="Mô tả chi tiết kết quả đã làm, những gì đã hoàn thành..."/>
+                        </group>
+                        <group>
+                            <field name="result_file_ids" widget="many2many_binary" required="1" 
+                                   placeholder="BẮT BUỘC: Upload file kết quả (Báo cáo, Code, Thiết kế, v.v.)"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận gửi duyệt" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard: Duyệt công việc -->
+        <record id="view_task_approve_wizard_form" model="ir.ui.view">
+            <field name="name">task.approve.wizard.form</field>
+            <field name="model">task.approve.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Duyệt công việc">
+                    <sheet>
+                        <group>
+                            <field name="task_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="approval_note" placeholder="Đánh giá chất lượng công việc, ghi chú khi duyệt (tùy chọn)"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận duyệt" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

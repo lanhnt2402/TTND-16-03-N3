@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Tree View -->
+        <record id="view_khach_hang_tag_tree" model="ir.ui.view">
+            <field name="name">khach.hang.tag.tree</field>
+            <field name="model">khach.hang.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Nhãn khách hàng" editable="bottom">
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record id="view_khach_hang_tag_form" model="ir.ui.view">
+            <field name="name">khach.hang.tag.form</field>
+            <field name="model">khach.hang.tag</field>
+            <field name="arch" type="xml">
+                <form string="Nhãn khách hàng">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Mô tả nhãn..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_khach_hang_tag" model="ir.actions.act_window">
+            <field name="name">Nhãn khách hàng</field>
+            <field name="res_model">khach.hang.tag</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ==================== EMAIL TEMPLATES THEO YÊU CẦU ==================== -->
+        
+        <!-- 2. Email Template: GIAO CÔNG VIỆC -->
+        <record id="email_template_task_assigned" model="mail.template">
+            <field name="name">[TASK] Giao công việc</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">[TASK] Bạn được giao công việc: ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.assigned_employee_id.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">📋 GIAO CÔNG VIỆC</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Ai gửi? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #667eea;">👤 Ai gửi:</strong>
+                                <p style="margin: 5px 0 0 0;">${user.name} (Quản lý / Người giao việc)</p>
+                            </div>
+                            
+                            <!-- Gửi cho ai? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #667eea;">📧 Gửi cho:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.assigned_employee_id.name}</p>
+                            </div>
+                            
+                            <!-- Gửi vì việc gì? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #e7f3ff; border-left: 4px solid #667eea; border-radius: 8px;">
+                                <strong style="color: #667eea;">📌 Gửi vì việc gì:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 16px;">
+                                    <strong>Đây là công việc bạn phải làm</strong>
+                                </p>
+                            </div>
+                            
+                            <!-- Thông tin công việc -->
+                            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #667eea;">
+                                <h3 style="color: #667eea; margin-top: 0;">📋 Thông tin công việc:</h3>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 8px 0; width: 40%;"><strong>Tên công việc:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #667eea;">${object.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mã công việc:</strong></td>
+                                        <td style="padding: 8px 0;">${object.task_code}</td>
+                                    </tr>
+                                    % if object.customer_id:
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Khách hàng:</strong></td>
+                                        <td style="padding: 8px 0;">${object.customer_id.display_name}</td>
+                                    </tr>
+                                    % endif
+                                    % if object.supervisor_id:
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Người giám sát:</strong></td>
+                                        <td style="padding: 8px 0;">${object.supervisor_id.name}</td>
+                                    </tr>
+                                    % endif
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Deadline:</strong></td>
+                                        <td style="padding: 8px 0; color: #dc3545; font-weight: bold;">
+                                            ${format_datetime(object.deadline, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm') if object.deadline else 'Chưa xác định'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Độ ưu tiên:</strong></td>
+                                        <td style="padding: 8px 0;">
+                                            <span style="background-color: ${'#dc3545' if object.priority == '3' else '#ffc107' if object.priority == '2' else '#28a745'}; padding: 4px 12px; border-radius: 4px; color: white; font-weight: bold;">
+                                                ${dict(object._fields['priority'].selection).get(object.priority, 'N/A')}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Thời gian ước lượng:</strong></td>
+                                        <td style="padding: 8px 0;">${object.estimated_hours} giờ</td>
+                                    </tr>
+                                </table>
+                                
+                                <h4 style="color: #667eea; margin-top: 20px;">📝 Yêu cầu công việc:</h4>
+                                <div style="background-color: white; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                                    ${object.requirement or 'Không có mô tả chi tiết'}
+                                </div>
+                                
+                                % if object.acceptance_criteria:
+                                <h4 style="color: #667eea; margin-top: 15px;">✅ Tiêu chí nghiệm thu:</h4>
+                                <div style="background-color: white; padding: 15px; border-radius: 5px; white-space: pre-line; margin-top: 10px;">
+                                    ${object.acceptance_criteria}
+                                </div>
+                                % endif
+                            </div>
+                            
+                            <!-- Cần làm gì? -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #fff3cd; border-radius: 8px;">
+                                <strong style="color: #856404; font-size: 16px;">✅ Cần bạn làm gì:</strong>
+                                <ol style="margin: 10px 0; padding-left: 20px; color: #856404;">
+                                    <li>Xem chi tiết công việc và yêu cầu</li>
+                                    <li>Bắt đầu thực hiện công việc</li>
+                                    <li>Cập nhật tiến độ thường xuyên</li>
+                                    <li>Gửi duyệt khi hoàn thành</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Link truy cập nhanh -->
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #667eea; color: white; padding: 14px 35px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">
+                                    🔗 Mở công việc trong Odoo
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin-top: 30px; text-align: center;">
+                                Email này được gửi tự động từ hệ thống Odoo<br/>
+                                Vui lòng không trả lời email này
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Nhắc nhở deadline -->
+        <record id="email_template_deadline_reminder" model="mail.template">
+            <field name="name">Công việc: Nhắc nhở deadline</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">⏰ Nhắc nhở: ${object.name} sắp đến deadline</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.assigned_employee_id.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 30px; border-left: 5px solid #ffc107;">
+                            <h2 style="color: #ffc107; margin-top: 0;">⏰ Nhắc nhở Deadline</h2>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Xin chào <strong>${object.assigned_employee_id.name}</strong>,
+                            </p>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Công việc <strong>"${object.name}"</strong> sắp đến deadline. Vui lòng kiểm tra và hoàn thành đúng hạn.
+                            </p>
+                            
+                            <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã công việc:</strong> ${object.task_code}</li>
+                                    <li style="padding: 8px 0;"><strong>Trạng thái:</strong> ${dict(object._fields['state'].selection).get(object.state, 'N/A')}</li>
+                                    <li style="padding: 8px 0;"><strong>Tiến độ:</strong> ${object.progress}%</li>
+                                    <li style="padding: 8px 0; color: #dc3545; font-size: 18px;"><strong>⏰ Deadline:</strong> ${format_datetime(object.deadline, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm') if object.deadline else 'N/A'}</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #ffc107; color: #212529; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
+                                    Cập nhật công việc ngay
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- 3. Email Template: GỬI DUYỆT CÔNG VIỆC -->
+        <record id="email_template_task_submit_review" model="mail.template">
+            <field name="name">[TASK] Yêu cầu duyệt công việc</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">[TASK] Yêu cầu duyệt: ${object.name}</field>
+            <field name="email_from">${object.assigned_employee_id.work_email|safe}</field>
+            <field name="email_to">${object.supervisor_id.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">⏳ YÊU CẦU DUYỆT CÔNG VIỆC</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Ai gửi? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #ffc107;">👤 Ai gửi:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.assigned_employee_id.name} (Nhân viên thực hiện)</p>
+                            </div>
+                            
+                            <!-- Gửi cho ai? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #ffc107;">📧 Gửi cho:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.supervisor_id.name} (Người giám sát)</p>
+                            </div>
+                            
+                            <!-- Gửi vì việc gì? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 8px;">
+                                <strong style="color: #856404;">📌 Gửi vì việc gì:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 16px;">
+                                    <strong>Nhân viên đã làm xong – cần anh/chị duyệt</strong>
+                                </p>
+                            </div>
+                            
+                            <!-- Thông tin công việc -->
+                            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #ffc107;">
+                                <h3 style="color: #ffc107; margin-top: 0;">📋 Thông tin công việc:</h3>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 8px 0; width: 40%;"><strong>Tên công việc:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #ffc107;">${object.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mã công việc:</strong></td>
+                                        <td style="padding: 8px 0;">${object.task_code}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Người thực hiện:</strong></td>
+                                        <td style="padding: 8px 0;">${object.assigned_employee_id.name}</td>
+                                    </tr>
+                                    % if object.customer_id:
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Khách hàng:</strong></td>
+                                        <td style="padding: 8px 0;">${object.customer_id.display_name}</td>
+                                    </tr>
+                                    % endif
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Tiến độ:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #28a745;">${object.progress}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Giờ thực tế:</strong></td>
+                                        <td style="padding: 8px 0;">${object.actual_hours} giờ</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Thời gian gửi:</strong></td>
+                                        <td style="padding: 8px 0;">${format_datetime(object.write_date, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm')}</td>
+                                    </tr>
+                                </table>
+                                
+                                <h4 style="color: #ffc107; margin-top: 20px;">📝 Kết quả đã làm:</h4>
+                                <div style="background-color: white; padding: 15px; border-radius: 5px; margin-top: 10px; max-height: 300px; overflow-y: auto;">
+                                    ${object.result_note or 'Chưa có kết quả'}
+                                </div>
+                            </div>
+                            
+                            <!-- Cần làm gì? -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #fff3cd; border-radius: 8px;">
+                                <strong style="color: #856404; font-size: 16px;">✅ Cần bạn làm gì:</strong>
+                                <ol style="margin: 10px 0; padding-left: 20px; color: #856404;">
+                                    <li>Xem kết quả công việc đã làm</li>
+                                    <li>Kiểm tra đáp ứng yêu cầu</li>
+                                    <li>Duyệt hoặc từ chối công việc</li>
+                                    <li>Ghi chú phản hồi (nếu từ chối)</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Link duyệt nhanh -->
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #ffc107; color: #212529; padding: 14px 35px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">
+                                    🔗 Duyệt công việc ngay
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin-top: 30px; text-align: center;">
+                                Email này được gửi tự động từ hệ thống Odoo<br/>
+                                Vui lòng không trả lời email này
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.supervisor_id.lang if object.supervisor_id else 'en_US'}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- 4. Email Template: PHÊ DUYỆT CÔNG VIỆC -->
+        <record id="email_template_task_approved" model="mail.template">
+            <field name="name">[TASK] Công việc đã được duyệt</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">[TASK] Công việc đã được duyệt: ${object.name}</field>
+            <field name="email_from">${object.supervisor_id.work_email|safe}</field>
+            <field name="email_to">${object.assigned_employee_id.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">✅ CÔNG VIỆC ĐÃ ĐƯỢC DUYỆT</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Ai gửi? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #28a745;">👤 Ai gửi:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.supervisor_id.name} (Người giám sát)</p>
+                            </div>
+                            
+                            <!-- Gửi cho ai? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #28a745;">📧 Gửi cho:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.assigned_employee_id.name} (Nhân viên thực hiện)</p>
+                            </div>
+                            
+                            <!-- Gửi vì việc gì? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #d4edda; border-left: 4px solid #28a745; border-radius: 8px;">
+                                <strong style="color: #155724;">📌 Gửi vì việc gì:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 16px;">
+                                    <strong>Công việc đã được duyệt và hoàn thành</strong>
+                                </p>
+                            </div>
+                            
+                            <!-- Thông tin công việc -->
+                            <div style="background-color: #d4edda; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #28a745;">
+                                <h3 style="color: #28a745; margin-top: 0;">✅ Công việc đã hoàn thành:</h3>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 8px 0; width: 40%;"><strong>Tên công việc:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #28a745;">${object.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mã công việc:</strong></td>
+                                        <td style="padding: 8px 0;">${object.task_code}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Trạng thái:</strong></td>
+                                        <td style="padding: 8px 0;">
+                                            <span style="background-color: #28a745; padding: 4px 12px; border-radius: 4px; color: white; font-weight: bold;">
+                                                Hoàn thành
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Ngày hoàn thành:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold;">
+                                            ${format_datetime(object.completed_date, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm') if object.completed_date else 'N/A'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Thời gian duyệt:</strong></td>
+                                        <td style="padding: 8px 0;">${format_datetime(object.write_date, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Người duyệt:</strong></td>
+                                        <td style="padding: 8px 0;">${object.supervisor_id.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Tiến độ:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #28a745; font-size: 18px;">100%</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <!-- Cần làm gì? -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #d4edda; border-radius: 8px;">
+                                <strong style="color: #155724; font-size: 16px;">✅ Thông báo:</strong>
+                                <p style="margin: 10px 0 0 0; color: #155724; font-size: 16px;">
+                                    Công việc đã được ghi nhận hoàn thành. Cảm ơn bạn đã hoàn thành tốt công việc!
+                                </p>
+                            </div>
+                            
+                            <!-- Link xem chi tiết -->
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #28a745; color: white; padding: 14px 35px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">
+                                    🔗 Xem chi tiết công việc
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin-top: 30px; text-align: center;">
+                                Email này được gửi tự động từ hệ thống Odoo<br/>
+                                Vui lòng không trả lời email này
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_id.lang if object.assigned_employee_id else 'en_US'}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- 5. Email Template: TỪ CHỐI CÔNG VIỆC -->
+        <record id="email_template_task_rejected" model="mail.template">
+            <field name="name">[TASK] Công việc cần chỉnh sửa</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">[TASK] Công việc cần chỉnh sửa: ${object.name}</field>
+            <field name="email_from">${object.supervisor_id.work_email|safe}</field>
+            <field name="email_to">${object.assigned_employee_id.work_email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">❌ CÔNG VIỆC CẦN CHỈNH SỬA</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Ai gửi? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #dc3545;">👤 Ai gửi:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.supervisor_id.name} (Người giám sát)</p>
+                            </div>
+                            
+                            <!-- Gửi cho ai? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #dc3545;">📧 Gửi cho:</strong>
+                                <p style="margin: 5px 0 0 0;">${object.assigned_employee_id.name} (Nhân viên thực hiện)</p>
+                            </div>
+                            
+                            <!-- Gửi vì việc gì? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8d7da; border-left: 4px solid #dc3545; border-radius: 8px;">
+                                <strong style="color: #721c24;">📌 Gửi vì việc gì:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 16px;">
+                                    <strong>Công việc chưa đạt – cần làm lại</strong>
+                                </p>
+                            </div>
+                            
+                            <!-- Thông tin công việc -->
+                            <div style="background-color: #f8d7da; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #dc3545;">
+                                <h3 style="color: #dc3545; margin-top: 0;">📋 Thông tin công việc:</h3>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 8px 0; width: 40%;"><strong>Tên công việc:</strong></td>
+                                        <td style="padding: 8px 0; font-weight: bold; color: #dc3545;">${object.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mã công việc:</strong></td>
+                                        <td style="padding: 8px 0;">${object.task_code}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Trạng thái:</strong></td>
+                                        <td style="padding: 8px 0;">
+                                            <span style="background-color: #ffc107; padding: 4px 12px; border-radius: 4px; color: #212529; font-weight: bold;">
+                                                Đang thực hiện (cần chỉnh sửa)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Người từ chối:</strong></td>
+                                        <td style="padding: 8px 0;">${object.supervisor_id.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Thời gian:</strong></td>
+                                        <td style="padding: 8px 0;">${format_datetime(object.write_date, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm')}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <!-- Lý do từ chối & Yêu cầu chỉnh sửa -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                                <strong style="color: #856404; font-size: 16px;">⚠️ Lý do từ chối:</strong>
+                                <p style="margin: 10px 0 0 0; color: #856404; white-space: pre-line;">
+                                    % if object.message_ids:
+                                    ${object.message_ids[0].body if object.message_ids else 'Vui lòng xem chi tiết yêu cầu chỉnh sửa trong phần Ghi chú/Chatter'}
+                                    % else
+                                    Vui lòng xem chi tiết yêu cầu chỉnh sửa trong phần Ghi chú/Chatter
+                                    % endif
+                                </p>
+                            </div>
+                            
+                            <!-- Cần làm gì? -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #f8d7da; border-radius: 8px;">
+                                <strong style="color: #721c24; font-size: 16px;">✅ Cần bạn làm gì:</strong>
+                                <ol style="margin: 10px 0; padding-left: 20px; color: #721c24;">
+                                    <li>Xem lại yêu cầu và phản hồi từ người giám sát</li>
+                                    <li>Chỉnh sửa kết quả công việc theo yêu cầu</li>
+                                    <li>Gửi lại duyệt sau khi hoàn thành chỉnh sửa</li>
+                                    <li>Kiểm tra phần Ghi chú/Chatter để xem chi tiết</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Link chỉnh sửa -->
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #dc3545; color: white; padding: 14px 35px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">
+                                    🔗 Chỉnh sửa công việc ngay
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin-top: 30px; text-align: center;">
+                                Email này được gửi tự động từ hệ thống Odoo<br/>
+                                Vui lòng không trả lời email này
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_id.lang if object.assigned_employee_id else 'en_US'}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Công việc hoàn thành (Legacy - giữ lại để tương thích) -->
+        <record id="email_template_task_completed" model="mail.template">
+            <field name="name">Công việc: Hoàn thành</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="subject">✅ Công việc hoàn thành: ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${(object.supervisor_id.work_email if object.supervisor_id else object.assigned_employee_id.manager_id.work_email if object.assigned_employee_id.manager_id else user.email)|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 40px;">
+                            <h2 style="color: #28a745; margin-top: 0;">✅ Công việc đã hoàn thành!</h2>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Nhân viên <strong>${object.assigned_employee_id.name}</strong> đã hoàn thành công việc.
+                            </p>
+                            
+                            <div style="background-color: #d4edda; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #28a745;">
+                                <h3 style="color: #28a745; margin-top: 0;">${object.name}</h3>
+                                
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã công việc:</strong> ${object.task_code}</li>
+                                    <li style="padding: 8px 0;"><strong>Nhân viên:</strong> ${object.assigned_employee_id.name}</li>
+                                    <li style="padding: 8px 0;"><strong>Ngày hoàn thành:</strong> ${format_datetime(object.completed_date, tz='Asia/Ho_Chi_Minh', dt_format='dd/MM/yyyy HH:mm') if object.completed_date else 'N/A'}</li>
+                                    <li style="padding: 8px 0;"><strong>Thời gian thực tế:</strong> ${object.actual_hours} giờ (Ước lượng: ${object.estimated_hours} giờ)</li>
+                                    % if object.ai_quality_score:
+                                    <li style="padding: 8px 0;"><strong>Điểm chất lượng AI:</strong> 
+                                        <span style="color: ${'#28a745' if object.ai_quality_score >= 75 else '#ffc107' if object.ai_quality_score >= 60 else '#dc3545'}; font-size: 18px; font-weight: bold;">
+                                            ${f'{object.ai_quality_score:.1f}' if object.ai_quality_score else '0.0'}/100
+                                        </span>
+                                    </li>
+                                    % endif
+                                </ul>
+                                
+                                % if object.result_note:
+                                <h4 style="color: #28a745;">📝 Kết quả báo cáo:</h4>
+                                <div style="background-color: white; padding: 15px; border-radius: 5px;">
+                                    ${object.result_note}
+                                </div>
+                                % endif
+                            </div>
+                            
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=cong.viec" 
+                                   style="background-color: #28a745; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Xem chi tiết &amp; Duyệt
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Root Menu -->
+        <menuitem id="menu_quan_ly_khach_hang_root"
+                  name="Quản Lý Khách Hàng"
+                  sequence="20"
+                  web_icon="quan_ly_khach_hang,static/description/icon.png"/>
+        
+        <!-- Khách hàng Menu -->
+        <menuitem id="menu_khach_hang"
+                  name="Khách hàng"
+                  parent="menu_quan_ly_khach_hang_root"
+                  action="action_khach_hang"
+                  sequence="10"/>
+        
+        <!-- Tương tác Menu -->
+        <menuitem id="menu_khach_hang_interaction"
+                  name="Tương tác với khách hàng"
+                  parent="menu_quan_ly_khach_hang_root"
+                  action="action_khach_hang_interaction"
+                  sequence="15"/>
+        
+        <!-- Pipeline Menu -->
+        <menuitem id="menu_pipeline"
+                  name="Pipeline"
+                  parent="menu_quan_ly_khach_hang_root"
+                  sequence="20"/>
+        
+        <menuitem id="menu_khach_hang_lead"
+                  name="Leads"
+                  parent="menu_pipeline"
+                  action="action_khach_hang"
+                  sequence="10"/>
+        
+        <!-- Báo cáo Menu -->
+        <menuitem id="menu_bao_cao_khach_hang"
+                  name="Báo cáo"
+                  parent="menu_quan_ly_khach_hang_root"
+                  sequence="30"/>
+        
+        <!-- Cấu hình Menu -->
+        <menuitem id="menu_cau_hinh_khach_hang"
+                  name="Cấu hình"
+                  parent="menu_quan_ly_khach_hang_root"
+                  sequence="40"
+                  groups="quan_ly_nhan_su.group_nhan_su_admin"/>
+        
+        <menuitem id="menu_khach_hang_tag"
+                  name="Nhãn khách hàng"
+                  parent="menu_cau_hinh_khach_hang"
+                  action="action_khach_hang_tag"
+                  sequence="10"/>
+        
+    </data>
+</odoo>

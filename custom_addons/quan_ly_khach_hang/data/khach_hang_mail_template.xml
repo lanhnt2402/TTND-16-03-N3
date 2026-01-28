@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Email Template: Chào mừng khách hàng mới -->
+        <record id="email_template_welcome_customer" model="mail.template">
+            <field name="name">Khách hàng: Chào mừng</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="subject">Chào mừng ${object.display_name} - Cảm ơn bạn đã quan tâm!</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <tr>
+                        <td style="padding: 40px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0;">🤝 Chào mừng!</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Kính gửi <strong>${object.display_name}</strong>,
+                            </p>
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Cảm ơn bạn đã quan tâm đến dịch vụ của <strong>${object.company_id.name}</strong>. 
+                                Chúng tôi rất vui mừng được đồng hành cùng bạn!
+                            </p>
+                            
+                            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <h3 style="color: #667eea; margin-top: 0;">👤 Thông tin liên hệ:</h3>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã khách hàng:</strong> ${object.customer_code}</li>
+                                    % if object.primary_employee_id:
+                                    <li style="padding: 8px 0;"><strong>Nhân viên phụ trách:</strong> ${object.primary_employee_id.name}</li>
+                                    <li style="padding: 8px 0;"><strong>Email:</strong> ${object.primary_employee_id.work_email or 'N/A'}</li>
+                                    <li style="padding: 8px 0;"><strong>Điện thoại:</strong> ${object.primary_employee_id.phone or 'N/A'}</li>
+                                    % endif
+                                </ul>
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi. 
+                                Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7.
+                            </p>
+                            
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="${object.website or object.company_id.website or '#'}" 
+                                   style="background-color: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Tìm hiểu thêm về chúng tôi
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                                Trân trọng,<br/>
+                                <strong>Đội ngũ ${object.company_id.name}</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 10px 10px;">
+                            <p style="color: #6c757d; font-size: 12px; margin: 0;">
+                                © ${object.company_id.name} - Giải pháp CNTT và Chuyển đổi số
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Cảnh báo nguy cơ mất khách -->
+        <record id="email_template_churn_risk_alert" model="mail.template">
+            <field name="name">Khách hàng: Cảnh báo nguy cơ mất</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="subject">🚨 Cảnh báo: ${object.display_name} có nguy cơ mất cao</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${','.join([emp.work_email for emp in object.assigned_employee_ids if emp.work_email])}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 30px; border-left: 5px solid #dc3545;">
+                            <h2 style="color: #dc3545; margin-top: 0;">🚨 Cảnh báo nguy cơ mất khách hàng</h2>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Khách hàng <strong>${object.display_name}</strong> có nguy cơ mất cao. Cần hành động ngay!
+                            </p>
+                            
+                            <div style="background-color: #f8d7da; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 8px 0;"><strong>Mã khách hàng:</strong> ${object.customer_code}</li>
+                                    <li style="padding: 8px 0;"><strong>Loại:</strong> ${dict(object._fields['customer_type'].selection).get(object.customer_type, 'N/A')}</li>
+                                    <li style="padding: 8px 0;"><strong>Trạng thái:</strong> ${dict(object._fields['status'].selection).get(object.status, 'N/A')}</li>
+                                    <li style="padding: 8px 0; color: #dc3545; font-size: 20px;">
+                                        <strong>🚨 Nguy cơ mất:</strong> ${f'{object.churn_risk:.0f}' if object.churn_risk else '0'}%
+                                    </li>
+                                    <li style="padding: 8px 0;"><strong>AI Score:</strong> ${f'{object.ai_score:.1f}' if object.ai_score else '0.0'}/100</li>
+                                    <li style="padding: 8px 0;"><strong>Số ngày chưa liên hệ:</strong> ${object.days_since_last_contact} ngày</li>
+                                </ul>
+                                
+                                % if object.ai_recommendations:
+                                <h4 style="color: #dc3545;">💡 Khuyến nghị từ AI:</h4>
+                                <div style="background-color: white; padding: 15px; border-radius: 5px; white-space: pre-line;">
+                                    ${object.ai_recommendations}
+                                </div>
+                                % endif
+                            </div>
+                            
+                            <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                                <strong>⚡ Hành động cần làm ngay:</strong>
+                                <ol style="margin: 10px 0; padding-left: 20px;">
+                                    <li>Liên hệ ngay với khách hàng</li>
+                                    <li>Tìm hiểu vấn đề và nhu cầu</li>
+                                    <li>Đề xuất giải pháp phù hợp</li>
+                                    <li>Cập nhật thông tin vào hệ thống</li>
+                                </ol>
+                            </div>
+                            
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=khach.hang" 
+                                   style="background-color: #dc3545; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Xem chi tiết khách hàng
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        <!-- Email Template: Chúc mừng chuyển đổi thành công -->
+        <record id="email_template_customer_activated" model="mail.template">
+            <field name="name">Khách hàng: Chúc mừng kích hoạt</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="subject">🎉 Chúc mừng ${object.display_name} - Hợp tác thành công!</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px;">
+                    <tr>
+                        <td style="padding: 40px; text-align: center; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0;">🎉 Chúc mừng!</h1>
+                            <p style="color: white; font-size: 18px; margin: 10px 0 0 0;">Chúng ta chính thức hợp tác!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Kính gửi <strong>${object.display_name}</strong>,
+                            </p>
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Chúng tôi rất vui mừng thông báo rằng hợp tác giữa <strong>${object.company_id.name}</strong> 
+                                và <strong>${object.display_name}</strong> đã chính thức được kích hoạt! 🎊
+                            </p>
+                            
+                            <div style="background-color: #d4edda; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 10px;">🤝</div>
+                                <h3 style="color: #28a745; margin: 0;">Chào mừng đến với gia đình ${object.company_id.name}!</h3>
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6;">
+                                Chúng tôi cam kết mang đến cho bạn:
+                            </p>
+                            <ul style="font-size: 16px; line-height: 1.8;">
+                                <li>✅ Dịch vụ chất lượng cao nhất</li>
+                                <li>✅ Hỗ trợ tận tâm 24/7</li>
+                                <li>✅ Giải pháp công nghệ tiên tiến</li>
+                                <li>✅ Đội ngũ chuyên gia giàu kinh nghiệm</li>
+                            </ul>
+                            
+                            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                <h3 style="color: #667eea; margin-top: 0;">📞 Thông tin liên hệ:</h3>
+                                % if object.primary_employee_id:
+                                <p style="margin: 5px 0;"><strong>Nhân viên phụ trách:</strong> ${object.primary_employee_id.name}</p>
+                                <p style="margin: 5px 0;"><strong>Email:</strong> ${object.primary_employee_id.work_email or 'N/A'}</p>
+                                <p style="margin: 5px 0;"><strong>Điện thoại:</strong> ${object.primary_employee_id.phone or 'N/A'}</p>
+                                % endif
+                            </div>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                                Cảm ơn bạn đã tin tưởng và lựa chọn chúng tôi. Chúng tôi mong muốn được đồng hành 
+                                cùng bạn trên con đường phát triển!
+                            </p>
+                            
+                            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                                Trân trọng,<br/>
+                                <strong>Ban lãnh đạo ${object.company_id.name}</strong>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+        
+        <!-- ==================== EMAIL TEMPLATES THEO YÊU CẦU ==================== -->
+        
+        <!-- 1. Email Template: GIAO KHÁCH HÀNG -->
+        <record id="email_template_assign_customer" model="mail.template">
+            <field name="name">[CRM] Giao khách hàng</field>
+            <field name="model_id" ref="model_khach_hang"/>
+            <field name="subject">[CRM] Bạn được phân công phụ trách khách hàng: ${object.display_name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${','.join([emp.work_email for emp in object.assigned_employee_ids if emp.work_email and emp.user_id])}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px 10px 0 0;">
+                            <h1 style="color: white; margin: 0; font-size: 24px;">📋 GIAO KHÁCH HÀNG</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Ai gửi? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #667eea;">👤 Ai gửi:</strong>
+                                <p style="margin: 5px 0 0 0;">Hệ thống (đại diện ${user.name})</p>
+                            </div>
+                            
+                            <!-- Gửi cho ai? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <strong style="color: #667eea;">📧 Gửi cho:</strong>
+                                <p style="margin: 5px 0 0 0;">
+                                    % for emp in object.assigned_employee_ids:
+                                    ${emp.name}${',' if not loop.last else ''}
+                                    % endfor
+                                </p>
+                            </div>
+                            
+                            <!-- Gửi vì việc gì? -->
+                            <div style="margin-bottom: 20px; padding: 15px; background-color: #e7f3ff; border-left: 4px solid #667eea; border-radius: 8px;">
+                                <strong style="color: #667eea;">📌 Gửi vì việc gì:</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 16px;">
+                                    <strong>Bạn chính thức chịu trách nhiệm khách hàng này</strong>
+                                </p>
+                            </div>
+                            
+                            <!-- Thông tin khách hàng -->
+                            <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 5px solid #667eea;">
+                                <h3 style="color: #667eea; margin-top: 0;">📋 Thông tin khách hàng:</h3>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 8px 0; width: 40%;"><strong>Tên khách hàng:</strong></td>
+                                        <td style="padding: 8px 0;">${object.display_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mã khách hàng:</strong></td>
+                                        <td style="padding: 8px 0;">${object.customer_code}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Trạng thái hiện tại:</strong></td>
+                                        <td style="padding: 8px 0;">
+                                            <span style="background-color: #e7f3ff; padding: 4px 12px; border-radius: 4px; color: #667eea; font-weight: bold;">
+                                                ${dict(object._fields['status'].selection).get(object.status, 'N/A')}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Mức độ tiềm năng:</strong></td>
+                                        <td style="padding: 8px 0;">
+                                            <span style="background-color: ${'#fff3cd' if object.level == 'warm' else '#d4edda' if object.level == 'hot' else '#f8d7da'}; padding: 4px 12px; border-radius: 4px;">
+                                                ${dict(object._fields['level'].selection).get(object.level, 'N/A')}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Vai trò của bạn:</strong></td>
+                                        <td style="padding: 8px 0; color: #28a745; font-weight: bold;">Nhân viên phụ trách chính</td>
+                                    </tr>
+                                    % if object.phone:
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Điện thoại:</strong></td>
+                                        <td style="padding: 8px 0;">${object.phone}</td>
+                                    </tr>
+                                    % endif
+                                    % if object.email:
+                                    <tr>
+                                        <td style="padding: 8px 0;"><strong>Email:</strong></td>
+                                        <td style="padding: 8px 0;">${object.email}</td>
+                                    </tr>
+                                    % endif
+                                </table>
+                            </div>
+                            
+                            <!-- Cần làm gì? -->
+                            <div style="margin-bottom: 20px; padding: 20px; background-color: #fff3cd; border-radius: 8px;">
+                                <strong style="color: #856404; font-size: 16px;">✅ Cần bạn làm gì:</strong>
+                                <ol style="margin: 10px 0; padding-left: 20px; color: #856404;">
+                                    <li>Xem thông tin chi tiết khách hàng</li>
+                                    <li>Bắt đầu chăm sóc và liên hệ với khách hàng</li>
+                                    <li>Tạo tương tác (gọi điện, gửi email, hẹn gặp)</li>
+                                    <li>Cập nhật tiến trình trong hệ thống</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Link truy cập nhanh -->
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="/web#id=${object.id}&amp;view_type=form&amp;model=khach.hang" 
+                                   style="background-color: #667eea; color: white; padding: 14px 35px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; font-size: 16px;">
+                                    🔗 Mở khách hàng trong Odoo
+                                </a>
+                            </div>
+                            
+                            <p style="font-size: 14px; color: #6c757d; line-height: 1.6; margin-top: 30px; text-align: center;">
+                                Email này được gửi tự động từ hệ thống Odoo<br/>
+                                Vui lòng không trả lời email này
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="lang">${object.assigned_employee_ids[0].lang if object.assigned_employee_ids else 'en_US'}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

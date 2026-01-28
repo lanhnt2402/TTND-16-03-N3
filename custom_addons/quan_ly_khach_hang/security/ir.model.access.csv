@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_khach_hang_employee,khach.hang.employee,model_khach_hang,quan_ly_nhan_su.group_nhan_su_employee,1,1,0,0
+access_khach_hang_manager,khach.hang.manager,model_khach_hang,quan_ly_nhan_su.group_nhan_su_manager,1,1,1,0
+access_khach_hang_officer,khach.hang.officer,model_khach_hang,quan_ly_nhan_su.group_nhan_su_officer,1,1,1,0
+access_khach_hang_admin,khach.hang.admin,model_khach_hang,quan_ly_nhan_su.group_nhan_su_admin,1,1,1,1
+access_khach_hang_tag_all,khach.hang.tag.all,model_khach_hang_tag,quan_ly_nhan_su.group_nhan_su_employee,1,1,1,1
+access_khach_hang_interaction_employee,khach.hang.interaction.employee,model_khach_hang_interaction,quan_ly_nhan_su.group_nhan_su_employee,1,1,1,0
+access_khach_hang_interaction_manager,khach.hang.interaction.manager,model_khach_hang_interaction,quan_ly_nhan_su.group_nhan_su_manager,1,1,1,1
+access_khach_hang_interaction_officer,khach.hang.interaction.officer,model_khach_hang_interaction,quan_ly_nhan_su.group_nhan_su_officer,1,1,1,1
+access_khach_hang_interaction_admin,khach.hang.interaction.admin,model_khach_hang_interaction,quan_ly_nhan_su.group_nhan_su_admin,1,1,1,1
+access_customer_contacted_wizard_all,customer.contacted.wizard.all,model_customer_contacted_wizard,,1,1,1,0
+access_customer_qualified_wizard_all,customer.qualified.wizard.all,model_customer_qualified_wizard,,1,1,1,0
+access_customer_proposal_wizard_all,customer.proposal.wizard.all,model_customer_proposal_wizard,,1,1,1,0
+access_customer_negotiation_wizard_all,customer.negotiation.wizard.all,model_customer_negotiation_wizard,,1,1,1,0

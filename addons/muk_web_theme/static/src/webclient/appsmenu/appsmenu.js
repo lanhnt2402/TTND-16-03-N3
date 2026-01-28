@@ -41,7 +41,12 @@ export class AppsMenu extends Dropdown {
     	} else {
     		this.backgroundImageUrl = '/muk_web_theme/static/img/background.png';
     	}
-    	this.env.bus.on("ACTION_MANAGER:UI-UPDATED", this, ev => this.close());
+    	this.env.bus.on("ACTION_MANAGER:UI-UPDATED", this, ev => {
+            // Check if the component is still mounted before closing
+            if (this.el && this.el.parentElement && this.state.open) {
+                this.close();
+            }
+        });
     }
 }
 

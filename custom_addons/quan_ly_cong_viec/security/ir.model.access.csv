@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cong_viec_employee,cong.viec.employee,model_cong_viec,quan_ly_nhan_su.group_nhan_su_employee,1,1,0,0
+access_cong_viec_manager,cong.viec.manager,model_cong_viec,quan_ly_nhan_su.group_nhan_su_manager,1,1,1,0
+access_cong_viec_officer,cong.viec.officer,model_cong_viec,quan_ly_nhan_su.group_nhan_su_officer,1,1,1,0
+access_cong_viec_admin,cong.viec.admin,model_cong_viec,quan_ly_nhan_su.group_nhan_su_admin,1,1,1,1
+access_cong_viec_tag_all,cong.viec.tag.all,model_cong_viec_tag,,1,1,1,1
+access_task_start_wizard_all,task.start.wizard.all,model_task_start_wizard,,1,1,1,0
+access_task_submit_review_wizard_all,task.submit.review.wizard.all,model_task_submit_review_wizard,,1,1,1,0
+access_task_approve_wizard_all,task.approve.wizard.all,model_task_approve_wizard,,1,1,1,0
+access_task_assignment_wizard_all,task.assignment.wizard.all,model_task_assignment_wizard,,1,1,1,0
+access_bulk_task_update_wizard_all,bulk.task.update.wizard.all,model_bulk_task_update_wizard,,1,1,1,0
+access_task_report_evaluation_wizard_all,task.report.evaluation.wizard.all,model_task_report_evaluation_wizard,,1,1,1,0
+access_task_submit_report_wizard_all,task.submit.report.wizard.all,model_task_submit_report_wizard,,1,1,1,0
+access_ai_task_service_all,ai.task.service.all,model_ai_task_service,,1,0,0,0

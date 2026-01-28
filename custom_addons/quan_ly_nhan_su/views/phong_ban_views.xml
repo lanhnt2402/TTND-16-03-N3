@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Tree View -->
+        <record id="view_phong_ban_tree" model="ir.ui.view">
+            <field name="name">phong.ban.tree</field>
+            <field name="model">phong.ban</field>
+            <field name="arch" type="xml">
+                <tree string="Phòng ban" sample="1">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="complete_name"/>
+                    <field name="parent_id"/>
+                    <field name="manager_id"/>
+                    <field name="employee_count"/>
+                    <field name="working_employee_count"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record id="view_phong_ban_form" model="ir.ui.view">
+            <field name="name">phong.ban.form</field>
+            <field name="model">phong.ban</field>
+            <field name="arch" type="xml">
+                <form string="Phòng ban">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_employees" type="object"
+                                    class="oe_stat_button" icon="fa-users">
+                                <field name="employee_count" widget="statinfo" string="Nhân viên"/>
+                            </button>
+                            <button name="action_view_child_departments" type="object"
+                                    class="oe_stat_button" icon="fa-sitemap"
+                                    attrs="{'invisible': [('child_count', '=', 0)]}">
+                                <field name="child_count" widget="statinfo" string="Phòng ban con"/>
+                            </button>
+                        </div>
+                        
+                        <widget name="web_ribbon" title="Đã lưu trữ" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Tên phòng ban"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Thông tin cơ bản">
+                                <field name="code"/>
+                                <field name="parent_id"/>
+                                <field name="sequence"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                            <group string="Quản lý">
+                                <field name="manager_id" options="{'no_create': True}"/>
+                                <field name="manager_email" readonly="1"/>
+                                <field name="manager_phone" readonly="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Mô tả" name="description">
+                                <field name="description" placeholder="Mô tả chức năng, nhiệm vụ của phòng ban..."/>
+                            </page>
+                            
+                            <page string="Nhân viên" name="employees">
+                                <field name="employee_ids" readonly="1">
+                                    <tree>
+                                        <field name="employee_code"/>
+                                        <field name="name"/>
+                                        <field name="job_position"/>
+                                        <field name="job_level"/>
+                                        <field name="working_status" widget="badge"
+                                               decoration-success="working_status=='working'"
+                                               decoration-warning="working_status=='probation'"/>
+                                        <field name="phone"/>
+                                        <field name="work_email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Phòng ban con" name="children"
+                                  attrs="{'invisible': [('child_count', '=', 0)]}">
+                                <field name="child_ids" readonly="1">
+                                    <tree>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="manager_id"/>
+                                        <field name="employee_count"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            <page string="Ghi chú" name="note">
+                                <field name="note" placeholder="Ghi chú nội bộ..."/>
+                            </page>
+                        </notebook>
+                        
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </sheet>
+                    
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Kanban View -->
+        <record id="view_phong_ban_kanban" model="ir.ui.view">
+            <field name="name">phong.ban.kanban</field>
+            <field name="model">phong.ban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="id"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="manager_id"/>
+                    <field name="employee_count"/>
+                    <field name="working_employee_count"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="code"/> - <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> Trưởng phòng: 
+                                            <field name="manager_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <span class="badge badge-pill badge-info">
+                                                <i class="fa fa-users"/> <field name="employee_count"/> nhân viên
+                                            </span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="badge badge-pill badge-success">
+                                                <i class="fa fa-check"/> <field name="working_employee_count"/> đang làm
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Search View -->
+        <record id="view_phong_ban_search" model="ir.ui.view">
+            <field name="name">phong.ban.search</field>
+            <field name="model">phong.ban</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm phòng ban">
+                    <field name="name" string="Phòng ban"
+                           filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                    <field name="manager_id"/>
+                    <field name="parent_id"/>
+                    
+                    <filter string="Có trưởng phòng" name="has_manager"
+                            domain="[('manager_id', '!=', False)]"/>
+                    <filter string="Chưa có trưởng phòng" name="no_manager"
+                            domain="[('manager_id', '=', False)]"/>
+                    
+                    <separator/>
+                    <filter string="Đã lưu trữ" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Phòng ban cấp trên" name="group_parent"
+                                context="{'group_by': 'parent_id'}"/>
+                        <filter string="Trưởng phòng" name="group_manager"
+                                context="{'group_by': 'manager_id'}"/>
+                        <filter string="Công ty" name="group_company"
+                                context="{'group_by': 'company_id'}"
+                                groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_phong_ban" model="ir.actions.act_window">
+            <field name="name">Phòng ban</field>
+            <field name="res_model">phong.ban</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="view_phong_ban_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tạo phòng ban mới
+                </p>
+                <p>
+                    Quản lý cấu trúc tổ chức công ty với các phòng ban và bộ phận.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

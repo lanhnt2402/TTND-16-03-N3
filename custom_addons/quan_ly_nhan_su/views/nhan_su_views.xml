@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Tree View -->
+        <record id="view_nhan_su_tree" model="ir.ui.view">
+            <field name="name">nhan.su.tree</field>
+            <field name="model">nhan.su</field>
+            <field name="arch" type="xml">
+                <tree string="Nhân viên" sample="1"
+                      decoration-success="working_status=='working'"
+                      decoration-warning="working_status=='probation'"
+                      decoration-danger="working_status in ['resigned','terminated']"
+                      decoration-muted="working_status=='retired'">
+                    <field name="employee_code"/>
+                    <field name="avatar" widget="image" options="{'size': [40, 40]}"/>
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="job_position"/>
+                    <field name="job_level"/>
+                    <field name="manager_id"/>
+                    <field name="working_status" widget="badge"
+                           decoration-success="working_status=='working'"
+                           decoration-warning="working_status=='probation'"/>
+                    <field name="ai_performance_score" widget="progressbar"
+                           decoration-danger="ai_performance_score &lt; 60"
+                           decoration-warning="ai_performance_score &lt; 75"
+                           decoration-success="ai_performance_score &gt;= 75"/>
+                    <field name="ai_performance_level" optional="hide"/>
+                    <field name="join_date"/>
+                    <field name="phone"/>
+                    <field name="work_email"/>
+                    <field name="base_salary" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record id="view_nhan_su_form" model="ir.ui.view">
+            <field name="name">nhan.su.form</field>
+            <field name="model">nhan.su</field>
+            <field name="arch" type="xml">
+                <form string="Nhân viên">
+                    <header>
+                        <button name="action_set_working" string="Chuyển Đang làm việc"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('working_status', 'not in', ['draft', 'probation'])]}"/>
+                        <button name="action_resign" string="Nghỉ việc"
+                                type="object"
+                                confirm="Bạn có chắc chắn muốn xử lý nghỉ việc cho nhân viên này?"
+                                attrs="{'invisible': [('working_status', 'not in', ['working', 'on_leave'])]}"/>
+                        <button name="action_ai_evaluate_detailed" string="🤖 Đánh giá AI chi tiết"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('total_tasks', '=', 0)]}"/>
+                        <button name="action_evaluate_performance" string="Đánh giá hiệu suất"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('working_status', '!=', 'working')]}"/>
+                        <field name="working_status" widget="statusbar"
+                               statusbar_visible="draft,probation,working"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_tasks" type="object"
+                                    class="oe_stat_button" icon="fa-tasks">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="total_tasks"/>
+                                    </span>
+                                    <span class="o_stat_text">Công việc</span>
+                                </div>
+                            </button>
+                            <button name="action_view_performance_history" type="object"
+                                    class="oe_stat_button" icon="fa-line-chart">
+                                <field name="performance_history_count" widget="statinfo" string="Đánh giá"/>
+                            </button>
+                        </div>
+                        
+                        <widget name="web_ribbon" title="Đã nghỉ việc" bg_color="bg-danger"
+                                attrs="{'invisible': [('working_status', 'not in', ['resigned', 'retired', 'terminated'])]}"/>
+                        
+                        <field name="avatar" widget="image" class="oe_avatar"
+                               options="{'size': [150, 150]}"/>
+                        
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Họ và tên nhân viên"/>
+                            </h1>
+                            <h3>
+                                <field name="job_position" placeholder="Vị trí công việc"/>
+                                <span> - </span>
+                                <field name="department_id" placeholder="Phòng ban"/>
+                            </h3>
+                        </div>
+                        
+                        <group>
+                            <group string="Thông tin cơ bản">
+                                <field name="employee_code" readonly="1"/>
+                                <field name="gender"/>
+                                <field name="date_of_birth"/>
+                                <field name="age"/>
+                                <field name="retirement_age_check" widget="boolean_toggle"/>
+                            </group>
+                            <group string="Liên hệ">
+                                <field name="phone" widget="phone"/>
+                                <field name="work_email" widget="email"/>
+                                <field name="personal_email" widget="email"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <!-- Tab 1: Thông tin cá nhân -->
+                            <page string="Thông tin cá nhân" name="personal_info">
+                                <group>
+                                    <group string="Định danh">
+                                        <field name="identification_type"/>
+                                        <field name="identification_number"/>
+                                        <field name="identification_issue_date"/>
+                                        <field name="identification_issue_place"/>
+                                        <field name="identification_expiry_date"/>
+                                    </group>
+                                    <group string="Gia đình">
+                                        <field name="nationality"/>
+                                        <field name="place_of_birth"/>
+                                        <field name="marital_status"/>
+                                        <field name="number_of_dependents"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="Địa chỉ">
+                                    <group>
+                                        <label for="permanent_address" string="Địa chỉ thường trú"/>
+                                        <div class="o_address_format">
+                                            <field name="permanent_address" placeholder="Địa chỉ cụ thể"/>
+                                            <field name="permanent_city" placeholder="Tỉnh/Thành phố"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <label for="temporary_address" string="Địa chỉ tạm trú"/>
+                                        <div class="o_address_format">
+                                            <field name="temporary_address" placeholder="Địa chỉ cụ thể"/>
+                                            <field name="temporary_city" placeholder="Tỉnh/Thành phố"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                
+                                <group string="Liên hệ khẩn cấp">
+                                    <field name="emergency_contact_name"/>
+                                    <field name="emergency_contact_relationship"/>
+                                    <field name="emergency_contact_phone" widget="phone"/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 2: Thông tin công việc -->
+                            <page string="Thông tin công việc" name="work_info">
+                                <group>
+                                    <group string="Công việc hiện tại">
+                                        <field name="department_id"/>
+                                        <field name="job_position"/>
+                                        <field name="job_level"/>
+                                        <field name="manager_id"
+                                               domain="[('id', '!=', id), ('working_status', '=', 'working')]"/>
+                                        <field name="work_location"/>
+                                    </group>
+                                    <group string="Hình thức làm việc">
+                                        <field name="employment_type"/>
+                                        <field name="working_type"/>
+                                        <field name="join_date"/>
+                                    </group>
+                                </group>
+                                
+                                <group>
+                                    <group string="Thời gian thử việc">
+                                        <field name="probation_start_date"/>
+                                        <field name="probation_end_date"/>
+                                        <field name="probation_duration" widget="integer"/>
+                                    </group>
+                                    <group string="Hợp đồng lao động">
+                                        <field name="contract_type"/>
+                                        <field name="contract_number"/>
+                                        <field name="contract_start_date"/>
+                                        <field name="contract_end_date"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="Trạng thái &amp; Nghỉ việc"
+                                       attrs="{'invisible': [('working_status', 'not in', ['resigned', 'terminated'])]}">
+                                    <field name="resignation_date"/>
+                                    <field name="resignation_reason"/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 3: Lương & Phúc lợi -->
+                            <page string="Lương &amp; Phúc lợi" name="salary_benefits"
+                                  groups="quan_ly_nhan_su.group_nhan_su_officer">
+                                <group>
+                                    <group string="Lương cơ bản">
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="base_salary" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <group string="Phụ cấp">
+                                        <field name="position_allowance" widget="monetary"/>
+                                        <field name="housing_allowance" widget="monetary"/>
+                                        <field name="transportation_allowance" widget="monetary"/>
+                                        <field name="phone_allowance" widget="monetary"/>
+                                        <field name="meal_allowance" widget="monetary"/>
+                                        <field name="other_allowance" widget="monetary"/>
+                                    </group>
+                                </group>
+                                
+                                <group>
+                                    <group string="Tổng hợp">
+                                        <field name="total_allowance" widget="monetary" readonly="1"/>
+                                        <field name="gross_salary" widget="monetary" readonly="1"/>
+                                        <field name="insurance_salary" widget="monetary" readonly="1"/>
+                                    </group>
+                                    <group string="Bảo hiểm">
+                                        <field name="social_insurance" widget="boolean_toggle"/>
+                                        <field name="health_insurance" widget="boolean_toggle"/>
+                                        <field name="unemployment_insurance" widget="boolean_toggle"/>
+                                        <field name="insurance_number"/>
+                                    </group>
+                                </group>
+                                
+                                <group>
+                                    <group string="Thuế TNCN">
+                                        <field name="tax_code"/>
+                                        <field name="number_of_dependents"/>
+                                    </group>
+                                    <group string="Ngân hàng">
+                                        <field name="bank_name"/>
+                                        <field name="bank_account_number"/>
+                                        <field name="bank_branch"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 4: Hệ thống -->
+                            <page string="Hệ thống &amp; Ghi chú" name="system">
+                                <group>
+                                    <group string="Tài khoản">
+                                        <field name="user_id" options="{'no_create': True}"/>
+                                        <field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="active" widget="boolean_toggle"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="Ghi chú">
+                                    <field name="note" nolabel="1" placeholder="Ghi chú nội bộ..."/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Kanban View -->
+        <record id="view_nhan_su_kanban" model="ir.ui.view">
+            <field name="name">nhan.su.kanban</field>
+            <field name="model">nhan.su</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="id"/>
+                    <field name="employee_code"/>
+                    <field name="name"/>
+                    <field name="avatar"/>
+                    <field name="department_id"/>
+                    <field name="job_position"/>
+                    <field name="job_level"/>
+                    <field name="working_status"/>
+                    <field name="ai_performance_score"/>
+                    <field name="phone"/>
+                    <field name="work_email"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image: url('#{kanban_image('nhan.su', 'avatar', record.id.raw_value)}')"/>
+                                
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                            <br/>
+                                            <span class="text-muted">
+                                                <field name="employee_code"/> - <field name="job_position"/>
+                                            </span>
+                                        </div>
+                                        <div class="o_kanban_record_top_right">
+                                            <field name="working_status" widget="label_selection"
+                                                   options="{'classes': {'working': 'success', 'probation': 'warning', 'resigned': 'danger'}}"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="o_kanban_record_body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <i class="fa fa-building-o"/> <field name="department_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <i class="fa fa-phone"/> <field name="phone"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <i class="fa fa-envelope-o"/> <field name="work_email"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <strong>AI Performance: </strong>
+                                                <field name="ai_performance_score" widget="progressbar"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Search View -->
+        <record id="view_nhan_su_search" model="ir.ui.view">
+            <field name="name">nhan.su.search</field>
+            <field name="model">nhan.su</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm nhân viên">
+                    <field name="name" string="Nhân viên"
+                           filter_domain="['|', '|', ('name', 'ilike', self), ('employee_code', 'ilike', self), ('work_email', 'ilike', self)]"/>
+                    <field name="department_id"/>
+                    <field name="manager_id"/>
+                    <field name="job_position"/>
+                    
+                    <filter string="Đang làm việc" name="working"
+                            domain="[('working_status', '=', 'working')]"/>
+                    <filter string="Đang thử việc" name="probation"
+                            domain="[('working_status', '=', 'probation')]"/>
+                    <filter string="Đã nghỉ việc" name="resigned"
+                            domain="[('working_status', 'in', ['resigned', 'retired', 'terminated'])]"/>
+                    
+                    <separator/>
+                    <filter string="Hiệu suất cao" name="high_performance"
+                            domain="[('ai_performance_score', '&gt;=', 75)]"/>
+                    <filter string="Cần cải thiện" name="need_improvement"
+                            domain="[('ai_performance_score', '&lt;', 60)]"/>
+                    
+                    <separator/>
+                    <filter string="Đủ tuổi nghỉ hưu" name="retirement_age"
+                            domain="[('retirement_age_check', '=', True)]"/>
+                    
+                    <separator/>
+                    <filter string="Đã lưu trữ" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Phòng ban" name="group_department"
+                                context="{'group_by': 'department_id'}"/>
+                        <filter string="Cấp bậc" name="group_level"
+                                context="{'group_by': 'job_level'}"/>
+                        <filter string="Trạng thái" name="group_status"
+                                context="{'group_by': 'working_status'}"/>
+                        <filter string="Quản lý" name="group_manager"
+                                context="{'group_by': 'manager_id'}"/>
+                        <filter string="Hình thức" name="group_employment"
+                                context="{'group_by': 'employment_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_nhan_su" model="ir.actions.act_window">
+            <field name="name">Nhân viên</field>
+            <field name="res_model">nhan.su</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_nhan_su_search"/>
+            <field name="context">{'search_default_working': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tạo hồ sơ nhân viên mới
+                </p>
+                <p>
+                    Quản lý toàn bộ thông tin nhân viên từ tuyển dụng đến nghỉ việc.
+                    Hệ thống tích hợp AI đánh giá hiệu suất tự động.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

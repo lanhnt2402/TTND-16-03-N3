@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Wizard: Đã liên hệ -->
+        <record id="view_customer_contacted_wizard_form" model="ir.ui.view">
+            <field name="name">customer.contacted.wizard.form</field>
+            <field name="model">customer.contacted.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Đã liên hệ với khách hàng">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="customer_id" readonly="1"/>
+                                <field name="contact_method" required="1"/>
+                                <field name="contact_date" required="1"/>
+                                <field name="duration"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="contact_note" required="1" placeholder="Mô tả chi tiết nội dung cuộc liên hệ, trao đổi với khách hàng..."/>
+                        </group>
+                        <group>
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận đã liên hệ" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_contacted_wizard" model="ir.actions.act_window">
+            <field name="name">Đã liên hệ với khách hàng</field>
+            <field name="res_model">customer.contacted.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Wizard: Đủ điều kiện -->
+        <record id="view_customer_qualified_wizard_form" model="ir.ui.view">
+            <field name="name">customer.qualified.wizard.form</field>
+            <field name="model">customer.qualified.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Đánh giá khách hàng đủ điều kiện">
+                    <sheet>
+                        <group>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="qualification_note" required="1" placeholder="Mô tả chi tiết lý do khách hàng đủ điều kiện: Có nhu cầu rõ ràng, Có khả năng chi trả, Có người quyết định..."/>
+                        </group>
+                        <group>
+                            <field name="expected_revenue"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận đủ điều kiện" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard: Gửi đề xuất -->
+        <record id="view_customer_proposal_wizard_form" model="ir.ui.view">
+            <field name="name">customer.proposal.wizard.form</field>
+            <field name="model">customer.proposal.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Gửi đề xuất cho khách hàng">
+                    <sheet>
+                        <group>
+                            <field name="customer_id" readonly="1"/>
+                            <field name="proposal_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="proposal_note" placeholder="Mô tả về đề xuất đã gửi (tùy chọn)"/>
+                        </group>
+                        <group>
+                            <field name="attachment_ids" widget="many2many_binary" required="1" 
+                                   placeholder="BẮT BUỘC: Upload file đề xuất (Báo giá, Phương án, Hợp đồng nháp) - PDF/Word/Excel"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận đã gửi đề xuất" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard: Đàm phán -->
+        <record id="view_customer_negotiation_wizard_form" model="ir.ui.view">
+            <field name="name">customer.negotiation.wizard.form</field>
+            <field name="model">customer.negotiation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Bắt đầu đàm phán">
+                    <sheet>
+                        <group>
+                            <field name="customer_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="negotiation_note" placeholder="Mô tả về quá trình đàm phán, các điểm đã thảo luận (tùy chọn)"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Xác nhận bắt đầu đàm phán" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

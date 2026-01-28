@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.6">
+  <diagram id="system-workflows" name="System Workflows">
+    <mxGraphModel dx="1226" dy="661" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="task_lane" parent="1" style="swimlane;childLayout=packLayout;horizontal=1;startSize=30;resizeParent=1;fontSize=20;" value="Quản lý công việc" vertex="1">
+          <mxGeometry height="210" width="430" x="630" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="task_draft" parent="task_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Nháp" vertex="1">
+          <mxGeometry height="50" width="100" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="task_todo" parent="task_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Cần làm" vertex="1">
+          <mxGeometry height="50" width="100" x="150" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="task_in_progress" parent="task_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Đang thực hiện" vertex="1">
+          <mxGeometry height="50" width="120" x="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e_task1" edge="1" parent="task_lane" source="task_draft" style="endArrow=block;html=1;fontSize=15;" target="task_todo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_task2" edge="1" parent="task_lane" source="task_todo" style="endArrow=block;html=1;fontSize=15;" target="task_in_progress">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="task_review" parent="task_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Chờ duyệt" vertex="1">
+          <mxGeometry height="50" width="100" x="290" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e_task3" edge="1" parent="task_lane" source="task_in_progress" style="endArrow=block;html=1;fontSize=15;" target="task_review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="task_done" parent="task_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" value="Hoàn thành" vertex="1">
+          <mxGeometry height="50" width="110" x="145" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e_task4" edge="1" parent="task_lane" source="task_review" style="endArrow=block;html=1;fontSize=15;" target="task_done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_lane" parent="1" style="swimlane;childLayout=packLayout;horizontal=1;startSize=30;resizeParent=1;fontSize=20;" value="AI - Đánh giá hiệu suất nhân viên" vertex="1">
+          <mxGeometry height="190" width="570" x="270" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_no_data" parent="ai_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Chưa có dữ liệu" vertex="1">
+          <mxGeometry height="50" width="140" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_basic" parent="ai_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Có thống kê công việc" vertex="1">
+          <mxGeometry height="50" width="170" x="190" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_scored" parent="ai_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" value="Đã có điểm AI" vertex="1">
+          <mxGeometry height="50" width="140" x="390" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ai_detailed" parent="ai_lane" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;" value="Đánh giá chi tiết &amp;amp; biểu đồ" vertex="1">
+          <mxGeometry height="60" width="200" x="360" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ai1" edge="1" parent="ai_lane" source="ai_no_data" style="endArrow=block;html=1;fontSize=15;" target="ai_basic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ai2" edge="1" parent="ai_lane" source="ai_basic" style="endArrow=block;html=1;fontSize=15;" target="ai_scored">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ai3" edge="1" parent="ai_lane" source="ai_scored" style="endArrow=block;html=1;fontSize=15;" target="ai_detailed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-12" parent="1" style="swimlane;childLayout=packLayout;horizontal=1;startSize=30;resizeParent=1;fontSize=20;" value="Quản lý khách hàng" vertex="1">
+          <mxGeometry height="290" width="590" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-7" edge="1" parent="ViRTbYE_mjJEF_tjEqvy-12" source="ViRTbYE_mjJEF_tjEqvy-1" style="endArrow=block;html=1;fontSize=13;" target="ViRTbYE_mjJEF_tjEqvy-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-8" edge="1" parent="ViRTbYE_mjJEF_tjEqvy-12" source="ViRTbYE_mjJEF_tjEqvy-2" style="endArrow=block;html=1;fontSize=13;" target="ViRTbYE_mjJEF_tjEqvy-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-9" edge="1" parent="ViRTbYE_mjJEF_tjEqvy-12" source="ViRTbYE_mjJEF_tjEqvy-3" style="endArrow=block;html=1;fontSize=13;" target="ViRTbYE_mjJEF_tjEqvy-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-10" edge="1" parent="ViRTbYE_mjJEF_tjEqvy-12" source="ViRTbYE_mjJEF_tjEqvy-4" style="endArrow=block;html=1;fontSize=13;" target="ViRTbYE_mjJEF_tjEqvy-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-11" edge="1" parent="ViRTbYE_mjJEF_tjEqvy-12" source="ViRTbYE_mjJEF_tjEqvy-5" style="endArrow=block;html=1;fontSize=13;" target="ViRTbYE_mjJEF_tjEqvy-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-1" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="Lead&#xa;(Tiềm năng ban đầu)" vertex="1">
+          <mxGeometry height="60" width="150" x="30" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-2" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="Đã liên hệ&#xa;(customer.contacted.wizard)" vertex="1">
+          <mxGeometry height="55" width="170" x="210" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-3" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="Đủ điều kiện&#xa;(customer.qualified.wizard)" vertex="1">
+          <mxGeometry height="60" width="160" x="400" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-4" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="Đã gửi đề xuất&#xa;(customer.proposal.wizard)" vertex="1">
+          <mxGeometry height="60" width="180" x="90" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-5" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="Đàm phán&#xa;(customer.negotiation.wizard)" vertex="1">
+          <mxGeometry height="60" width="180" x="290" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="ViRTbYE_mjJEF_tjEqvy-6" parent="ViRTbYE_mjJEF_tjEqvy-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="Khách hàng hoạt động&#xa;(button Set Active)" vertex="1">
+          <mxGeometry height="60" width="180" x="290" y="220" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

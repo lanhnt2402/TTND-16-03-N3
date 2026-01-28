@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Kanban View -->
+        <record id="view_cong_viec_kanban" model="ir.ui.view">
+            <field name="name">cong.viec.kanban</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" 
+                        class="o_kanban_small_column"
+                        sample="1"
+                        quick_create="false">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="assigned_employee_id"/>
+                    <field name="customer_id"/>
+                    <field name="priority"/>
+                    <field name="progress"/>
+                    <field name="deadline"/>
+                    <field name="is_overdue"/>
+                    <field name="activity_ids"/>
+                    <field name="activity_state"/>
+                    <field name="color"/>
+                    
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click">
+                                <!-- Overdue ribbon -->
+                                <div class="ribbon ribbon-top-right" t-if="record.is_overdue.raw_value">
+                                    <span class="bg-danger">Quá hạn</span>
+                                </div>
+                                
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <br/>
+                                        <span class="text-muted">
+                                            <field name="task_code"/>
+                                        </span>
+                                    </div>
+                                    <div class="o_kanban_record_top_right">
+                                        <field name="priority" widget="priority"/>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <i class="fa fa-user"/> <field name="assigned_employee_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" t-if="record.customer_id.raw_value">
+                                        <div class="col-12">
+                                            <i class="fa fa-building"/> <field name="customer_id"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <strong>Tiến độ: </strong>
+                                            <field name="progress" widget="progressbar"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <i class="fa fa-calendar"/> Deadline: <field name="deadline"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-12">
+                                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+        <!-- Tree View -->
+        <record id="view_cong_viec_tree" model="ir.ui.view">
+            <field name="name">cong.viec.tree</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <tree string="Công việc" sample="1">
+                    <field name="task_code"/>
+                    <field name="name"/>
+                    <field name="assigned_employee_id"/>
+                    <field name="customer_id" optional="hide"/>
+                    <field name="department_id" optional="hide"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="state" widget="badge"/>
+                    <field name="progress" widget="progressbar"/>
+                    <field name="start_date" optional="hide"/>
+                    <field name="deadline"/>
+                    <field name="is_overdue" invisible="1"/>
+                    <field name="days_overdue" optional="hide"/>
+                    <field name="ai_quality_score" optional="hide"/>
+                    <field name="estimated_hours" sum="Tổng giờ ước lượng" optional="hide"/>
+                    <field name="actual_hours" sum="Tổng giờ thực tế" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record id="view_cong_viec_form" model="ir.ui.view">
+            <field name="name">cong.viec.form</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <form string="Công việc">
+                    <header>
+                        <!-- Workflow Buttons -->
+                        <button name="action_start" string="Bắt đầu"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['draft', 'todo'])]}"/>
+                        <button name="action_submit_review" string="Gửi duyệt"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                        <button name="action_approve" string="Duyệt"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                        <button name="action_reject" string="Từ chối"
+                                type="object"
+                                attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                        
+                        <!-- AI Buttons -->
+                        <button name="action_ai_evaluate_report" string="🤖 Đánh giá AI"
+                                type="object" class="btn-info"
+                                attrs="{'invisible': [('state', 'not in', ['review', 'done'])]}"/>
+                        <button name="action_ai_detect_risks" string="⚠️ Phát hiện rủi ro"
+                                type="object" class="btn-warning"
+                                attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+                        <button name="action_ai_predict_duration" string="🔮 Dự đoán thời gian"
+                                type="object"
+                                attrs="{'invisible': [('state', 'not in', ['draft', 'todo'])]}"/>
+                        
+                        <button name="action_cancel" string="Hủy bỏ"
+                                type="object"
+                                confirm="Bạn có chắc chắn muốn hủy công việc này?"
+                                attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+                        <button name="action_reopen" string="Mở lại"
+                                type="object"
+                                attrs="{'invisible': [('state', 'not in', ['done', 'cancelled'])]}"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,todo,in_progress,review,done"
+                               options="{'clickable': '0'}"
+                               readonly="1"/>
+                    </header>
+                    
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{'terminology': 'archive'}"/>
+                            </button>
+                        </div>
+                        
+                        <widget name="web_ribbon" title="Hoàn thành" bg_color="bg-success"
+                                attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                        <widget name="web_ribbon" title="Quá hạn" bg_color="bg-danger"
+                                attrs="{'invisible': ['|', ('is_overdue', '=', False), ('state', 'in', ['done', 'cancelled'])]}"/>
+                        
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Tiêu đề công việc"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Thông tin cơ bản">
+                                <field name="task_code" readonly="1"/>
+                                <field name="customer_id" options="{'no_create': True}"/>
+                                <field name="priority" widget="priority"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                            <group string="Phân công">
+                                <field name="assigned_employee_id" options="{'no_create': True}"/>
+                                <field name="supervisor_id" options="{'no_create': True}"/>
+                                <field name="department_id" readonly="1"/>
+                                <field name="contact_email" readonly="1" widget="email"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <group string="Thời gian">
+                                <field name="start_date"/>
+                                <field name="deadline"/>
+                                <field name="completed_date" readonly="1"
+                                       attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                                <field name="is_overdue" invisible="1"/>
+                                <field name="days_overdue" readonly="1"
+                                       attrs="{'invisible': [('is_overdue', '=', False)]}"/>
+                            </group>
+                            <group string="Ước lượng">
+                                <field name="estimated_hours" widget="float_time"/>
+                                <field name="actual_hours" widget="float_time"/>
+                                <field name="time_variance" readonly="1"
+                                       attrs="{'invisible': [('actual_hours', '=', 0)]}"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <field name="progress" widget="percentpie"/>
+                        </group>
+                        
+                        <notebook>
+                            <!-- Tab 1: Mô tả -->
+                            <page string="Mô tả" name="description">
+                                <field name="description" placeholder="Mô tả chi tiết công việc..."/>
+                            </page>
+                            
+                            <!-- Tab 2: Yêu cầu -->
+                            <page string="Yêu cầu công việc" name="requirement">
+                                <group>
+                                    <field name="requirement" nolabel="1" 
+                                           placeholder="Mô tả cụ thể các yêu cầu cần đạt được..."/>
+                                </group>
+                                <group string="Tiêu chí nghiệm thu">
+                                    <field name="acceptance_criteria" nolabel="1"
+                                           placeholder="Các tiêu chí đánh giá hoàn thành (checklist)..."/>
+                                </group>
+                                <group>
+                                    <field name="deliverable"/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 3: Kết quả -->
+                            <page string="Kết quả thực tế" name="result">
+                                <group>
+                                    <field name="result_note" nolabel="1"
+                                           placeholder="Mô tả kết quả đã làm..."/>
+                                </group>
+                                <group string="File kết quả">
+                                    <field name="result_file_ids" widget="many2many_binary" nolabel="1"/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 4: AI Progress Evaluation (KHI GỬI DUYỆT) -->
+                            <page string="🤖 Đánh giá tiến độ AI" name="ai_progress_evaluation"
+                                  attrs="{'invisible': [('ai_progress_evaluation_date', '=', False)]}">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>🤖 AI đã đánh giá tiến độ khi gửi duyệt</strong>
+                                    <p>Đánh giá tự động dựa trên: Tên công việc, Mô tả, Ngày bắt đầu, Deadline, Tiến độ, Nội dung đã thực hiện, Mức độ ưu tiên</p>
+                                </div>
+                                
+                                <group>
+                                    <group string="📊 Kết quả đánh giá">
+                                        <field name="ai_progress_completion_level" readonly="1"/>
+                                        <field name="ai_progress_completion_percentage" widget="percentage" readonly="1"/>
+                                        <field name="ai_progress_evaluation_date" readonly="1"/>
+                                    </group>
+                                    <group string="⚠️ Nguy cơ trễ hạn">
+                                        <field name="ai_progress_deadline_risk" readonly="1"/>
+                                        <field name="ai_progress_deadline_risk_score" widget="gauge" readonly="1"
+                                               options="{'max_value': 100, 'style': 'width:200px; height: 150px;'}"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="📝 Đánh giá chi tiết">
+                                    <field name="ai_progress_detailed_assessment" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <group string="🎯 Đề xuất cho giám sát">
+                                    <field name="ai_progress_supervisor_recommendations" readonly="1" nolabel="1"/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 5: AI Report Evaluation (QUAN TRỌNG NHẤT) -->
+                            <page string="🤖 Đánh giá báo cáo AI" name="ai_report_evaluation"
+                                  attrs="{'invisible': [('ai_report_evaluated', '=', False)]}">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>🤖 AI đã đánh giá báo cáo</strong>
+                                    <p>So sánh chi tiết giữa yêu cầu ban đầu và kết quả thực tế</p>
+                                </div>
+                                
+                                <group>
+                                    <group string="📊 Kết quả tổng quan">
+                                        <field name="ai_overall_completion" widget="percentage" readonly="1"/>
+                                        <field name="ai_grade" widget="badge" readonly="1"/>
+                                        <field name="ai_evaluation_date" readonly="1"/>
+                                    </group>
+                                    <group string="Chi tiết điểm">
+                                        <field name="ai_requirement_match_score" readonly="1"/>
+                                        <field name="ai_quality_score" readonly="1"/>
+                                        <field name="ai_time_efficiency" readonly="1"/>
+                                        <field name="ai_deadline_performance" readonly="1"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="✅ Đã hoàn thành">
+                                    <field name="ai_completed_items" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <group string="❌ Chưa hoàn thành">
+                                    <field name="ai_incomplete_items" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <group string="⭐ Làm vượt mức">
+                                    <field name="ai_exceeded_items" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <group>
+                                    <group string="💪 Điểm mạnh">
+                                        <field name="ai_report_strengths" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="⚠️ Điểm yếu">
+                                        <field name="ai_report_weaknesses" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="📝 Phân tích chi tiết">
+                                    <field name="ai_detailed_analysis" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <group string="💡 Khuyến nghị">
+                                    <field name="ai_recommendation" readonly="1" nolabel="1"/>
+                                </group>
+                                
+                                <!-- Hidden field -->
+                                <field name="ai_report_evaluated" invisible="1"/>
+                            </page>
+                            
+                            <!-- Tab 5: AI Risk Detection -->
+                            <page string="⚠️ Phân tích rủi ro" name="ai_risk"
+                                  attrs="{'invisible': [('ai_risk_level', '=', False)]}">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>⚠️ Mức độ rủi ro: <field name="ai_risk_level" readonly="1" nolabel="1"/></strong>
+                                </div>
+                                
+                                <group>
+                                    <group string="Điểm rủi ro">
+                                        <field name="ai_risk_score" widget="gauge" readonly="1"
+                                               options="{'max_value': 100, 'style': 'width:200px; height: 150px;'}"/>
+                                        <field name="ai_early_warning" readonly="1"/>
+                                    </group>
+                                    <group string="Yếu tố rủi ro">
+                                        <field name="ai_risk_factors" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 6: AI Prediction -->
+                            <page string="🔮 Dự đoán AI" name="ai_prediction"
+                                  attrs="{'invisible': [('ai_predicted_hours', '=', 0)]}">
+                                <group>
+                                    <group string="Thời gian dự đoán">
+                                        <field name="ai_predicted_hours" widget="float_time" readonly="1"/>
+                                        <field name="ai_prediction_confidence" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 7: Old AI Evaluation (Legacy) -->
+                            <page string="Đánh giá AI (cũ)" name="ai_evaluation_old"
+                                  attrs="{'invisible': [('state', '!=', 'done')]}">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>🤖 AI Quality Evaluation</strong>
+                                    <p>Hệ thống tự động đánh giá chất lượng công việc khi hoàn thành</p>
+                                </div>
+                                
+                                <group>
+                                    <group string="Điểm tổng hợp">
+                                        <field name="ai_quality_score" widget="gauge" readonly="1"
+                                               options="{'max_value': 100, 'style': 'width:200px; height: 150px;'}"/>
+                                        <field name="ai_quality_level" widget="badge" readonly="1"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="Phân tích chi tiết">
+                                    <field name="ai_analysis" readonly="1" nolabel="1"
+                                           placeholder="AI sẽ phân tích khi công việc hoàn thành..."/>
+                                </group>
+                                
+                                <group string="Điểm mạnh">
+                                    <field name="ai_strengths" readonly="1" nolabel="1"
+                                           placeholder="AI sẽ chỉ ra điểm mạnh..."/>
+                                </group>
+                                
+                                <group string="Cần cải thiện">
+                                    <field name="ai_improvements" readonly="1" nolabel="1"
+                                           placeholder="AI sẽ chỉ ra điểm cần cải thiện..."/>
+                                </group>
+                            </page>
+                            
+                            <!-- Tab 8: Tài liệu -->
+                            <page string="Tài liệu đính kèm" name="attachments">
+                                <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                                <field name="attachment_count" invisible="1"/>
+                            </page>
+                            
+                            <!-- Tab 9: Tags -->
+                            <page string="Nhãn" name="tags">
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </page>
+                        </notebook>
+                        
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                    
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Search View -->
+        <record id="view_cong_viec_search" model="ir.ui.view">
+            <field name="name">cong.viec.search</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm công việc">
+                    <field name="name" string="Công việc"
+                           filter_domain="['|', ('name', 'ilike', self), ('task_code', 'ilike', self)]"/>
+                    <field name="assigned_employee_id"/>
+                    <field name="customer_id"/>
+                    <field name="department_id"/>
+                    
+                    <filter string="Của tôi" name="my_tasks"
+                            domain="[('assigned_employee_id.user_id', '=', uid)]"/>
+                    <filter string="Tôi giám sát" name="my_supervised"
+                            domain="[('supervisor_id.user_id', '=', uid)]"/>
+                    
+                    <separator/>
+                    <filter string="Nháp" name="draft"
+                            domain="[('state', '=', 'draft')]"/>
+                    <filter string="Cần làm" name="todo"
+                            domain="[('state', '=', 'todo')]"/>
+                    <filter string="Đang thực hiện" name="in_progress"
+                            domain="[('state', '=', 'in_progress')]"/>
+                    <filter string="Chờ duyệt" name="review"
+                            domain="[('state', '=', 'review')]"/>
+                    <filter string="Hoàn thành" name="done"
+                            domain="[('state', '=', 'done')]"/>
+                    
+                    <separator/>
+                    <filter string="Khẩn cấp" name="urgent"
+                            domain="[('priority', '=', '3')]"/>
+                    <filter string="Cao" name="high"
+                            domain="[('priority', '=', '2')]"/>
+                    <filter string="Quá hạn" name="overdue"
+                            domain="[('is_overdue', '=', True), ('state', 'not in', ['done', 'cancelled'])]"/>
+                    <filter string="Deadline tuần này" name="deadline_this_week"
+                            domain="[('deadline', '&gt;=', (context_today() - relativedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                     ('deadline', '&lt;=', (context_today() + relativedelta(days=6-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                    
+                    <separator/>
+                    <filter string="Chất lượng cao (AI)" name="high_quality"
+                            domain="[('ai_quality_score', '&gt;=', 75)]"/>
+                    <filter string="Cần cải thiện (AI)" name="need_improvement"
+                            domain="[('ai_quality_score', '&lt;', 60), ('ai_quality_score', '&gt;', 0)]"/>
+                    
+                    <separator/>
+                    <filter string="Đã lưu trữ" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Trạng thái" name="group_state"
+                                context="{'group_by': 'state'}"/>
+                        <filter string="Nhân viên" name="group_employee"
+                                context="{'group_by': 'assigned_employee_id'}"/>
+                        <filter string="Phòng ban" name="group_department"
+                                context="{'group_by': 'department_id'}"/>
+                        <filter string="Khách hàng" name="group_customer"
+                                context="{'group_by': 'customer_id'}"/>
+                        <filter string="Độ ưu tiên" name="group_priority"
+                                context="{'group_by': 'priority'}"/>
+                        <filter string="Deadline" name="group_deadline"
+                                context="{'group_by': 'deadline'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- Graph View -->
+        <record id="view_cong_viec_graph" model="ir.ui.view">
+            <field name="name">cong.viec.graph</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <graph string="Biểu đồ công việc" type="bar" sample="1">
+                    <field name="state" type="row"/>
+                    <field name="assigned_employee_id" type="col"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Pivot View -->
+        <record id="view_cong_viec_pivot" model="ir.ui.view">
+            <field name="name">cong.viec.pivot</field>
+            <field name="model">cong.viec</field>
+            <field name="arch" type="xml">
+                <pivot string="Phân tích công việc" sample="1">
+                    <field name="assigned_employee_id" type="row"/>
+                    <field name="state" type="col"/>
+                    <field name="estimated_hours" type="measure"/>
+                    <field name="actual_hours" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_cong_viec" model="ir.actions.act_window">
+            <field name="name">Công việc</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">kanban,tree,form,graph,pivot</field>
+            <field name="search_view_id" ref="view_cong_viec_search"/>
+            <field name="context">{'search_default_my_tasks': 1, 'search_default_in_progress': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tạo công việc mới
+                </p>
+                <p>
+                    Quản lý công việc với workflow hoàn chỉnh.
+                    Hệ thống tích hợp AI đánh giá chất lượng tự động khi hoàn thành.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

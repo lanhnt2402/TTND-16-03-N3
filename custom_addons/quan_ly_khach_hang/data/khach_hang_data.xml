@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Tags mẫu -->
+        <record id="tag_vip" model="khach.hang.tag">
+            <field name="name">VIP</field>
+            <field name="color">1</field>
+            <field name="description">Khách hàng VIP</field>
+        </record>
+        
+        <record id="tag_potential" model="khach.hang.tag">
+            <field name="name">Tiềm năng cao</field>
+            <field name="color">3</field>
+            <field name="description">Khách hàng có tiềm năng cao</field>
+        </record>
+        
+        <record id="tag_loyal" model="khach.hang.tag">
+            <field name="name">Trung thành</field>
+            <field name="color">5</field>
+            <field name="description">Khách hàng trung thành</field>
+        </record>
+        
+        <record id="tag_new" model="khach.hang.tag">
+            <field name="name">Mới</field>
+            <field name="color">7</field>
+            <field name="description">Khách hàng mới</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========== RECORD RULES - CONG.VIEC ========== -->
+        
+        <!-- Rule 1: Nhân viên - Chỉ xem & sửa task của mình -->
+        <record id="cong_viec_rule_employee" model="ir.rule">
+            <field name="name">Nhân viên: Task của mình</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="domain_force">
+                ['|',
+                    ('assigned_employee_id.user_id', '=', user.id),
+                    ('supervisor_id.user_id', '=', user.id)
+                ]
+            </field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_employee'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 2: Quản lý - Xem & tạo tất cả task -->
+        <record id="cong_viec_rule_manager" model="ir.rule">
+            <field name="name">Quản lý: Tất cả tasks</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Rule 3: Không cho sửa task của người khác (Employee) -->
+        <record id="cong_viec_rule_employee_no_edit_others" model="ir.rule">
+            <field name="name">Nhân viên: Không sửa task người khác</field>
+            <field name="model_id" ref="model_cong_viec"/>
+            <field name="domain_force">
+                [('assigned_employee_id.user_id', '=', user.id)]
+            </field>
+            <field name="groups" eval="[(4, ref('quan_ly_nhan_su.group_nhan_su_employee'))]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_data_cleanup_wizard_form" model="ir.ui.view">
+            <field name="name">data.cleanup.wizard.form</field>
+            <field name="model">data.cleanup.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Dọn dữ liệu cũ">
+                    <group>
+                        <div class="alert alert-warning">
+                            Cảnh báo: Thao tác này sẽ xóa vĩnh viễn dữ liệu.
+                        </div>
+                    </group>
+                    <group>
+                        <field name="purge_employees"/>
+                        <field name="purge_customers"/>
+                        <field name="purge_tasks"/>
+                        <field name="purge_interactions"/>
+                        <field name="reset_sequences"/>
+                    </group>
+                    <group>
+                        <field name="confirm"/>
+                    </group>
+                    <footer>
+                        <button name="action_purge"
+                                type="object"
+                                string="Xóa dữ liệu"
+                                class="btn-danger"
+                                attrs="{'invisible': [('confirm', '=', False)]}"/>
+                        <button string="Hủy" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_data_cleanup_wizard" model="ir.actions.act_window">
+            <field name="name">Dọn dữ liệu</field>
+            <field name="res_model">data.cleanup.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_data_cleanup"
+                  name="Dọn dữ liệu"
+                  parent="menu_cau_hinh"
+                  action="action_data_cleanup_wizard"
+                  sequence="99"
+                  groups="group_nhan_su_admin"/>
+
+    </data>
+</odoo>
+

@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ==================== CÔNG VIỆC ĐÃ HOÀN THÀNH (Có AI đánh giá) ==================== -->
+        
+        <record id="cong_viec_001" model="cong.viec">
+            <field name="task_code">CV-2026-00001</field>
+            <field name="name">Phát triển hệ thống quản lý đơn hàng cho ABC Tech</field>
+            <field name="description">&lt;p&gt;Xây dựng hệ thống quản lý đơn hàng trực tuyến với các tính năng: đặt hàng, thanh toán, quản lý kho, báo cáo.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu chính:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Giao diện đặt hàng thân thiện, responsive&lt;/li&gt;
+&lt;li&gt;Tích hợp cổng thanh toán VNPay, MoMo&lt;/li&gt;
+&lt;li&gt;Quản lý kho hàng real-time&lt;/li&gt;
+&lt;li&gt;Báo cáo doanh thu, sản phẩm bán chạy&lt;/li&gt;
+&lt;li&gt;Hệ thống thông báo email/SMS&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Giao diện responsive trên mobile/tablet/desktop
+☐ Tích hợp thành công 2 cổng thanh toán
+☐ Quản lý kho tự động cập nhật khi có đơn hàng
+☐ Báo cáo đầy đủ các chỉ số kinh doanh
+☐ Gửi email/SMS thông báo cho khách hàng</field>
+            <field name="deliverable">Hệ thống web hoàn chỉnh, tài liệu hướng dẫn, source code</field>
+            <field name="result_note">&lt;p&gt;&lt;strong&gt;Kết quả đã hoàn thành:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Đã xây dựng giao diện đặt hàng responsive, hỗ trợ đầy đủ mobile/tablet/desktop&lt;/li&gt;
+&lt;li&gt;✅ Tích hợp thành công VNPay và MoMo, test thanh toán thành công&lt;/li&gt;
+&lt;li&gt;✅ Hệ thống quản lý kho tự động cập nhật real-time khi có đơn hàng mới&lt;/li&gt;
+&lt;li&gt;✅ Báo cáo doanh thu, sản phẩm bán chạy, thống kê theo ngày/tuần/tháng&lt;/li&gt;
+&lt;li&gt;✅ Tích hợp email notification, SMS notification qua Twilio&lt;/li&gt;
+&lt;li&gt;⭐ Bonus: Thêm tính năng đánh giá sản phẩm, mã giảm giá&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="customer_id" ref="khach_hang_001"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntla"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="completed_date" eval="(DateTime.now() - relativedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="estimated_hours">160.0</field>
+            <field name="actual_hours">145.0</field>
+            <field name="progress">100</field>
+            <field name="state">done</field>
+            <field name="is_overdue">False</field>
+            <!-- AI Evaluation Data -->
+            <field name="ai_report_evaluated">True</field>
+            <field name="ai_overall_completion">92.5</field>
+            <field name="ai_requirement_match_score">95.0</field>
+            <field name="ai_quality_score">90.0</field>
+            <field name="ai_time_efficiency">95.0</field>
+            <field name="ai_deadline_performance">100.0</field>
+            <field name="ai_completed_items">✅ Giao diện đặt hàng responsive đầy đủ
+✅ Tích hợp VNPay và MoMo thành công
+✅ Quản lý kho real-time hoạt động tốt
+✅ Báo cáo đầy đủ các chỉ số
+✅ Email/SMS notification hoạt động</field>
+            <field name="ai_incomplete_items">❌ Không có - Tất cả yêu cầu đã hoàn thành</field>
+            <field name="ai_exceeded_items">⭐ Thêm tính năng đánh giá sản phẩm
+⭐ Thêm hệ thống mã giảm giá
+⭐ Tối ưu hiệu suất database</field>
+            <field name="ai_report_strengths">💪 Code chất lượng cao, có comment đầy đủ
+💪 Giao diện đẹp, UX tốt
+💪 Xử lý lỗi tốt, có error handling
+💪 Tài liệu hướng dẫn chi tiết</field>
+            <field name="ai_report_weaknesses">⚠️ Một số test case chưa cover hết edge cases
+⚠️ Có thể tối ưu thêm performance cho báo cáo lớn</field>
+            <field name="ai_recommendation">🎯 Bổ sung thêm unit tests cho các edge cases
+🎯 Tối ưu query database cho báo cáo
+🎯 Thêm caching cho các báo cáo thường dùng</field>
+            <field name="ai_detailed_analysis">Công việc được thực hiện xuất sắc, đáp ứng đầy đủ và vượt mức yêu cầu. Code chất lượng cao, có tài liệu đầy đủ. Hoàn thành đúng hạn và tiết kiệm thời gian so với ước tính. Điểm mạnh là giao diện đẹp, tích hợp thanh toán ổn định, và có thêm tính năng bonus. Cần cải thiện thêm về test coverage và performance optimization.</field>
+            <field name="ai_grade">A+</field>
+            <field name="ai_evaluation_date" eval="(DateTime.now() - relativedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <record id="cong_viec_002" model="cong.viec">
+            <field name="task_code">CV-2026-00002</field>
+            <field name="name">Sửa lỗi hệ thống thanh toán cho XYZ Solutions</field>
+            <field name="description">&lt;p&gt;Khắc phục lỗi thanh toán không thành công, lỗi timeout khi xử lý giao dịch lớn.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sửa lỗi thanh toán bị fail không rõ nguyên nhân&lt;/li&gt;
+&lt;li&gt;Fix timeout khi xử lý giao dịch trên 10 triệu&lt;/li&gt;
+&lt;li&gt;Cải thiện error handling và logging&lt;/li&gt;
+&lt;li&gt;Test kỹ các trường hợp edge cases&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Thanh toán hoạt động ổn định 100%
+☐ Không còn timeout với giao dịch lớn
+☐ Error messages rõ ràng, dễ debug
+☐ Có đầy đủ logs cho troubleshooting</field>
+            <field name="deliverable">Code fix, test cases, deployment guide</field>
+            <field name="result_note">&lt;p&gt;&lt;strong&gt;Đã sửa:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Fix lỗi thanh toán: do race condition trong database transaction&lt;/li&gt;
+&lt;li&gt;✅ Tối ưu timeout: tăng timeout và implement retry mechanism&lt;/li&gt;
+&lt;li&gt;✅ Cải thiện error handling: thêm try-catch và error messages chi tiết&lt;/li&gt;
+&lt;li&gt;✅ Thêm logging đầy đủ cho mọi bước xử lý&lt;/li&gt;
+&lt;li&gt;❌ Chưa test hết các edge cases (đang test tiếp)&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="customer_id" ref="khach_hang_002"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntla"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">3</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="completed_date" eval="(DateTime.now() - relativedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="estimated_hours">24.0</field>
+            <field name="actual_hours">28.0</field>
+            <field name="progress">100</field>
+            <field name="state">done</field>
+            <field name="is_overdue">False</field>
+            <!-- AI Evaluation -->
+            <field name="ai_report_evaluated">True</field>
+            <field name="ai_overall_completion">85.0</field>
+            <field name="ai_requirement_match_score">90.0</field>
+            <field name="ai_quality_score">85.0</field>
+            <field name="ai_time_efficiency">75.0</field>
+            <field name="ai_deadline_performance">100.0</field>
+            <field name="ai_completed_items">✅ Sửa lỗi thanh toán thành công
+✅ Fix timeout với retry mechanism
+✅ Cải thiện error handling
+✅ Thêm logging đầy đủ</field>
+            <field name="ai_incomplete_items">❌ Chưa test hết edge cases (đang trong quá trình)</field>
+            <field name="ai_exceeded_items">⭐ Thêm retry mechanism thông minh</field>
+            <field name="ai_report_strengths">💪 Fix đúng root cause
+💪 Code clean, dễ maintain
+💪 Logging chi tiết giúp debug</field>
+            <field name="ai_report_weaknesses">⚠️ Chưa test đầy đủ edge cases
+⚠️ Vượt thời gian ước tính 4 giờ</field>
+            <field name="ai_recommendation">🎯 Hoàn thiện test cases cho edge cases
+🎯 Cân nhắc thêm monitoring cho production</field>
+            <field name="ai_grade">B+</field>
+            <field name="ai_evaluation_date" eval="(DateTime.now() - relativedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_bug')])]"/>
+        </record>
+        
+        <record id="cong_viec_003" model="cong.viec">
+            <field name="task_code">CV-2026-00003</field>
+            <field name="name">Thiết kế giao diện mobile app cho DEF Ecommerce</field>
+            <field name="description">&lt;p&gt;Thiết kế UI/UX cho ứng dụng mobile mua sắm trực tuyến, tập trung vào trải nghiệm người dùng.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Thiết kế giao diện đẹp, hiện đại&lt;/li&gt;
+&lt;li&gt;UX thân thiện, dễ sử dụng&lt;/li&gt;
+&lt;li&gt;Hỗ trợ dark mode&lt;/li&gt;
+&lt;li&gt;Design system nhất quán&lt;/li&gt;
+&lt;li&gt;Prototype tương tác trên Figma&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Giao diện đẹp, hiện đại
+☐ UX flow mượt mà, logic
+☐ Có dark mode
+☐ Design system đầy đủ
+☐ Prototype tương tác hoàn chỉnh</field>
+            <field name="deliverable">Figma design files, prototype, design system document</field>
+            <field name="result_note">&lt;p&gt;&lt;strong&gt;Đã hoàn thành:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Thiết kế giao diện đẹp, hiện đại với Material Design 3&lt;/li&gt;
+&lt;li&gt;✅ UX flow được tối ưu, user testing cho kết quả tốt&lt;/li&gt;
+&lt;li&gt;✅ Dark mode được implement đầy đủ&lt;/li&gt;
+&lt;li&gt;✅ Design system với 50+ components&lt;/li&gt;
+&lt;li&gt;✅ Prototype tương tác trên Figma với 15+ screens&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="customer_id" ref="khach_hang_003"/>
+            <field name="assigned_employee_id" ref="nhan_su_ptm"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(months=1, days=5)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() - relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="completed_date" eval="(DateTime.now() - relativedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="estimated_hours">80.0</field>
+            <field name="actual_hours">75.0</field>
+            <field name="progress">100</field>
+            <field name="state">done</field>
+            <field name="is_overdue">False</field>
+            <!-- AI Evaluation -->
+            <field name="ai_report_evaluated">True</field>
+            <field name="ai_overall_completion">95.0</field>
+            <field name="ai_requirement_match_score">100.0</field>
+            <field name="ai_quality_score">95.0</field>
+            <field name="ai_time_efficiency">100.0</field>
+            <field name="ai_deadline_performance">100.0</field>
+            <field name="ai_completed_items">✅ Thiết kế đẹp, hiện đại
+✅ UX flow tối ưu
+✅ Dark mode đầy đủ
+✅ Design system hoàn chỉnh
+✅ Prototype tương tác tốt</field>
+            <field name="ai_incomplete_items">❌ Không có</field>
+            <field name="ai_exceeded_items">⭐ Design system với 50+ components (vượt yêu cầu)
+⭐ User testing và feedback được tích hợp</field>
+            <field name="ai_report_strengths">💪 Design đẹp, chuyên nghiệp
+💪 UX được tối ưu tốt
+💪 Design system đầy đủ, có thể tái sử dụng
+💪 Hoàn thành sớm hơn dự kiến</field>
+            <field name="ai_report_weaknesses">⚠️ Có thể thêm animation guidelines</field>
+            <field name="ai_recommendation">🎯 Bổ sung animation guidelines vào design system
+🎯 Tạo thêm micro-interactions</field>
+            <field name="ai_grade">A+</field>
+            <field name="ai_evaluation_date" eval="(DateTime.now() - relativedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <!-- ==================== CÔNG VIỆC ĐANG THỰC HIỆN ==================== -->
+        
+        <record id="cong_viec_004" model="cong.viec">
+            <field name="task_code">CV-2026-00004</field>
+            <field name="name">Phát triển API backend cho hệ thống quản lý kho GHI Manufacturing</field>
+            <field name="description">&lt;p&gt;Xây dựng RESTful API cho hệ thống quản lý kho hàng với các tính năng: nhập/xuất kho, kiểm kê, báo cáo tồn kho.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RESTful API đầy đủ CRUD cho quản lý kho&lt;/li&gt;
+&lt;li&gt;Xác thực JWT, phân quyền role-based&lt;/li&gt;
+&lt;li&gt;Real-time inventory tracking&lt;/li&gt;
+&lt;li&gt;API documentation với Swagger&lt;/li&gt;
+&lt;li&gt;Unit tests coverage &gt; 80%&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ API đầy đủ CRUD operations
+☐ JWT authentication hoạt động
+☐ Role-based authorization
+☐ Real-time tracking
+☐ Swagger documentation
+☐ Test coverage &gt; 80%</field>
+            <field name="deliverable">API endpoints, documentation, test suite</field>
+            <field name="customer_id" ref="khach_hang_004"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntla"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">120.0</field>
+            <field name="actual_hours">85.0</field>
+            <field name="progress">70</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <record id="cong_viec_005" model="cong.viec">
+            <field name="task_code">CV-2026-00005</field>
+            <field name="name">Tích hợp cổng thanh toán cho JKL Finance</field>
+            <field name="description">&lt;p&gt;Tích hợp cổng thanh toán quốc tế Stripe và PayPal cho hệ thống tài chính.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tích hợp Stripe API&lt;/li&gt;
+&lt;li&gt;Tích hợp PayPal API&lt;/li&gt;
+&lt;li&gt;Xử lý webhook từ cả 2 cổng&lt;/li&gt;
+&lt;li&gt;Test với sandbox environment&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Stripe integration hoạt động
+☐ PayPal integration hoạt động
+☐ Webhook xử lý đúng
+☐ Test thành công với sandbox</field>
+            <field name="deliverable">Integration code, test results, deployment guide</field>
+            <field name="customer_id" ref="khach_hang_005"/>
+            <field name="assigned_employee_id" ref="nhan_su_lvh"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">3</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=8)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">40.0</field>
+            <field name="actual_hours">32.0</field>
+            <field name="progress">80</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <!-- ==================== CÔNG VIỆC CHỜ DUYỆT ==================== -->
+        
+        <record id="cong_viec_006" model="cong.viec">
+            <field name="task_code">CV-2026-00006</field>
+            <field name="name">Viết tài liệu API cho hệ thống MNO Healthcare</field>
+            <field name="description">&lt;p&gt;Viết tài liệu kỹ thuật đầy đủ cho RESTful API của hệ thống quản lý bệnh viện.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tài liệu đầy đủ tất cả endpoints&lt;/li&gt;
+&lt;li&gt;Request/Response examples&lt;/li&gt;
+&lt;li&gt;Error codes và handling&lt;/li&gt;
+&lt;li&gt;Authentication guide&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Tài liệu đầy đủ endpoints
+☐ Có request/response examples
+☐ Error codes được mô tả
+☐ Authentication guide chi tiết</field>
+            <field name="deliverable">API Documentation (PDF + HTML)</field>
+            <field name="result_note">&lt;p&gt;&lt;strong&gt;Đã hoàn thành:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Tài liệu đầy đủ 45 endpoints&lt;/li&gt;
+&lt;li&gt;✅ Request/Response examples cho mỗi endpoint&lt;/li&gt;
+&lt;li&gt;✅ Error codes và cách xử lý&lt;/li&gt;
+&lt;li&gt;✅ Authentication guide với JWT&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="customer_id" ref="khach_hang_006"/>
+            <field name="assigned_employee_id" ref="nhan_su_vdt"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=12)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">32.0</field>
+            <field name="actual_hours">35.0</field>
+            <field name="progress">100</field>
+            <field name="state">review</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_documentation')])]"/>
+        </record>
+        
+        <!-- ==================== CÔNG VIỆC CẦN LÀM ==================== -->
+        
+        <record id="cong_viec_007" model="cong.viec">
+            <field name="task_code">CV-2026-00007</field>
+            <field name="name">Tối ưu hiệu suất database cho hệ thống PQR Education</field>
+            <field name="description">&lt;p&gt;Phân tích và tối ưu hiệu suất database, thêm indexes, optimize queries.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Phân tích slow queries&lt;/li&gt;
+&lt;li&gt;Thêm indexes phù hợp&lt;/li&gt;
+&lt;li&gt;Optimize queries chậm&lt;/li&gt;
+&lt;li&gt;Đo lường performance trước/sau&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Slow queries được xác định
+☐ Indexes được thêm đúng
+☐ Queries được optimize
+☐ Performance cải thiện &gt; 50%</field>
+            <field name="deliverable">Optimization report, performance metrics</field>
+            <field name="customer_id" ref="khach_hang_007"/>
+            <field name="assigned_employee_id" ref="nhan_su_pvl"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="DateTime.now().strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">48.0</field>
+            <field name="progress">0</field>
+            <field name="state">todo</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_improvement')])]"/>
+        </record>
+        
+        <record id="cong_viec_008" model="cong.viec">
+            <field name="task_code">CV-2026-00008</field>
+            <field name="name">Phát triển tính năng chat real-time cho ứng dụng</field>
+            <field name="description">&lt;p&gt;Xây dựng tính năng chat real-time với WebSocket, hỗ trợ 1-1 và group chat.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WebSocket connection ổn định&lt;/li&gt;
+&lt;li&gt;Chat 1-1 và group chat&lt;/li&gt;
+&lt;li&gt;Gửi file, hình ảnh&lt;/li&gt;
+&lt;li&gt;Read receipts, typing indicators&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ WebSocket hoạt động ổn định
+☐ Chat 1-1 và group chat
+☐ Gửi file/hình ảnh
+☐ Read receipts và typing indicators</field>
+            <field name="deliverable">Chat system, WebSocket server, frontend components</field>
+            <field name="customer_id" ref="khach_hang_001"/>
+            <field name="assigned_employee_id" ref="nhan_su_hda"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() + relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=21)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">96.0</field>
+            <field name="progress">0</field>
+            <field name="state">todo</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <!-- Thêm 12 công việc nữa để đủ 20 -->
+        <record id="cong_viec_009" model="cong.viec">
+            <field name="task_code">CV-2026-00009</field>
+            <field name="name">Sửa lỗi bảo mật XSS trong form đăng nhập</field>
+            <field name="description">&lt;p&gt;Khắc phục lỗi bảo mật XSS (Cross-Site Scripting) trong form đăng nhập và các form khác.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sanitize tất cả user input&lt;/li&gt;
+&lt;li&gt;Implement CSP headers&lt;/li&gt;
+&lt;li&gt;Test với các payload XSS phổ biến&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Input được sanitize đúng
+☐ CSP headers được set
+☐ Pass tất cả XSS test cases</field>
+            <field name="deliverable">Security fix, test report</field>
+            <field name="customer_id" ref="khach_hang_002"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntt"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">3</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">16.0</field>
+            <field name="actual_hours">12.0</field>
+            <field name="progress">90</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_bug'), ref('tag_urgent')])]"/>
+        </record>
+        
+        <record id="cong_viec_010" model="cong.viec">
+            <field name="task_code">CV-2026-00010</field>
+            <field name="name">Thiết kế landing page cho chiến dịch marketing</field>
+            <field name="description">&lt;p&gt;Thiết kế landing page đẹp, conversion cao cho chiến dịch marketing sản phẩm mới.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Design đẹp, hiện đại&lt;/li&gt;
+&lt;li&gt;Mobile-first, responsive&lt;/li&gt;
+&lt;li&gt;Call-to-action rõ ràng&lt;/li&gt;
+&lt;li&gt;Loading speed &lt; 2s&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="acceptance_criteria">☐ Design đẹp, hiện đại
+☐ Responsive đầy đủ
+☐ CTA rõ ràng
+☐ Loading &lt; 2s</field>
+            <field name="deliverable">Design files, HTML/CSS code</field>
+            <field name="customer_id" ref="khach_hang_012"/>
+            <field name="assigned_employee_id" ref="nhan_su_ptm"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">40.0</field>
+            <field name="actual_hours">25.0</field>
+            <field name="progress">60</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_feature')])]"/>
+        </record>
+        
+        <!-- Thêm 10 công việc nữa -->
+        <record id="cong_viec_011" model="cong.viec">
+            <field name="task_code">CV-2026-00011</field>
+            <field name="name">Tích hợp AI chatbot cho website khách hàng</field>
+            <field name="description">&lt;p&gt;Tích hợp AI chatbot sử dụng OpenAI API để trả lời tự động câu hỏi của khách hàng.&lt;/p&gt;</field>
+            <field name="requirement">&lt;p&gt;&lt;strong&gt;Yêu cầu:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tích hợp OpenAI API&lt;/li&gt;
+&lt;li&gt;Training với knowledge base công ty&lt;/li&gt;
+&lt;li&gt;UI chat widget đẹp&lt;/li&gt;
+&lt;li&gt;Fallback sang human agent&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="customer_id" ref="khach_hang_010"/>
+            <field name="assigned_employee_id" ref="nhan_su_lvh"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() + relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=18)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">64.0</field>
+            <field name="progress">0</field>
+            <field name="state">todo</field>
+        </record>
+        
+        <record id="cong_viec_012" model="cong.viec">
+            <field name="task_code">CV-2026-00012</field>
+            <field name="name">Cải thiện UX cho mobile app</field>
+            <field name="description">&lt;p&gt;Cải thiện trải nghiệm người dùng cho ứng dụng mobile dựa trên feedback từ users.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_003"/>
+            <field name="assigned_employee_id" ref="nhan_su_ptm"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">56.0</field>
+            <field name="actual_hours">42.0</field>
+            <field name="progress">75</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_improvement')])]"/>
+        </record>
+        
+        <record id="cong_viec_013" model="cong.viec">
+            <field name="task_code">CV-2026-00013</field>
+            <field name="name">Viết unit tests cho module thanh toán</field>
+            <field name="description">&lt;p&gt;Viết unit tests đầy đủ cho module thanh toán để đạt coverage &gt; 90%.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_001"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntt"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=4)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">32.0</field>
+            <field name="actual_hours">28.0</field>
+            <field name="progress">85</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_improvement')])]"/>
+        </record>
+        
+        <record id="cong_viec_014" model="cong.viec">
+            <field name="task_code">CV-2026-00014</field>
+            <field name="name">Setup CI/CD pipeline cho dự án</field>
+            <field name="description">&lt;p&gt;Thiết lập CI/CD pipeline với GitHub Actions, tự động test và deploy.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_004"/>
+            <field name="assigned_employee_id" ref="nhan_su_pvl"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() + relativedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=12)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">40.0</field>
+            <field name="progress">0</field>
+            <field name="state">todo</field>
+        </record>
+        
+        <record id="cong_viec_015" model="cong.viec">
+            <field name="task_code">CV-2026-00015</field>
+            <field name="name">Phát triển tính năng đa ngôn ngữ (i18n)</field>
+            <field name="description">&lt;p&gt;Thêm hỗ trợ đa ngôn ngữ cho ứng dụng: Tiếng Việt, English, 日本語.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_005"/>
+            <field name="assigned_employee_id" ref="nhan_su_lvh"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=6)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=16)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">72.0</field>
+            <field name="actual_hours">50.0</field>
+            <field name="progress">65</field>
+            <field name="state">in_progress</field>
+        </record>
+        
+        <record id="cong_viec_016" model="cong.viec">
+            <field name="task_code">CV-2026-00016</field>
+            <field name="name">Sửa lỗi memory leak trong ứng dụng</field>
+            <field name="description">&lt;p&gt;Khắc phục lỗi memory leak khiến ứng dụng chậm dần sau thời gian sử dụng.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_002"/>
+            <field name="assigned_employee_id" ref="nhan_su_ntla"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">3</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">20.0</field>
+            <field name="actual_hours">18.0</field>
+            <field name="progress">90</field>
+            <field name="state">in_progress</field>
+            <field name="tag_ids" eval="[(6, 0, [ref('tag_bug'), ref('tag_urgent')])]"/>
+        </record>
+        
+        <record id="cong_viec_017" model="cong.viec">
+            <field name="task_code">CV-2026-00017</field>
+            <field name="name">Thiết kế logo và brand identity</field>
+            <field name="description">&lt;p&gt;Thiết kế logo và hệ thống nhận diện thương hiệu cho công ty mới.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_008"/>
+            <field name="assigned_employee_id" ref="nhan_su_ptm"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=4)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">24.0</field>
+            <field name="actual_hours">22.0</field>
+            <field name="progress">95</field>
+            <field name="state">in_progress</field>
+        </record>
+        
+        <record id="cong_viec_018" model="cong.viec">
+            <field name="task_code">CV-2026-00018</field>
+            <field name="name">Migrate database từ MySQL sang PostgreSQL</field>
+            <field name="description">&lt;p&gt;Chuyển đổi database từ MySQL sang PostgreSQL, đảm bảo không mất dữ liệu.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_010"/>
+            <field name="assigned_employee_id" ref="nhan_su_pvl"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() + relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=25)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">120.0</field>
+            <field name="progress">0</field>
+            <field name="state">todo</field>
+        </record>
+        
+        <record id="cong_viec_019" model="cong.viec">
+            <field name="task_code">CV-2026-00019</field>
+            <field name="name">Phát triển mobile app iOS cho khách hàng</field>
+            <field name="description">&lt;p&gt;Xây dựng ứng dụng iOS native cho hệ thống quản lý đơn hàng.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_001"/>
+            <field name="assigned_employee_id" ref="nhan_su_lth"/>
+            <field name="supervisor_id" ref="nhan_su_tmd"/>
+            <field name="priority">2</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=20)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">200.0</field>
+            <field name="actual_hours">150.0</field>
+            <field name="progress">60</field>
+            <field name="state">in_progress</field>
+        </record>
+        
+        <record id="cong_viec_020" model="cong.viec">
+            <field name="task_code">CV-2026-00020</field>
+            <field name="name">Tối ưu SEO cho website</field>
+            <field name="description">&lt;p&gt;Tối ưu SEO cho website, cải thiện ranking trên Google.&lt;/p&gt;</field>
+            <field name="customer_id" ref="khach_hang_012"/>
+            <field name="assigned_employee_id" ref="nhan_su_btl"/>
+            <field name="supervisor_id" ref="nhan_su_dtn"/>
+            <field name="priority">1</field>
+            <field name="start_date" eval="(DateTime.now() - relativedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="deadline" eval="(DateTime.now() + relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="estimated_hours">48.0</field>
+            <field name="actual_hours">40.0</field>
+            <field name="progress">80</field>
+            <field name="state">in_progress</field>
+        </record>
+        
+    </data>
+</odoo>

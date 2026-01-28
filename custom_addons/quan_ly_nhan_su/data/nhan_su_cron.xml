@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Cron: Kiểm tra tuổi nghỉ hưu hàng ngày -->
+        <record id="ir_cron_check_retirement_age" model="ir.cron">
+            <field name="name">Nhân sự: Kiểm tra tuổi nghỉ hưu</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_check_retirement_age()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">5</field>
+        </record>
+        
+        <!-- Cron: Đánh giá hiệu suất nhân viên hàng tháng -->
+        <record id="ir_cron_monthly_performance_evaluation" model="ir.cron">
+            <field name="name">Nhân sự: Đánh giá hiệu suất hàng tháng</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="state">code</field>
+            <field name="code">
+# Đánh giá tất cả nhân viên đang làm việc
+employees = model.search([('working_status', '=', 'working')])
+for employee in employees:
+    try:
+        employee._compute_ai_performance()
+    except Exception as e:
+        pass
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">10</field>
+        </record>
+        
+        <!-- Cron: Cảnh báo hợp đồng sắp hết hạn -->
+        <record id="ir_cron_contract_expiry_warning" model="ir.cron">
+            <field name="name">Nhân sự: Cảnh báo hợp đồng sắp hết hạn</field>
+            <field name="model_id" ref="model_nhan_su"/>
+            <field name="state">code</field>
+            <field name="code">
+# datetime and timedelta are available in context
+today = datetime.date.today()
+date_limit = today + datetime.timedelta(days=30)
+employees = model.search([
+    ('working_status', '=', 'working'),
+    ('contract_end_date', '!=', False),
+    ('contract_end_date', '&lt;=', date_limit)
+])
+
+for employee in employees:
+    days_left = (employee.contract_end_date - today).days
+    employee.message_post(
+        body="⚠️ Hợp đồng lao động sẽ hết hạn trong %s ngày (Ngày hết hạn: %s)" % (days_left, employee.contract_end_date),
+        subject="Cảnh báo hợp đồng sắp hết hạn"
+    )
+    # Tạo activity cho HR
+    if employee.department_id and employee.department_id.manager_id:
+        user_id = employee.department_id.manager_id.user_id.id if employee.department_id.manager_id.user_id else env.user.id
+        employee.activity_schedule(
+            'mail.mail_activity_data_todo',
+            user_id=user_id,
+            summary='Gia hạn hợp đồng cho %s' % employee.name
+        )
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">7</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========== TASK STATUS REPORT ========== -->
+        <record id="action_task_status_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Trạng thái</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">graph,pivot,tree,kanban</field>
+            <field name="context">{
+                'search_default_active_tasks': 1,
+                'graph_measure': '__count__',
+                'graph_groupbys': ['state'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Trạng thái công việc
+                </p>
+                <p>
+                    Theo dõi công việc theo trạng thái: Draft, Todo, In Progress, Review, Done
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== TASK QUALITY REPORT ========== -->
+        <record id="action_task_quality_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Chất lượng</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="domain">[('state', '=', 'done')]</field>
+            <field name="context">{
+                'graph_measure': 'ai_quality_score',
+                'graph_groupbys': ['ai_quality_level'],
+                'pivot_measures': ['ai_quality_score', 'actual_hours', 'estimated_hours'],
+                'pivot_row_groupby': ['assigned_employee_id'],
+                'pivot_column_groupby': ['ai_quality_level'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Chất lượng công việc
+                </p>
+                <p>
+                    Phân tích điểm chất lượng AI, so sánh ước lượng vs thực tế.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== DEADLINE COMPLIANCE REPORT ========== -->
+        <record id="action_deadline_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Deadline</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">graph,pivot,tree</field>
+            <field name="context">{
+                'search_default_completed': 1,
+                'graph_measure': '__count__',
+                'graph_groupbys': ['is_overdue'],
+                'pivot_measures': ['days_overdue'],
+                'pivot_row_groupby': ['assigned_employee_id'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Deadline
+                </p>
+                <p>
+                    Theo dõi công việc hoàn thành đúng hạn / quá hạn.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== TIME TRACKING REPORT ========== -->
+        <record id="action_time_tracking_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Thời gian</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="domain">[('state', '=', 'done')]</field>
+            <field name="context">{
+                'pivot_measures': ['estimated_hours', 'actual_hours', 'time_variance'],
+                'pivot_row_groupby': ['assigned_employee_id'],
+                'pivot_column_groupby': ['priority'],
+                'graph_measure': 'actual_hours',
+                'graph_groupbys': ['assigned_employee_id'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Thời gian làm việc
+                </p>
+                <p>
+                    Phân tích thời gian ước lượng vs thực tế, time variance.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== EMPLOYEE WORKLOAD REPORT ========== -->
+        <record id="action_employee_workload_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Khối lượng công việc</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="context">{
+                'search_default_active_tasks': 1,
+                'pivot_measures': ['estimated_hours'],
+                'pivot_row_groupby': ['assigned_employee_id'],
+                'pivot_column_groupby': ['state'],
+                'graph_measure': '__count__',
+                'graph_groupbys': ['assigned_employee_id', 'state'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Khối lượng công việc
+                </p>
+                <p>
+                    Theo dõi số lượng và giờ làm việc của từng nhân viên.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== CUSTOMER TASKS REPORT ========== -->
+        <record id="action_customer_tasks_report" model="ir.actions.act_window">
+            <field name="name">Báo cáo Công việc theo Khách hàng</field>
+            <field name="res_model">cong.viec</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="domain">[('customer_id', '!=', False)]</field>
+            <field name="context">{
+                'pivot_measures': ['actual_hours', 'ai_quality_score'],
+                'pivot_row_groupby': ['customer_id'],
+                'pivot_column_groupby': ['state'],
+                'graph_measure': '__count__',
+                'graph_groupbys': ['customer_id'],
+            }</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Báo cáo Công việc theo Khách hàng
+                </p>
+                <p>
+                    Phân tích công việc và thời gian cho từng khách hàng.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ========== MENU ITEMS ========== -->
+        <!-- Use existing "Báo cáo" menu from menu_views.xml -->
+        <menuitem id="menu_cong_viec_report_status" 
+                  name="Trạng thái" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_task_status_report" 
+                  sequence="1"/>
+        
+        <menuitem id="menu_cong_viec_report_quality" 
+                  name="Chất lượng" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_task_quality_report" 
+                  sequence="2"/>
+        
+        <menuitem id="menu_cong_viec_report_deadline" 
+                  name="Deadline" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_deadline_report" 
+                  sequence="3"/>
+        
+        <menuitem id="menu_cong_viec_report_time" 
+                  name="Thời gian" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_time_tracking_report" 
+                  sequence="4"/>
+        
+        <menuitem id="menu_cong_viec_report_workload" 
+                  name="Khối lượng công việc" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_employee_workload_report" 
+                  sequence="5"/>
+        
+        <menuitem id="menu_cong_viec_report_customer" 
+                  name="Theo Khách hàng" 
+                  parent="menu_bao_cao_cong_viec" 
+                  action="action_customer_tasks_report" 
+                  sequence="6"/>
+        
+    </data>
+</odoo>
