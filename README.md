@@ -32,8 +32,8 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
 - **Tracking đầy đủ**: Lịch sử workflow, ai làm gì, khi nào, có bằng chứng gì
 - **Liên kết tự động**: Tự động tạo công việc từ tương tác với khách hàng
   <p align="center">
-        <img src="docs/logo/1.png" alt="AIoTLab Logo" width="450"/>
-        <img src="docs/logo/2.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/3kh.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/4kh.png" alt="AIoTLab Logo" width="450"/>
     </p>
 
 #### 📝 Module Quản Lý Công Việc (`quan_ly_cong_viec`)
@@ -46,9 +46,9 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
 - **Tự động đánh giá hiệu suất nhân viên**: Khi công việc hoàn thành, tự động cập nhật thống kê và điểm AI cho nhân viên
 - **Email thông báo tự động**: Gửi email cho nhân viên và giám sát ở các bước quan trọng
 <p align="center">
-        <img src="docs/logo/3kh.png" alt="AIoTLab Logo" width="450"/>
-        <img src="docs/logo/4kh.png" alt="AIoTLab Logo" width="450"/>
-    </p>
+        <img src="docs/logo/5cv.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/6cv.png" alt="AIoTLab Logo" width="450"/>
+    </p
 
 #### 👥 Module Quản Lý Nhân Sự (`quan_ly_nhan_su`)
 - **Quản lý thông tin nhân viên**: Thông tin cá nhân, công việc, lương & phúc lợi
@@ -58,10 +58,10 @@ Hệ thống **Quản Lý Doanh Nghiệp Tích Hợp AI** được xây dựng t
   - Phân tích điểm mạnh, điểm cần cải thiện, khuyến nghị phát triển
 - **Lịch sử đánh giá AI**: Lưu trữ lịch sử đánh giá chi tiết với biểu đồ xu hướng
 - **Biểu đồ thống kê**: Visualize hiệu suất nhân viên qua thời gian
-<p align="center">
-        <img src="docs/logo/5cv.png" alt="AIoTLab Logo" width="450"/>
-        <img src="docs/logo/6cv.png" alt="AIoTLab Logo" width="450"/>
-    </p
+ <p align="center">
+        <img src="docs/logo/1.png" alt="AIoTLab Logo" width="450"/>
+        <img src="docs/logo/2.png" alt="AIoTLab Logo" width="450"/>
+    </p>
 
 ### 🤖 Tích hợp AI (Google Gemini API)
 - **AI Service**: Tích hợp Google Gemini API với API key rotation và retry mechanism
